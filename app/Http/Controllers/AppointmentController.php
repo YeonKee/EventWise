@@ -12,7 +12,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        return view('staffs.chats.appointment.index');
     }
 
     /**

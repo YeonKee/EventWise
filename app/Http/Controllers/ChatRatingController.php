@@ -12,7 +12,7 @@ class ChatRatingController extends Controller
      */
     public function index()
     {
-        //
+        return view('staffs.chats.rating.index');
     }
 
     /**

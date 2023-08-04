@@ -12,7 +12,23 @@ class StaffController extends Controller
      */
     public function index()
     {
-        //
+        return view('staffs.staffs.index');
+    }
+
+
+    public function dashboard()
+    {
+        return view('staffs.dashboard');
+    }
+
+    public function profile()
+    {
+        return view('staffs.profile');
+    }
+
+    public function livechat()
+    {
+        return view('staffs.livechat');
     }
 
     /**
@@ -20,7 +36,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        return view('staffs.staffs.create');
     }
 
     /**
