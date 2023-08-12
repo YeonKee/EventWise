@@ -24,6 +24,10 @@ Route::get('/', function () {
     return view('homepage');
 });
 
+// Student Navigation
+// Register
+Route::get('/students/create', [StudentController::class, 'create']);
+Route::post('/students/register', [StudentController::class, 'store']);
 
 // All Staff Navigation
 Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);

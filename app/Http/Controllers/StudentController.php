@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -20,7 +21,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -28,7 +29,28 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'    => 'required',
+            'id'      => 'required',
+            'email'   => 'required',
+            'address' => 'required',
+            'pass'    => 'required',
+            're_pass' => 'required'
+        ]);
+        
+        $newStud = new Student();
+        $newStud->stud_id = $request->id;
+        $newStud->email = $request->email;
+        $newStud->password = Hash::make($request->password);
+        $newStud->name = $request->name;
+        $newStud->address = $request->address;
+        $newStud->save();
+
+        // if ($request->hasFile('profile')) {
+        //     $this->saveProfile($request->profile, $newStud->cust_id);
+        // }
+
+        // return view('staffs.students.index');
     }
 
     /**
