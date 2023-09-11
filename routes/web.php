@@ -24,13 +24,17 @@ Route::get('/', function () {
     return view('homepage');
 });
 
+Auth::routes([
+    'verify' => true
+]);
+
 // Student Navigation
 // Register
 Route::get('/students/create', [StudentController::class, 'create']);
 Route::post('/students/register', [StudentController::class, 'store']);
 
 // All Staff Navigation
-Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);
+Route::get('/staffs/dashboard', [StaffController::class, 'dashboard'])->middleware('verified');
 Route::get('/staffs/profile', [StaffController::class, 'profile']);
 Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
 
@@ -39,6 +43,20 @@ Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
 
 // Student
 Route::get('/staffs/students/viewStudent', [StudentController::class, 'index']);
+
+
+
+
+Route::get('/students/email/verify', [VerificationController::class, 'show'])
+    ->name('student.verification.notice');
+
+Route::get('/students/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    ->name('student.verification.verify');
+
+Route::post('/students/email/verify/resend', [VerificationController::class, 'resend'])
+    ->name('student.verification.resend');
+
+
 
 // Staff
 Route::get('/staffs/staffs/viewStaff', [StaffController::class, 'index']);
