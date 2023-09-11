@@ -19,10 +19,11 @@
                         </label>
                         <input id="profile-input" class="d-none" type="file" name="profile"
                             accept=".gif, .jpg, .jpeg, .png" capture>
-
+                        @error('profile')
                             <small class="text-danger profile-class" role="alert">
-                                <strong>Tet</strong>
+                                <strong>{{ $message }}</strong>
                             </small>
+                        @enderror
                     </div>
 
                     <div class="signup-form">
@@ -30,62 +31,62 @@
                         <div class="form-group">
                             <label for="name"><i class="fa-solid fa-user"></i></i></label>
                             <input type="text" name="name" id="name" placeholder="Name" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('name')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group">
                             <label for="id"><i class="fa-solid fa-id-card"></i></label>
                             <input type="text" name="id" id="id" placeholder="Student ID" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('id')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group">
                             <label for="email"><i class="fa-solid fa-envelope"></i></label>
                             <input type="email" name="email" id="email" placeholder="School Email" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('email')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group">
                             <label for="re-address"><i class="fa-solid fa-location-dot"></i></label>
                             <input type="textarea" name="address" id="address" placeholder="Address" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('address')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group">
                             <label for="pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="pass" id="pass" placeholder="Password" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('pass')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group">
                             <label for="re-pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="re_pass" id="re_pass" placeholder="Re-enter Password" />
-                            @error('cust_name')
-                                <small class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </small>
-                            @enderror
                         </div>
+                        @error('re_pass')
+                            <small class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </small>
+                        @enderror
 
                         <div class="form-group form-button">
                             <input type="submit" name="signup" id="signup" class="form-submit" value="Register" style="font-weight: bold" />

@@ -30,15 +30,19 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $validators = [
+            'profile'   => 'file|mimes:jpeg,png,jpg,gif|max:5000',
             'name'      => 'required|max:100|regex:/^[A-Za-z\'\s]+$/',
-            'id'        => 'required|max:15|regex:/^\d{2}[A-Z]{3}\d{5}$/|unique:students.stud_id',
-            'email'     => 'required|max:50|regex:/^[A-Za-z0-9._%+-]+@student\.tarc\.edu\.my$/|unique:students.email',
+            'id'        => 'required|max:15|regex:/^\d{2}[A-Z]{3}\d{5}$/|unique:students,stud_id',
+            'email'     => 'required|max:50|regex:/^[A-Za-z0-9._%+-]+@student\.tarc\.edu\.my$/|unique:students,email',
             'address'   => 'required|max:256',
             'pass'      => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
             're_pass'   => 'required|same:pass'
         ];
 
         $errMsgs = [
+            'profile.file'      => 'Please upload image file.',
+            'profile.mimes'     => 'Supported image file (jpeg, png, jpg, gif).',
+            'profile.max'       => 'Please upload image file not larger than 5MB.',
             'name.required'     => 'Name should not be empty.',
             'name.max'          => 'Name should only be 100 characters long.',
             'name.regex'        => 'Name should contains alphabets, hyphens, apostrophes and spaces only.',
@@ -57,7 +61,7 @@ class StudentController extends Controller
             'pass.min'          => 'Password should be at least 8 characters long.',
             'pass.regex'        => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.',
             're_pass.required'  => 'Re-enter password should not be empty.',
-            're_pass.regex'     => 'Re-enter password should be same with Password.',
+            're_pass.same'      => 'Re-enter password should be same with Password.',
         ];
 
         $validated = $request->validate($validators, $errMsgs);
@@ -70,9 +74,22 @@ class StudentController extends Controller
         $newStud->address = $request->address;
         $newStud->save();
 
-        // if ($request->hasFile('profile')) {
-        //     $this->saveProfile($request->profile, $newStud->cust_id);
-        // }
+        if ($request->hasFile('profile')) {
+            $file = $request->file('profile');
+            $fileName = $request->id . '.' . $file->getClientOriginalExtension();
+            $filePath = public_path('img/profile_pic/');
+
+            // Move the uploaded file to the specified directory
+            $file->move($filePath, $fileName);
+            
+        } else{
+            $defaultProfilePath = public_path('img/default_profile.png');
+            $fileName = $request->id . '.png';
+            $filePath = public_path('img/profile_pic/');
+
+            // Copy default file to the specified directory
+            copy($defaultProfilePath, $filePath . $fileName);
+        }
 
         // return view('staffs.students.index');
     }

@@ -267,7 +267,7 @@ figure {
 
 .form-group {
     position: relative;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; */
     overflow: hidden;
 }
 
@@ -639,4 +639,14 @@ img#profile_preview:hover {
     background-color: white;
     border: 3px dashed orange;
     cursor: pointer;
+}
+
+/* self */
+.profile-class{
+    margin-top: 67%;
+    z-index: -1;
+}
+
+.signup-image{
+    z-index: 5;
 }
