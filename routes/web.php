@@ -47,14 +47,15 @@ Route::get('/staffs/students/viewStudent', [StudentController::class, 'index']);
 
 
 
-Route::get('/students/email/verify', [VerificationController::class, 'show'])
-    ->name('student.verification.notice');
-
-Route::get('/students/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-    ->name('student.verification.verify');
-
-Route::post('/students/email/verify/resend', [VerificationController::class, 'resend'])
-    ->name('student.verification.resend');
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
+Route::get('registration', [AuthController::class, 'registration'])->name('register');
+Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+  
+/* New Added Routes */
+Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
+Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify'); 
 
 
 
