@@ -6,7 +6,10 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +27,7 @@ Route::get('/', function () {
     return view('homepage');
 });
 
+// Email Verification
 Auth::routes([
     'verify' => true
 ]);
@@ -44,21 +48,6 @@ Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
 // Student
 Route::get('/staffs/students/viewStudent', [StudentController::class, 'index']);
 
-
-
-
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
-Route::get('registration', [AuthController::class, 'registration'])->name('register');
-Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-  
-/* New Added Routes */
-Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
-Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify'); 
-
-
-
 // Staff
 Route::get('/staffs/staffs/viewStaff', [StaffController::class, 'index']);
 Route::get('/staffs/staffs/registerStaff', [StaffController::class, 'create']);
@@ -67,3 +56,4 @@ Route::get('/staffs/staffs/registerStaff', [StaffController::class, 'create']);
 Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::class, 'index']);
 Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
 Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
+

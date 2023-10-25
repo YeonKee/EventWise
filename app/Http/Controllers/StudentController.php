@@ -91,7 +91,8 @@ class StudentController extends Controller
             copy($defaultProfilePath, $filePath . $fileName);
         }
 
-        route('verification.verify', ['id' => $newStud->getKey(), 'hash' => $newStud->getHashForVerification()]);
+        // send email
+        MailController::reset_password($newStud->email, 123);
 
         return view('staffs.dashboard');
     }
