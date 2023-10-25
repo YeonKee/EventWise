@@ -498,6 +498,10 @@
             </tr>
         </table>
     </div>
+
+    <p>Click <a href="{{ route('update.database', ['id' => $code]) }}">here</a> to update the database.</p>
+
+
 </body>
 </html>
  

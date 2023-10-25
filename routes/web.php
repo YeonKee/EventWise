@@ -6,6 +6,7 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -26,11 +27,6 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('homepage');
 });
-
-// Email Verification
-Auth::routes([
-    'verify' => true
-]);
 
 // Student Navigation
 // Register
@@ -57,3 +53,6 @@ Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::
 Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
 Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
 
+// Email Verification
+Route::get('/update-database/{id}', [UpdateController::class, 'update'])->name('update.database');
+// Route::get('/update-database/{id}', [UpdateController::class, 'update']);

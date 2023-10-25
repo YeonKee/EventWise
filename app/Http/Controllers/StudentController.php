@@ -72,7 +72,7 @@ class StudentController extends Controller
         $newStud->password = Hash::make($request->password);
         $newStud->name = $request->name;
         $newStud->address = $request->address;
-        $newStud->save();
+        // $newStud->save();
 
         if ($request->hasFile('profile')) {
             $file = $request->file('profile');
@@ -92,7 +92,7 @@ class StudentController extends Controller
         }
 
         // send email
-        MailController::reset_password($newStud->email, 123);
+        MailController::reset_password($newStud->email, $request->id);
 
         return view('staffs.dashboard');
     }
