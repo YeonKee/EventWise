@@ -36,6 +36,17 @@ Route::post('/students/register', [StudentController::class, 'store']);
 Route::get('/students/pendingEmailVerify', [StudentController::class, 'pendingVerify']);
 Route::get('/students/successEmailVerify', [StudentController::class, 'successVerify']);
 
+// Login
+Route::get('/students/loginPage', [StudentController::class, 'loginPage']);
+Route::post('/students/login', [StudentController::class, 'login']);
+
+// Forget Password
+Route::get('/students/resetPasswordEmail', [StudentController::class, 'resetPasswordEmail']);
+Route::post('/students/getCode', [StudentController::class, 'getCode']);
+Route::get('/students/resetPasswordPage', [StudentController::class, 'resetPasswordPage']);
+Route::post('/students/resetPassword', [StudentController::class, 'resetPassword']);
+Route::get('/students/successPasswordReset', [StudentController::class, 'successReset']);
+
 // All Staff Navigation
 Route::get('/staffs/dashboard', [StaffController::class, 'dashboard'])->middleware('verified');
 Route::get('/staffs/profile', [StaffController::class, 'profile']);

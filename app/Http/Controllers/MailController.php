@@ -32,9 +32,9 @@ class MailController extends Controller
 
     public static function resetPassword($to, $code)
     {
-        Mail::send(['html' => 'email_template.reset_password'], ['code' => $code], function ($message) use ($to) {
-            $message->to($to)->subject('BeeVU Account Reset Password');
-            $message->from(config('mail.mailers.smtp.username'), 'BeeVU');
+        Mail::send(['html' => 'emailTemplate.resetPassword'], ['code' => $code], function ($message) use ($to) {
+            $message->to($to)->subject('EventWise Account Reset Password');
+            $message->from(config('mail.mailers.smtp.username'), 'EventWise');
         });
     }
 

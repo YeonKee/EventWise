@@ -197,7 +197,7 @@
             </div>
             <p style="padding: 0 50px; margin-bottom: 25px;">You had successfully verified your email!</p>
             <p style="padding: 0 50px; margin-bottom: 15px;">Click the button below to go EventWise homepage.</p>
-            <a href="/staffs/students/viewStudent" style="margin-bottom: 5px;" class="btn btn-primary">Continue</a>
+            <a href="/staffs/students/viewStudent" style="margin-bottom: 5px;" class="form-submit btn btn-primary">Continue</a>
         </div>
     </section>
 @endsection

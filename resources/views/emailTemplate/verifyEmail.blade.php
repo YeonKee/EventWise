@@ -108,7 +108,7 @@
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
               <a href="#" target="_blank" style="display: inline-block;">
-                <img src="https://i.ibb.co/qjSrdf6/logo.png" border="0" width=250px "display: block;">
+                <img src="https://i.ibb.co/qjSrdf6/logo.png" border="0" width=250px style="display: block;">
               </a>
             </td>
           </tr>

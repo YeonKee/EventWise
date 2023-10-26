@@ -10,27 +10,33 @@
 @section('body')
     <section class="signup">
         <div class="container">
-            <form method="POST" class="register-form" id="register-form" action="/students/register" enctype="multipart/form-data">
+            <form method="POST" class="register-form" id="register-form" action="/students/register"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="signup-content">
                     <div class="form-group input-group signup-image">
                         <label for="profile-input">
-                            <img id="profile_preview" class="mx-auto rounded-circle" src="/img/default_profile.png" />
+                            <img id="profile_preview" class="mx-auto rounded-circle"
+                                src="{{ Session::has('profile_image') ? '/img/temp/' . session('profile_image') : '/img/default_profile.png' }}" />
+                            <br /><br />
+                            @error('profile')
+                                @if ($message != 'The profile failed to upload.')
+                                    <small class="text-danger profile-class" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @endif
+                            @enderror
                         </label>
                         <input id="profile-input" class="d-none" type="file" name="profile"
-                            accept=".gif, .jpg, .jpeg, .png" capture>
-                        @error('profile')
-                            <small class="text-danger profile-class" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </small>
-                        @enderror
+                            accept=".gif, .jpg, .jpeg, .png" capture onchange="previewImage(event)">
                     </div>
 
                     <div class="signup-form">
                         <h2 class="form-title">Register Account</h2>
                         <div class="form-group">
                             <label for="name"><i class="fa-solid fa-user"></i></i></label>
-                            <input type="text" name="name" id="name" placeholder="Name" />
+                            <input type="text" name="name" id="name" placeholder="Name"
+                                value="{{ old('name') }}" />
                         </div>
                         @error('name')
                             <small class="text-danger" role="alert">
@@ -40,7 +46,8 @@
 
                         <div class="form-group">
                             <label for="id"><i class="fa-solid fa-id-card"></i></label>
-                            <input type="text" name="id" id="id" placeholder="Student ID" />
+                            <input type="text" name="id" id="id" placeholder="Student ID"
+                                value="{{ old('id') }}" />
                         </div>
                         @error('id')
                             <small class="text-danger" role="alert">
@@ -50,7 +57,8 @@
 
                         <div class="form-group">
                             <label for="email"><i class="fa-solid fa-envelope"></i></label>
-                            <input type="email" name="email" id="email" placeholder="School Email" />
+                            <input type="email" name="email" id="email" placeholder="School Email"
+                                value="{{ old('email') }}" />
                         </div>
                         @error('email')
                             <small class="text-danger" role="alert">
@@ -60,7 +68,8 @@
 
                         <div class="form-group">
                             <label for="re-address"><i class="fa-solid fa-location-dot"></i></label>
-                            <input type="textarea" name="address" id="address" placeholder="Address" />
+                            <input type="textarea" name="address" id="address" placeholder="Address"
+                                value="{{ old('address') }}" />
                         </div>
                         @error('address')
                             <small class="text-danger" role="alert">
@@ -70,7 +79,8 @@
 
                         <div class="form-group">
                             <label for="pass"><i class="fa-solid fa-lock"></i></label>
-                            <input type="password" name="pass" id="pass" placeholder="Password" />
+                            <input type="password" name="pass" id="pass" placeholder="Password"
+                                value="{{ old('pass') }}" />
                         </div>
                         @error('pass')
                             <small class="text-danger" role="alert">
@@ -80,7 +90,8 @@
 
                         <div class="form-group">
                             <label for="re-pass"><i class="fa-solid fa-lock"></i></label>
-                            <input type="password" name="re_pass" id="re_pass" placeholder="Re-enter Password" />
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Re-enter Password"
+                                value="{{ old('re_pass') }}" />
                         </div>
                         @error('re_pass')
                             <small class="text-danger" role="alert">
@@ -89,7 +100,8 @@
                         @enderror
 
                         <div class="form-group form-button">
-                            <input type="submit" name="signup" id="signup" class="form-submit" value="Register" style="font-weight: bold" />
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="Register"
+                                style="font-weight: bold" />
                         </div>
                     </div>
                 </div>

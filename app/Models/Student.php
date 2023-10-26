@@ -20,4 +20,8 @@ class Student extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Registration::class, 'reg_id');
     }
 
+    public function emailExist($email){
+        return Student::where('email', $email);
+    }
+
 }
