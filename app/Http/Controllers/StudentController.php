@@ -72,7 +72,8 @@ class StudentController extends Controller
         $newStud->password = Hash::make($request->password);
         $newStud->name = $request->name;
         $newStud->address = $request->address;
-        // $newStud->save();
+        $newStud->is_email_verified = 0;
+        $newStud->save();
 
         if ($request->hasFile('profile')) {
             $file = $request->file('profile');
@@ -91,10 +92,13 @@ class StudentController extends Controller
             copy($defaultProfilePath, $filePath . $fileName);
         }
 
-        // send email
-        MailController::reset_password($newStud->email, $request->id);
+        // Send email verification
+        MailController::verifyEmail($newStud->email, $request->id);
 
-        return view('staffs.dashboard');
+        return view('students.pendingEmailVerify')->with([
+            'email' => $newStud->email,
+            'studID' => $request->id
+        ]);
     }
 
     /**
@@ -127,5 +131,15 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         //
+    }
+
+    public function pendingVerify()
+    {
+        return view('students.pendingEmailVerify');
+    }
+
+    public function successVerify()
+    {
+        return view('students.successEmailVerify');
     }
 }

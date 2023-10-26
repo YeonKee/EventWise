@@ -21,11 +21,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $newStud = new User();
-        $newStud->email = $request->email;
-        $newStud->password = Hash::make($request->password);
-        $newStud->name = $request->name;
-        $newStud->save();
+        
     }
 
     public function show($id)

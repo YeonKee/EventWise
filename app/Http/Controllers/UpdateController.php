@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function update($id)
+    public function updateEmailVerification($studID)
     {
         // Logic to update the database based on the $id
-        Student::where('stud_id', $id)->update(['is_email_verified' => 1]);
+        Student::where('stud_id', $studID)->update(['is_email_verified' => 1]);
 
         // Redirect to a thank you page or any other relevant page
-        return redirect('/thank-you');
+        return redirect('/students/successEmailVerify');
     }
 }

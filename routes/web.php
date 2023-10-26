@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ChatRatingController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UpdateController;
@@ -32,6 +33,8 @@ Route::get('/', function () {
 // Register
 Route::get('/students/create', [StudentController::class, 'create']);
 Route::post('/students/register', [StudentController::class, 'store']);
+Route::get('/students/pendingEmailVerify', [StudentController::class, 'pendingVerify']);
+Route::get('/students/successEmailVerify', [StudentController::class, 'successVerify']);
 
 // All Staff Navigation
 Route::get('/staffs/dashboard', [StaffController::class, 'dashboard'])->middleware('verified');
@@ -54,5 +57,8 @@ Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class,
 Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
 
 // Email Verification
-Route::get('/update-database/{id}', [UpdateController::class, 'update'])->name('update.database');
+Route::get('/updateDatabaseEmailVerification/{studID}', [UpdateController::class, 'updateEmailVerification'])->name('update.database.verifyEmail');
+Route::get('/verifyEmail/{email}/{studID}', [MailController::class, 'verifyEmail'])->name('verifyEmail');
+Route::get('/resentVerifyEmail/{email}/{studID}', [MailController::class, 'resentVerifyEmail'])->name('resentVerifyEmail');
+
 // Route::get('/update-database/{id}', [UpdateController::class, 'update']);
