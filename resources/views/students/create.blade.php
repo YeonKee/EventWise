@@ -1,11 +1,4 @@
-@extends('layoutFront');
-
-<style>
-    body {
-        overflow: hidden;
-        /* Hide scrollbars */
-    }
-</style>
+@extends('layoutFront')
 
 @section('body')
     <section class="signup">
@@ -17,24 +10,26 @@
                     <div class="form-group input-group signup-image">
                         <label for="profile-input">
                             <img id="profile_preview" class="mx-auto rounded-circle"
-                                src="{{ Session::has('profile_image') ? '/img/temp/' . session('profile_image') : '/img/default_profile.png' }}" />
+                                src="{{ Session::has('imagePath') ? asset('storage/' . session('imagePath')) : '/img/default_profile.png' }}"
+                                alt="Profile Image">
                             <br /><br />
                             @error('profile')
-                                @if ($message != 'The profile failed to upload.')
-                                    <small class="text-danger profile-class" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </small>
-                                @endif
+                                <small class="text-danger profile-class" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
                             @enderror
                         </label>
                         <input id="profile-input" class="d-none" type="file" name="profile"
-                            accept=".gif, .jpg, .jpeg, .png" capture onchange="previewImage(event)">
+                            accept=".gif, .jpg, .jpeg, .png" capture onchange="previewImage(event)" value="">
+                        @if (Session::has('imagePath'))
+                            <input type="hidden" name="imagePath" value="{{ session('imagePath') }}">
+                        @endif
                     </div>
 
                     <div class="signup-form">
                         <h2 class="form-title">Register Account</h2>
                         <div class="form-group">
-                            <label for="name"><i class="fa-solid fa-user"></i></i></label>
+                            <label for="name"><i class="fa-solid fa-user"></i></label>
                             <input type="text" name="name" id="name" placeholder="Name"
                                 value="{{ old('name') }}" />
                         </div>
@@ -81,6 +76,7 @@
                             <label for="pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="pass" id="pass" placeholder="Password"
                                 value="{{ old('pass') }}" />
+                            <i class="toggle-icon fas fa-eye-slash" onclick="togglePasswordVisibility()"></i>
                         </div>
                         @error('pass')
                             <small class="text-danger" role="alert">
@@ -92,6 +88,7 @@
                             <label for="re-pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="re_pass" id="re_pass" placeholder="Re-enter Password"
                                 value="{{ old('re_pass') }}" />
+                            <i class="toggle-icon-re fas fa-eye-slash" onclick="toggleRePasswordVisibility()"></i>
                         </div>
                         @error('re_pass')
                             <small class="text-danger" role="alert">
@@ -109,24 +106,5 @@
         </div>
     </section>
 
-    <script>
-        const profileInput = document.getElementById('profile-input');
-        const profilePreview = document.getElementById('profile_preview');
-
-        profileInput.addEventListener('change', function() {
-            const selectedFile = this.files[0];
-
-            if (selectedFile) {
-                // To read the selected file
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    // Updates src of profilePreview image to display user selected image
-                    profilePreview.src = e.target.result;
-                };
-
-                reader.readAsDataURL(selectedFile);
-            }
-        });
-    </script>
+    <script src="/js/account.js"></script>
 @endsection

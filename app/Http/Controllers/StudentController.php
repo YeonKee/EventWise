@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class StudentController extends Controller
@@ -37,14 +38,9 @@ class StudentController extends Controller
 
             // Check if the file extension is jpeg, png, jpg, or gif
             if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
-                $fileName = $request->id . '.' . $extension;
-                $filePath = public_path('img/temp/');
+                $path = $file->store('profile_pics', 'public');
 
-                // Move the uploaded file to the specified directory
-                $file->move($filePath, $fileName);
-
-                // Add the file name to the session
-                $request->session()->put('profile_image', $fileName);
+                $request->session()->put('imagePath', $path);
             }
         }
 
@@ -84,33 +80,56 @@ class StudentController extends Controller
         ];
 
         $validated = $request->validate($validators, $errMsgs);
-        // Clear student selected profile image session
-        $request->session()->forget('profile_image');
-
-        $newStud = new Student();
-        $newStud->stud_id = $request->id;
-        $newStud->email = $request->email;
-        $newStud->password = Hash::make($request->password);
-        $newStud->name = $request->name;
-        $newStud->address = $request->address;
-        $newStud->is_email_verified = 0;
-        $newStud->save();
 
         if ($request->hasFile('profile')) {
             $file = $request->file('profile');
-            $fileName = $request->id . '.' . $file->getClientOriginalExtension();
-            $filePath = public_path('img/profile_pic/');
+            $extension = $file->getClientOriginalExtension();
 
-            // Move the uploaded file to the specified directory
-            $file->move($filePath, $fileName);
+            // Check if the file extension is jpeg, png, jpg, or gif
+            if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+                $fileName = bin2hex(random_bytes(5)) . '.' . $extension;
+                $filePath = public_path('img/profile_pic/');
+
+                // Move the uploaded file to the specified directory
+                $file->move($filePath, $fileName);
+            }
+        } else if ($request->session()->has('imagePath')) {
+            $oldPath = storage_path('app/public/' . $request->session()->get('imagePath'));
+            $fileName = basename($oldPath);
+            $newPath = public_path('img/profile_pic/' . $fileName);
+
+            if (File::exists($oldPath)) {
+                if (File::move($oldPath, $newPath)) {
+                    // dd("Success");
+                } else {
+                    // dd("Failed to move the file");
+                }
+            } else {
+                // dd("Failed to find the file");
+            }
+
         } else {
             $defaultProfilePath = public_path('img/default_profile.png');
-            $fileName = $request->id . '.png';
+            $fileName = bin2hex(random_bytes(5)) . '.png';
             $filePath = public_path('img/profile_pic/');
 
             // Copy default file to the specified directory
             copy($defaultProfilePath, $filePath . $fileName);
         }
+
+        // Clear student selected profile image session
+        $request->session()->forget('profile_image');
+        $request->session()->forget('imagePath');
+
+        $newStud = new Student();
+        $newStud->stud_id = $request->id;
+        $newStud->email = $request->email;
+        $newStud->password = Hash::make($request->pass);
+        $newStud->name = $request->name;
+        $newStud->address = $request->address;
+        $newStud->profile_pic = $fileName;
+        $newStud->is_email_verified = 0;
+        $newStud->save();
 
         // Send email verification
         MailController::verifyEmail($newStud->email, $request->id);
@@ -126,7 +145,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
+
     }
 
     /**
@@ -142,7 +161,109 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        $student = Student::find($request->session()->get('studID'));
+        if ($request->actionTaken == "changeProfile") {
+
+            if ($request->hasFile('profile')) {
+                $file = $request->file('profile');
+                $extension = $file->getClientOriginalExtension();
+
+                // Check if the file extension is jpeg, png, jpg, or gif
+                if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+                    $path = $file->store('profile_pics', 'public');
+
+                    $request->session()->put('imagePath', $path);
+                }
+            }
+
+            $validators = [
+                'profile' => 'file|mimes:jpeg,png,jpg,gif|max:5000',
+                'name' => 'required|max:100|regex:/^[A-Za-z\'\s]+$/',
+                'address' => 'required|max:256'
+            ];
+
+            $errMsgs = [
+                'profile.file' => 'Please upload image file.',
+                'profile.mimes' => 'Supported image file (jpeg, png, jpg, gif).',
+                'profile.max' => 'Please upload image file not larger than 5MB.',
+                'name.required' => 'Name should not be empty.',
+                'name.max' => 'Name should only be 100 characters long.',
+                'name.regex' => 'Name should contains alphabets, hyphens, apostrophes and spaces only.',
+                'id.required' => 'ID should not be empty.',
+                'address.required' => 'Address should not be empty.',
+                'address.max' => 'Address should only be 256 characters long.'
+            ];
+
+            $validated = $request->validate($validators, $errMsgs);
+
+            if ($request->hasFile('profile')) {
+                $file = $request->file('profile');
+                $extension = $file->getClientOriginalExtension();
+
+                // Check if the file extension is jpeg, png, jpg, or gif
+                if (in_array($extension, ['jpeg', 'png', 'jpg', 'gif'])) {
+                    $fileName = bin2hex(random_bytes(5)) . '.' . $extension;
+                    $filePath = public_path('img/profile_pic/');
+
+                    // Move the uploaded file to the specified directory
+                    $file->move($filePath, $fileName);
+                }
+            } else if ($request->session()->has('imagePath')) {
+                $oldPath = storage_path('app/public/' . $request->session()->get('imagePath'));
+                $fileName = basename($oldPath);
+                $newPath = public_path('img/profile_pic/' . $fileName);
+
+                if (File::exists($oldPath)) {
+                    if (File::move($oldPath, $newPath)) {
+                        // dd("Success");
+                    } else {
+                        // dd("Failed to move the file");
+                    }
+                } else {
+                    // dd("Failed to find the file");
+                }
+
+            } else {
+                $fileName = $student->profile_pic;
+            }
+
+            // Clear student selected profile image session
+            $request->session()->forget('profile_image');
+            $request->session()->forget('imagePath');
+
+
+            $student->name = $request->input('name');
+            $student->address = $request->input('address');
+            $student->profile_pic = $fileName;
+            $student->save();
+
+        } else if ($request->actionTaken == "changePassword") {
+            if (Hash::check($request->old_pass, $student->password)) {
+                $validators = [
+                    'pass' => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+                    're_pass' => 'required|same:pass'
+                ];
+
+                $errMsgs = [
+                    'pass.required' => 'Password should not be empty.',
+                    'pass.max' => 'Password should only be 100 characters long.',
+                    'pass.min' => 'Password should be at least 8 characters long.',
+                    'pass.regex' => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.',
+                    're_pass.required' => 'Re-enter password should not be empty.',
+                    're_pass.same' => 'Re-enter password should be same with Password.',
+                ];
+
+                $validated = $request->validate($validators, $errMsgs);
+
+                // Update the password
+                $student->password = Hash::make($request->pass);
+                $student->save();
+
+            } else {
+                return redirect()->back()->withErrors(['old_pass' => 'Incorrect password.'])->withInput();
+            }
+        }
+
     }
 
     /**
@@ -168,10 +289,47 @@ class StudentController extends Controller
         return view('students.login');
     }
 
-    public function login()
+    public function login(Request $request)
     {
+        $validators = [
+            'id' => 'required|max:15|regex:/^\d{2}[A-Z]{3}\d{5}$/',
+            'pass' => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
+        ];
 
-        return view('students.login');
+        $errMsgs = [
+            'id.required' => 'ID should not be empty.',
+            'id.max' => 'ID should only be 15 characters long.',
+            'id.regex' => 'ID should follow the pattern : [12ABC12345].',
+            'pass.required' => 'Password should not be empty.',
+            'pass.max' => 'Password should only be 100 characters long.',
+            'pass.min' => 'Password should be at least 8 characters long.',
+            'pass.regex' => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.'
+        ];
+
+        $validated = $request->validate($validators, $errMsgs);
+        $student = Student::where('stud_id', $request->id)->first();
+
+        // Check if ID exist in system
+        if ($student) {
+            // Check if password correct
+            if (Hash::check($request->pass, $student->password)) {
+
+                // regenerate session id & remove all session data
+                $request->session()->invalidate();
+
+                // set session
+                $request->session()->put('role', 'student');
+                $request->session()->put('studID', $request->id);
+
+                // back to home
+                return redirect('/');
+
+            } else {
+                return redirect()->back()->withErrors(['pass' => 'Incorrect password.'])->withInput();
+            }
+        } else {
+            return redirect()->back()->withErrors(['id' => 'Student ID does not exist in the system.'])->withInput();
+        }
     }
 
     public function resetPasswordEmail()
@@ -208,7 +366,7 @@ class StudentController extends Controller
 
             return redirect('/students/resetPasswordPage');
         } else {
-            return redirect()->back()->withErrors(['email' => 'Email does not exist in the system.']);
+            return redirect()->back()->withErrors(['email' => 'Email does not exist in the system.'])->withInput();
         }
     }
 
@@ -248,7 +406,7 @@ class StudentController extends Controller
 
             if ($stud) {
                 // Update the password
-                $stud->password = Hash::make($request->password);
+                $stud->password = Hash::make($request->pass);
                 $stud->save();
 
                 // Clear the session data
@@ -257,12 +415,19 @@ class StudentController extends Controller
 
                 return view('students.successPasswordReset');
             } else {
-                return redirect()->back()->withErrors(['re_pass' => 'Something went wrong. Please try again later.']);
+                return redirect()->back()->withErrors(['re_pass' => 'Something went wrong. Please try again later.'])->withInput();
             }
         } else {
-            return redirect()->back()->withErrors(['code' => 'Wrong verification code entered.']);
+            return redirect()->back()->withErrors(['code' => 'Wrong verification code entered.'])->withInput();
         }
 
 
+    }
+
+    public function profile(Request $request)
+    {
+        $stud = Student::where('stud_id', $request->session()->get('studID'))->first();
+
+        return view('students.profile')->with('stud', $stud);
     }
 }

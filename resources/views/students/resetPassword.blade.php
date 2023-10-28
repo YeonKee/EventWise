@@ -17,7 +17,7 @@
         margin-bottom: 10px !important;
     }
 
-    .msg{
+    .msg {
         border: 1px solid rgb(200, 200, 200);
         padding: 10px;
         margin-bottom: 15px;
@@ -53,6 +53,7 @@
                             <label for="pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="pass" id="pass" placeholder="Password"
                                 value="{{ old('pass') }}" />
+                            <i class="toggle-icon fas fa-eye-slash" onclick="togglePasswordVisibility()"></i>
                         </div>
                         @error('pass')
                             <small class="text-danger" role="alert">
@@ -64,6 +65,7 @@
                             <label for="re-pass"><i class="fa-solid fa-lock"></i></label>
                             <input type="password" name="re_pass" id="re_pass" placeholder="Re-enter Password"
                                 value="{{ old('re_pass') }}" />
+                            <i class="toggle-icon-re fas fa-eye-slash" onclick="toggleRePasswordVisibility()"></i>
                         </div>
                         @error('re_pass')
                             <small class="text-danger" role="alert">
@@ -80,4 +82,6 @@
             </form>
         </div>
     </section>
+
+    <script src="/js/account.js"></script>
 @endsection

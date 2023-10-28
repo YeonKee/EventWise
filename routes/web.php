@@ -47,6 +47,10 @@ Route::get('/students/resetPasswordPage', [StudentController::class, 'resetPassw
 Route::post('/students/resetPassword', [StudentController::class, 'resetPassword']);
 Route::get('/students/successPasswordReset', [StudentController::class, 'successReset']);
 
+// Profile
+Route::get('/students/profile', [StudentController::class, 'profile']);
+Route::post('/students/update', [StudentController::class, 'update']);
+
 // All Staff Navigation
 Route::get('/staffs/dashboard', [StaffController::class, 'dashboard'])->middleware('verified');
 Route::get('/staffs/profile', [StaffController::class, 'profile']);

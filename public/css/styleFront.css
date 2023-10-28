@@ -650,3 +650,37 @@ img#profile_preview:hover {
 .signup-image{
     z-index: 5;
 }
+
+/* Password eye icon design */
+.form-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.form-group input[type="password"] {
+    padding-right: 30px;
+    width: 100%;
+}
+
+.form-group label {
+    margin-right: 10px;
+}
+
+.toggle-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.toggle-icon-re {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.toggle-icon-old {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
