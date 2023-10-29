@@ -60,6 +60,8 @@
         </div><!-- End Logo -->
     </header><!-- End Header -->
 
+    @include('sweetalert::alert')
+
     @yield('body')
 </body>
 

@@ -1,0 +1,38 @@
+.btn-primary{
+    background-color: #4452bc;
+    padding: 7px 15px;
+}
+
+.btn-primary:hover{
+    background-color: #2B38A1;
+}
+
+.btn-secondary{
+    padding: 7px 15px;
+}
+
+#delBtn{
+    background-color: transparent;
+    color: red;
+    border: 0;
+}
+
+#delBtn{
+    background-color: transparent;
+    color: red;
+    border: 0;
+}
+
+#viewBtn{
+    background-color: transparent;
+    color: #2B38A1;
+    border: 0;
+}
+
+.profile-group{
+    margin-bottom: 15px;
+}
+
+.profile-table td{
+    padding-bottom: 10px;
+}

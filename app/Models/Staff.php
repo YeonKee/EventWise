@@ -9,6 +9,7 @@ class Staff extends Model
 {
     use HasFactory;
 
+    public $table = 'staffs';
     protected $primaryKey = 'staff_id';
 
 }

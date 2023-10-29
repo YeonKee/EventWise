@@ -51,8 +51,12 @@ Route::get('/students/successPasswordReset', [StudentController::class, 'success
 Route::get('/students/profile', [StudentController::class, 'profile']);
 Route::post('/students/update', [StudentController::class, 'update']);
 
+// Logout
+Route::get('/students/logout', [StudentController::class, 'logout']);
+
+
 // All Staff Navigation
-Route::get('/staffs/dashboard', [StaffController::class, 'dashboard'])->middleware('verified');
+Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);
 Route::get('/staffs/profile', [StaffController::class, 'profile']);
 Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
 
@@ -60,11 +64,15 @@ Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
 Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
 
 // Student
-Route::get('/staffs/students/viewStudent', [StudentController::class, 'index']);
+Route::get('/staffs/students/viewStudent', [StaffController::class, 'viewAllStud']);
+Route::delete('/staffs/students/deleteStud/{id}', [StaffController::class, 'deleteStud']);
+Route::get('/staffs/students/viewStudentDetail/{id}', [StaffController::class, 'viewStudDetail']);
 
 // Staff
 Route::get('/staffs/staffs/viewStaff', [StaffController::class, 'index']);
-Route::get('/staffs/staffs/registerStaff', [StaffController::class, 'create']);
+Route::get('/staffs/staffs/create', [StaffController::class, 'create']);
+Route::post('/staffs/staffs/register', [StaffController::class, 'store']);
+Route::delete('/staffs/staffs/destroy/{id}', [StaffController::class, 'destroy']);
 
 // Chat
 Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::class, 'index']);

@@ -48,6 +48,7 @@
     <link href="{{ asset('vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
     <!-- Template Main CSS File -->
+    <link href="{{ asset('css/styleBack.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 
@@ -103,16 +104,15 @@
                 </a>
                 <ul id="staff-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/staffs/staffs/viewStaff" class="" id="staffInfo">
-                            <i class="bi bi-circle"></i><span>Staff Info</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/staffs/staffs/registerStaff" class="" id="registerStaff">
+                        <a href="/staffs/staffs/create" class="" id="registerStaff">
                             <i class="bi bi-circle"></i><span>Register</span>
                         </a>
                     </li>
                     <li>
+                        <a href="/staffs/staffs/viewStaff" class="" id="staffInfo">
+                            <i class="bi bi-circle"></i><span>Staff Info</span>
+                        </a>
+                    </li>
                 </ul>
             </li><!-- End Staff Nav -->
 
@@ -165,6 +165,8 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+
+    @include('sweetalert::alert')
 
     @yield('body')
 

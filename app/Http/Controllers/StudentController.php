@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class StudentController extends Controller
 {
@@ -16,7 +17,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        return view('staffs.students.index');
+        
     }
 
     /**
@@ -237,6 +238,10 @@ class StudentController extends Controller
             $student->profile_pic = $fileName;
             $student->save();
 
+            Alert::success('Updated Successfully!', 'Your profile information has been updated.');
+
+            return redirect()->back();
+
         } else if ($request->actionTaken == "changePassword") {
             if (Hash::check($request->old_pass, $student->password)) {
                 $validators = [
@@ -258,6 +263,10 @@ class StudentController extends Controller
                 // Update the password
                 $student->password = Hash::make($request->pass);
                 $student->save();
+
+                Alert::success('Updated Successfully!', 'Your password has been updated.');
+
+                return redirect()->back();
 
             } else {
                 return redirect()->back()->withErrors(['old_pass' => 'Incorrect password.'])->withInput();
@@ -420,8 +429,6 @@ class StudentController extends Controller
         } else {
             return redirect()->back()->withErrors(['code' => 'Wrong verification code entered.'])->withInput();
         }
-
-
     }
 
     public function profile(Request $request)
@@ -429,5 +436,13 @@ class StudentController extends Controller
         $stud = Student::where('stud_id', $request->session()->get('studID'))->first();
 
         return view('students.profile')->with('stud', $stud);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+
+        // back to home
+        return redirect('/');
     }
 }

@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label for="id"><i class="fa-solid fa-id-card"></i></label>
                             <input type="text" name="id" id="id" placeholder="Student ID"
-                                value="{{ session('studID') }}" disabled />
+                                value="{{ $stud->stud_id }}" disabled />
                         </div>
 
                         <div class="form-group">

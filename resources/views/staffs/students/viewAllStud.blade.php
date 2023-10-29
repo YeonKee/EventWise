@@ -3,12 +3,11 @@
 @section('body')
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Staff</h1>
+            <h1>Student</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/staffs/dashboard">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/staffs/staffs/viewStaff">Staff</a></li>
-                    <li class="breadcrumb-item active">Staff Info</li>
+                    <li class="breadcrumb-item active">Student</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -26,7 +25,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Staff</h5>
+                        <h5 class="card-title">Student</h5>
                         @php
                             $count = 1;
                         @endphp
@@ -34,28 +33,36 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Staff ID</th>
+                                    <th scope="col">Student ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Address</th>
                                     <th scope="col">Registered At</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($staffs as $staff)
+                                @foreach ($students as $student)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>{{ $staff->staff_id }}</td>
-                                        <td>{{ $staff->name }}</td>
-                                        <td>{{ $staff->email }}</td>
-                                        <td>{{ $staff->created_at }}</td>
+                                        <th scope="row">{{ $count }}</th>
+                                        <td>{{ $student->stud_id }}</td>
+                                        <td>{{ $student->name }}</td>
+                                        <td>{{ $student->email }}</td>
+                                        <td>{{ $student->address }}</td>
+                                        <td>{{ $student->created_at }}</td>
                                         <td>
-                                            <form method="post" action="/staffs/staffs/destroy/{{ $staff->staff_id }}"
+                                            <button data-get="/staffs/students/viewStudentDetail/{{ $student->stud_id }}"
+                                                onclick="redirectToPage(this)" class="action" id="viewBtn" title="View">
+                                                <i class="fa fa-eye fa-lg"></i>
+                                            </button>
+
+                                            <form method="post"
+                                                action="/staffs/students/deleteStud/{{ $student->stud_id }}"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('delete')
                                                 <button id="delBtn" class="action" title="Delete"
-                                                    value="{{ $staff->name }}">
+                                                    value="{{ $student->name }}">
                                                     <i class="fa fa-trash fa-lg"></i>
                                                 </button>
                                             </form>
@@ -65,7 +72,6 @@
                                         $count++;
                                     @endphp
                                 @endforeach
-                                </tr>
                             </tbody>
                         </table>
                         <!-- End Default Table Example -->
@@ -77,9 +83,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#staffNav').removeClass('collapsed');
-            $('#staffInfo').addClass('active');
-            $('#staff-nav').addClass('show');
+            $('#studentNav').removeClass('collapsed');
         });
 
         // style
@@ -98,8 +102,8 @@
 
             Swal.fire({
                 icon: "warning",
-                title: "Are you sure to delete staff <b>" + name + "</b>?",
-                text: "The staff information and account is not recoverable once deleted.",
+                title: "Are you sure to delete student <b>" + name + "</b>?",
+                text: "The student information and account is not recoverable once deleted.",
                 showCancelButton: true,
                 confirmButtonText: `Yes`,
                 reverseButtons: false,
@@ -112,7 +116,7 @@
                 if (respond.isConfirmed) {
                     SwalStyledButtons.fire({
                         icon: 'success',
-                        html: "Staff <b>" + name + "</b> is deleted.",
+                        html: "Student <b>" + name + "</b> is deleted.",
                     }).then(function() {
                         form.submit();
                     });
