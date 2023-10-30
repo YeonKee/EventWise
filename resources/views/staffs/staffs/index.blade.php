@@ -15,7 +15,8 @@
 
         <div class="search-bar col-lg-2 mb-3 d-flex">
             <div class="ml-auto">
-                <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/staffs/viewStaffSearch">
+                    @csrf
                     <input type="text" name="query" placeholder="Search" title="Enter search keyword">
                     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
                 </form>
@@ -27,13 +28,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Staff</h5>
-                        @php
-                            $count = 1;
-                        @endphp
-                        <table class="table">
+                        <table class="table" id="staffTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Staff ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
@@ -42,9 +39,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($staffs as $staff)
+                                @foreach ($staffs as $staff)    
                                     <tr>
-                                        <th scope="row">1</th>
                                         <td>{{ $staff->staff_id }}</td>
                                         <td>{{ $staff->name }}</td>
                                         <td>{{ $staff->email }}</td>
@@ -56,19 +52,20 @@
                                                 @method('delete')
                                                 <button id="delBtn" class="action" title="Delete"
                                                     value="{{ $staff->name }}">
+                                                    <input type="hidden" name="query"
+                                                        value="{{ request()->input('query') }}">
                                                     <i class="fa fa-trash fa-lg"></i>
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
-                                    @php
-                                        $count++;
-                                    @endphp
                                 @endforeach
                                 </tr>
                             </tbody>
                         </table>
-                        <!-- End Default Table Example -->
+                        <div class="d-flex justify-content-center custom-pagination">
+                            {{ $staffs->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,6 +77,12 @@
             $('#staffNav').removeClass('collapsed');
             $('#staffInfo').addClass('active');
             $('#staff-nav').addClass('show');
+
+            var table = $('#staffTable').DataTable({
+                paging: false, // Disable pagination
+                searching: false, // Disable search
+                info: false // Disable information display
+            });
         });
 
         // style
@@ -91,33 +94,37 @@
         })
 
         $("form").submit(function(e) {
-            e.preventDefault();
+            var delBtn = $(this).find('#delBtn'); // Assuming the delete button has the id 'delBtn'
 
-            var name = $(this).find('#delBtn').val();
-            var form = this;
+            if (delBtn.length > 0) {
+                e.preventDefault();
 
-            Swal.fire({
-                icon: "warning",
-                title: "Are you sure to delete staff <b>" + name + "</b>?",
-                text: "The staff information and account is not recoverable once deleted.",
-                showCancelButton: true,
-                confirmButtonText: `Yes`,
-                reverseButtons: false,
-                buttonsStyling: false,
-                customClass: {
-                    cancelButton: 'btn btn-secondary ml-2',
-                    confirmButton: 'btn btn-danger mr-2',
-                },
-            }).then((respond) => {
-                if (respond.isConfirmed) {
-                    SwalStyledButtons.fire({
-                        icon: 'success',
-                        html: "Staff <b>" + name + "</b> is deleted.",
-                    }).then(function() {
-                        form.submit();
-                    });
-                }
-            });
+                var name = $(this).find('#delBtn').val();
+                var form = this;
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Are you sure to delete staff <b>" + name + "</b>?",
+                    text: "The staff information and account is not recoverable once deleted.",
+                    showCancelButton: true,
+                    confirmButtonText: `Yes`,
+                    reverseButtons: false,
+                    buttonsStyling: false,
+                    customClass: {
+                        cancelButton: 'btn btn-secondary ml-2',
+                        confirmButton: 'btn btn-danger mr-2',
+                    },
+                }).then((respond) => {
+                    if (respond.isConfirmed) {
+                        SwalStyledButtons.fire({
+                            icon: 'success',
+                            html: "Staff <b>" + name + "</b> is deleted.",
+                        }).then(function() {
+                            form.submit();
+                        });
+                    }
+                });
+            }
         });
 
         function redirectToPage(button) {

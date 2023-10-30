@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label for="name"><i class="fa-solid fa-user"></i></label>
                             <input type="text" name="name" id="name" placeholder="Name"
-                                value="{{ $stud->name }}" />
+                                value="{{ old('name') ? old('name') : $stud->name }}" />
                         </div>
                         @error('name')
                             <small class="text-danger" role="alert">
@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label for="re-address"><i class="fa-solid fa-location-dot"></i></label>
                             <input type="textarea" name="address" id="address" placeholder="Address"
-                                value="{{ $stud->address }}" />
+                                value="{{ old('address') ? old('address') : $stud->address }}" />
                         </div>
                         @error('address')
                             <small class="text-danger" role="alert">
@@ -101,8 +101,8 @@
                         <input type="hidden" name="actionTaken" value="changePassword">
 
                         <div class="form-group">
-                            <label for="pass"><i class="fa-solid fa-lock"></i></label>
-                            <input type="password" name="old_pass" id="old_pass" placeholder="Password"
+                            <label for="old_pass"><i class="fa-solid fa-lock"></i></label>
+                            <input type="password" name="old_pass" id="old_pass" placeholder="Old Password"
                                 value="{{ old('old_pass') }}" />
                             <i class="toggle-icon-old fas fa-eye-slash" onclick="toggleOldPasswordVisibility()"></i>
                         </div>
@@ -114,7 +114,7 @@
 
                         <div class="form-group">
                             <label for="pass"><i class="fa-solid fa-lock"></i></label>
-                            <input type="password" name="pass" id="pass" placeholder="Old Password"
+                            <input type="password" name="pass" id="pass" placeholder="New Password"
                                 value="{{ old('pass') }}" />
                             <i class="toggle-icon fas fa-eye-slash" onclick="togglePasswordVisibility()"></i>
                         </div>

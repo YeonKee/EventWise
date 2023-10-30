@@ -24,64 +24,122 @@ use Illuminate\Http\Request;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| PUBLIC ROUTE
+|--------------------------------------------------------------------------
+*/
+
 // Route to homepage
 Route::get('/', function () {
     return view('homepage');
 });
 
-// Student Navigation
-// Register
+// Unauthorized Access
+Route::get('/unauthorizedAccess', function () {
+    return view('error.unauthorizedAccess');
+});
+
+// Page Not Found
+Route::fallback(function () {
+    return view('error.404');
+});
+
+// Student Register
 Route::get('/students/create', [StudentController::class, 'create']);
 Route::post('/students/register', [StudentController::class, 'store']);
 Route::get('/students/pendingEmailVerify', [StudentController::class, 'pendingVerify']);
 Route::get('/students/successEmailVerify', [StudentController::class, 'successVerify']);
 
-// Login
+// Student Email Verification
+Route::get('/updateDatabaseEmailVerification/{studID}', [UpdateController::class, 'updateEmailVerification'])->name('update.database.verifyEmail');
+Route::get('/verifyEmail/{email}/{studID}', [MailController::class, 'verifyEmail'])->name('verifyEmail');
+Route::get('/resentVerifyEmail/{email}/{studID}', [MailController::class, 'resentVerifyEmail'])->name('resentVerifyEmail');
+
+// Student Login
 Route::get('/students/loginPage', [StudentController::class, 'loginPage']);
 Route::post('/students/login', [StudentController::class, 'login']);
 
-// Forget Password
+// Student Forget Password
 Route::get('/students/resetPasswordEmail', [StudentController::class, 'resetPasswordEmail']);
 Route::post('/students/getCode', [StudentController::class, 'getCode']);
 Route::get('/students/resetPasswordPage', [StudentController::class, 'resetPasswordPage']);
 Route::post('/students/resetPassword', [StudentController::class, 'resetPassword']);
 Route::get('/students/successPasswordReset', [StudentController::class, 'successReset']);
 
-// Profile
-Route::get('/students/profile', [StudentController::class, 'profile']);
-Route::post('/students/update', [StudentController::class, 'update']);
-
-// Logout
-Route::get('/students/logout', [StudentController::class, 'logout']);
+// Staff Login
+Route::get('/staffs/loginPage', [StaffController::class, 'loginPage']);
+Route::post('/staffs/login', [StaffController::class, 'login']);
 
 
-// All Staff Navigation
-Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);
-Route::get('/staffs/profile', [StaffController::class, 'profile']);
-Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
+/*
+|--------------------------------------------------------------------------
+| STUDENT ROUTE
+|--------------------------------------------------------------------------
+*/
 
-// Event
-Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
+Route::group(['middleware' => ['role:student']], function () {
 
-// Student
-Route::get('/staffs/students/viewStudent', [StaffController::class, 'viewAllStud']);
-Route::delete('/staffs/students/deleteStud/{id}', [StaffController::class, 'deleteStud']);
-Route::get('/staffs/students/viewStudentDetail/{id}', [StaffController::class, 'viewStudDetail']);
+    // Profile
+    Route::get('/students/profile', [StudentController::class, 'profile']);
+    Route::post('/students/update', [StudentController::class, 'update']);
 
-// Staff
-Route::get('/staffs/staffs/viewStaff', [StaffController::class, 'index']);
-Route::get('/staffs/staffs/create', [StaffController::class, 'create']);
-Route::post('/staffs/staffs/register', [StaffController::class, 'store']);
-Route::delete('/staffs/staffs/destroy/{id}', [StaffController::class, 'destroy']);
+    // Logout
+    Route::get('/students/logout', [StudentController::class, 'logout']);
 
-// Chat
-Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::class, 'index']);
-Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
-Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
+});
 
-// Email Verification
-Route::get('/updateDatabaseEmailVerification/{studID}', [UpdateController::class, 'updateEmailVerification'])->name('update.database.verifyEmail');
-Route::get('/verifyEmail/{email}/{studID}', [MailController::class, 'verifyEmail'])->name('verifyEmail');
-Route::get('/resentVerifyEmail/{email}/{studID}', [MailController::class, 'resentVerifyEmail'])->name('resentVerifyEmail');
+/*
+|--------------------------------------------------------------------------
+| STAFF ROUTE
+|--------------------------------------------------------------------------
+*/
 
-// Route::get('/update-database/{id}', [UpdateController::class, 'update']);
+Route::group(['middleware' => ['role:staff']], function () {
+
+    // Dashboard
+    Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);
+
+    // Event
+    Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
+
+    // Student
+    Route::get('/staffs/students/viewStudent', [StaffController::class, 'viewAllStud']);
+    Route::get('/staffs/students/viewStudentSearch', [StaffController::class, 'searchStudent']);
+    Route::get('/staffs/students/viewStudentDetail/{id}', [StaffController::class, 'viewStudDetail']);
+    Route::delete('/staffs/students/deleteStud/{id}', [StaffController::class, 'deleteStud']);
+
+    // Automated Chat
+    Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::class, 'index']);
+    Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
+    Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
+
+    // Live Chat
+    Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
+
+    // Profile
+    Route::get('/staffs/profile', [StaffController::class, 'profile']);
+    Route::post('/staffs/update', [StaffController::class, 'update']);
+
+    // Logout
+    Route::get('/staffs/logout', [StaffController::class, 'logout']);
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTE
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['middleware' => ['role:admin']], function () {
+    // Staff Register
+    Route::get('/staffs/staffs/create', [StaffController::class, 'create']);
+    Route::post('/staffs/staffs/register', [StaffController::class, 'store']);
+
+    // Staff View
+    Route::get('/staffs/staffs/viewStaff', [StaffController::class, 'index']);
+    Route::get('/staffs/staffs/viewStaffSearch', [StaffController::class, 'searchStaff']);
+    Route::delete('/staffs/staffs/destroy/{id}', [StaffController::class, 'destroy']);
+
+});

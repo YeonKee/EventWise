@@ -190,7 +190,6 @@ class StudentController extends Controller
                 'name.required' => 'Name should not be empty.',
                 'name.max' => 'Name should only be 100 characters long.',
                 'name.regex' => 'Name should contains alphabets, hyphens, apostrophes and spaces only.',
-                'id.required' => 'ID should not be empty.',
                 'address.required' => 'Address should not be empty.',
                 'address.max' => 'Address should only be 256 characters long.'
             ];
@@ -272,7 +271,6 @@ class StudentController extends Controller
                 return redirect()->back()->withErrors(['old_pass' => 'Incorrect password.'])->withInput();
             }
         }
-
     }
 
     /**

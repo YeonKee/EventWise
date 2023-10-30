@@ -72,7 +72,7 @@
                                     placeholder="Re-enter Password" value="{{ old('re_pass') }}">
                                 <div class="input-group-append">
                                     <span class="input-group-text" onclick="toggleRePasswordVisibility()">
-                                        <i class="toggle-icon fas fa-eye-slash"></i>
+                                        <i class="toggle-icon-re fas fa-eye-slash"></i>
                                     </span>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
 
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Register Staff</button>
                             <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form><!-- End Multi Columns Form -->
@@ -101,6 +101,5 @@
             $('#staff-nav').addClass('show');
         });
     </script>
-
     <script src="/js/account.js"></script>
 @endsection

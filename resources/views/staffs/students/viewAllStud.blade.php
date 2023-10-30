@@ -14,7 +14,7 @@
 
         <div class="search-bar col-lg-2 mb-3 d-flex">
             <div class="ml-auto">
-                <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/students/viewStudentSearch">
                     <input type="text" name="query" placeholder="Search" title="Enter search keyword">
                     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
                 </form>
@@ -27,12 +27,11 @@
                     <div class="card-body">
                         <h5 class="card-title">Student</h5>
                         @php
-                            $count = 1;
+                            $count = $students->firstItem();
                         @endphp
-                        <table class="table">
+                        <table class="table" id="studentTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">Student ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
@@ -44,7 +43,6 @@
                             <tbody>
                                 @foreach ($students as $student)
                                     <tr>
-                                        <th scope="row">{{ $count }}</th>
                                         <td>{{ $student->stud_id }}</td>
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
@@ -74,7 +72,9 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- End Default Table Example -->
+                        <div class="d-flex justify-content-center custom-pagination">
+                            {{ $students->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,6 +84,12 @@
     <script>
         $(document).ready(function() {
             $('#studentNav').removeClass('collapsed');
+
+            $('#studentTable').DataTable({
+                paging: false, // Disable pagination
+                searching: false, // Disable search
+                info: false // Disable information display
+            });
         });
 
         // style
@@ -95,33 +101,37 @@
         })
 
         $("form").submit(function(e) {
-            e.preventDefault();
+            var delBtn = $(this).find('#delBtn'); // Assuming the delete button has the id 'delBtn'
 
-            var name = $(this).find('#delBtn').val();
-            var form = this;
+            if (delBtn.length > 0) {
+                e.preventDefault();
 
-            Swal.fire({
-                icon: "warning",
-                title: "Are you sure to delete student <b>" + name + "</b>?",
-                text: "The student information and account is not recoverable once deleted.",
-                showCancelButton: true,
-                confirmButtonText: `Yes`,
-                reverseButtons: false,
-                buttonsStyling: false,
-                customClass: {
-                    cancelButton: 'btn btn-secondary ml-2',
-                    confirmButton: 'btn btn-danger mr-2',
-                },
-            }).then((respond) => {
-                if (respond.isConfirmed) {
-                    SwalStyledButtons.fire({
-                        icon: 'success',
-                        html: "Student <b>" + name + "</b> is deleted.",
-                    }).then(function() {
-                        form.submit();
-                    });
-                }
-            });
+                var name = $(this).find('#delBtn').val();
+                var form = this;
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Are you sure to delete student <b>" + name + "</b>?",
+                    text: "The student information and account is not recoverable once deleted.",
+                    showCancelButton: true,
+                    confirmButtonText: `Yes`,
+                    reverseButtons: false,
+                    buttonsStyling: false,
+                    customClass: {
+                        cancelButton: 'btn btn-secondary ml-2',
+                        confirmButton: 'btn btn-danger mr-2',
+                    },
+                }).then((respond) => {
+                    if (respond.isConfirmed) {
+                        SwalStyledButtons.fire({
+                            icon: 'success',
+                            html: "Student <b>" + name + "</b> is deleted.",
+                        }).then(function() {
+                            form.submit();
+                        });
+                    }
+                });
+            }
         });
 
         function redirectToPage(button) {

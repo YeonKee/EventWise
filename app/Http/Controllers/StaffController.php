@@ -15,19 +15,41 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staffs = Staff::where('account_type', 2)->get();
+        $staffs = Staff::where('account_type', 2)->paginate(9);
         return view('staffs.staffs.index', compact('staffs'));
     }
 
+    public function searchStaff(Request $request)
+    {
+        $query = $request->input('query');
+
+        if ($query) {
+            $staffs = Staff::where('account_type', 2)
+                ->where(function ($q) use ($query) {
+                    $q->where('staff_id', 'like', '%' . $query . '%')
+                        ->orWhere('name', 'like', '%' . $query . '%')
+                        ->orWhere('email', 'like', '%' . $query . '%')
+                        ->orWhere('created_at', 'like', '%' . $query . '%');
+                })
+                ->paginate(9);
+        } else {
+            $staffs = Staff::where('account_type', 2)->paginate(9);
+        }
+
+        return view('staffs.staffs.index', compact('staffs'));
+    }
 
     public function dashboard()
     {
         return view('staffs.dashboard');
     }
 
-    public function profile()
+    public function profile(Request $request)
     {
-        return view('staffs.profile');
+        $staff = Staff::where('staff_id', $request->session()->get('staffID'))->first();
+
+        return view('staffs.profile')->with('staff', $staff);
+        ;
     }
 
     public function livechat()
@@ -109,7 +131,58 @@ class StaffController extends Controller
      */
     public function update(Request $request, Staff $staff)
     {
-        //
+        $staff = Staff::find($request->session()->get('staffID'));
+        if ($request->actionTaken == "changeProfile") {
+
+            $validators = [
+                'name' => 'required|max:100|regex:/^[A-Za-z\'\s]+$/'
+            ];
+
+            $errMsgs = [
+                'name.max' => 'Name should only be 100 characters long.',
+                'name.regex' => 'Name should contains alphabets, hyphens, apostrophes and spaces only.'
+            ];
+
+            $validated = $request->validate($validators, $errMsgs);
+
+            $staff->name = $request->input('name');
+            $staff->save();
+
+            Alert::success('Updated Successfully!', 'Your profile information has been updated.');
+            $request->session()->put('staffName', $staff->name);
+
+            return redirect()->back();
+
+        } else if ($request->actionTaken == "changePassword") {
+            if (Hash::check($request->old_pass, $staff->password)) {
+                $validators = [
+                    'pass' => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+                    're_pass' => 'required|same:pass'
+                ];
+
+                $errMsgs = [
+                    'pass.required' => 'Password should not be empty.',
+                    'pass.max' => 'Password should only be 100 characters long.',
+                    'pass.min' => 'Password should be at least 8 characters long.',
+                    'pass.regex' => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.',
+                    're_pass.required' => 'Re-enter password should not be empty.',
+                    're_pass.same' => 'Re-enter password should be same with Password.',
+                ];
+
+                $validated = $request->validate($validators, $errMsgs);
+
+                // Update the password
+                $staff->password = Hash::make($request->pass);
+                $staff->save();
+
+                Alert::success('Updated Successfully!', 'Your password has been updated.');
+
+                return redirect()->back();
+
+            } else {
+                return redirect()->back()->withErrors(['old_pass' => 'Incorrect password.'])->withInput();
+            }
+        }
     }
 
     /**
@@ -120,12 +193,86 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('query', '');
+    }
+
+    public function loginPage()
+    {
+        return view('staffs.login');
+    }
+
+    public function login(Request $request)
+    {
+        $validators = [
+            'id' => 'required|max:15',
+            'pass' => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
+        ];
+
+        $errMsgs = [
+            'id.required' => 'ID should not be empty.',
+            'id.regex' => 'ID should follow the pattern : [12ABC12345].',
+            'pass.required' => 'Password should not be empty.',
+            'pass.max' => 'Password should only be 100 characters long.',
+            'pass.min' => 'Password should be at least 8 characters long.',
+            'pass.regex' => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.'
+        ];
+
+        $validated = $request->validate($validators, $errMsgs);
+        $staff = Staff::where('staff_id', $request->id)->first();
+
+        // Check if ID exist in system
+        if ($staff) {
+            // Check if password correct
+            if (Hash::check($request->pass, $staff->password)) {
+
+                // regenerate session id & remove all session data
+                $request->session()->invalidate();
+
+                // set session
+                if ($staff->account_type == 1) {
+                    $request->session()->put('role', 'admin');
+                } else if ($staff->account_type == 2) {
+                    $request->session()->put('role', 'staff');
+                }
+
+                $request->session()->put('staffID', $request->id);
+                $request->session()->put('staffName', $staff->name);
+
+                // back to home
+                return redirect('/');
+
+            } else {
+                return redirect()->back()->withErrors(['pass' => 'Incorrect password.'])->withInput();
+            }
+        } else {
+            return redirect()->back()->withErrors(['id' => 'Staff ID does not exist in the system.'])->withInput();
+        }
     }
 
     public function viewAllStud()
     {
-        $students = Student::all();
+        $students = Student::paginate(9);
+
+        return view('staffs.students.viewAllStud', compact('students'));
+    }
+
+    public function searchStudent(Request $request)
+    {
+        $query = $request->input('query');
+
+        if ($query) {
+            $students = Student::where(function ($q) use ($query) {
+                    $q->where('stud_id', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('email', 'like', '%' . $query . '%')
+                    ->orWhere('address', 'like', '%' . $query . '%')
+                        ->orWhere('created_at', 'like', '%' . $query . '%');
+                })
+                ->paginate(9);
+        } else {
+            $students = Student::paginate(9);
+        }
+
         return view('staffs.students.viewAllStud', compact('students'));
     }
 
@@ -144,5 +291,13 @@ class StaffController extends Controller
         $student->delete();
 
         return redirect()->back();
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+
+        // back to home
+        return redirect('/');
     }
 }

@@ -6,6 +6,11 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    // Check Role
+    protected $routeMiddleware = [
+        'role' => \App\Http\Middleware\CheckRole::class,
+    ];
+
     /**
      * The application's global HTTP middleware stack.
      *

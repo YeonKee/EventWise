@@ -2,6 +2,8 @@
 
 {{-- 4154f1 --}}
 
+<p>Role: {{ session('role') }}</p>
+
 <a href='/staffs/dashboard'>Dashboard</a><br/>
 <a href="/staffs/students/viewStudent" class="btn btn-primary">View all Student</a><br/>
 <a href="/students/create" class="btn btn-primary">Create Student</a><br/>
@@ -11,3 +13,6 @@
 <a href="/students/resetPassword" class="btn btn-primary">Reset Password</a><br/>
 <a href="/students/profile" class="btn btn-primary">Student Profile</a><br/>
 <a href="/students/logout" class="btn btn-primary">Logout</a><br/>
+
+<hr/>
+<a href="/staffs/loginPage" class="btn btn-primary">Login</a><br/>

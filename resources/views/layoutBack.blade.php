@@ -28,6 +28,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.29/sweetalert2.all.min.js"></script>
     <script src="https://kit.fontawesome.com/288dd6b8ec.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
     <!-- Favicons -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon">
     <link href="{{ asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
@@ -67,7 +70,7 @@
         </div><!-- End Logo -->
 
         <nav class="header-nav ms-auto">
-            <span class="d-none d-md-block ps-2 mr-3"><b>Current Staff:</b> John Doe</span>
+            <span class="d-none d-md-block ps-2 mr-3"><b>Current Staff:</b> {{ session('staffName') }}</span>
         </nav><!-- End Icons Navigation -->
 
     </header><!-- End Header -->
@@ -98,26 +101,30 @@
                 </a>
             </li><!-- End Event Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed"  id="staffNav" data-bs-target="#staff-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fas fa-id-badge"></i><span>Staff</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="staff-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="/staffs/staffs/create" class="" id="registerStaff">
-                            <i class="bi bi-circle"></i><span>Register</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/staffs/staffs/viewStaff" class="" id="staffInfo">
-                            <i class="bi bi-circle"></i><span>Staff Info</span>
-                        </a>
-                    </li>
-                </ul>
-            </li><!-- End Staff Nav -->
+            @if (session('role') === 'admin')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" id="staffNav" data-bs-target="#staff-nav" data-bs-toggle="collapse"
+                        href="#">
+                        <i class="fas fa-id-badge"></i><span>Staff</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="staff-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/staffs/staffs/create" class="" id="registerStaff">
+                                <i class="bi bi-circle"></i><span>Register</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/staffs/staffs/viewStaff" class="" id="staffInfo">
+                                <i class="bi bi-circle"></i><span>Staff Info</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><!-- End Staff Nav -->
+            @endif
 
             <li class="nav-item">
-                <a class="nav-link collapsed"  id="chatNav" data-bs-target="#chat-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" id="chatNav" data-bs-target="#chat-nav" data-bs-toggle="collapse"
+                    href="#">
                     <i class="fas fa-comment-alt"></i></i><span>Automated Chat</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
@@ -156,7 +163,7 @@
             </li><!-- End Event Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.html">
+                <a class="nav-link collapsed" href="/staffs/logout">
                     <i class="fa fa-sign-out"></i>
                     <span>Logout</span>
                 </a>
