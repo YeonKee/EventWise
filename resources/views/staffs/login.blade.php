@@ -51,7 +51,7 @@
                         </div>
                         <div class="d-flex justify-content-center align-items-center flex-column mt-3">
                             <p class="text-center" style="margin-bottom: 5px">Forgotten password? <a
-                                    href="/students/resetPasswordEmail">Click Here!</a></p>
+                                    href="/staffs/resetPasswordEmail">Click Here!</a></p>
                         </div>
                     </div>
                 </div>

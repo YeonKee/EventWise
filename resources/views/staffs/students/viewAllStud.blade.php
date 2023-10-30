@@ -25,7 +25,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Student</h5>
+                        <h5 class="card-title">Student  <span>(Result count: {{ $studentsCount }})</span></h5>
                         @php
                             $count = $students->firstItem();
                         @endphp

@@ -71,6 +71,12 @@ Route::get('/students/successPasswordReset', [StudentController::class, 'success
 Route::get('/staffs/loginPage', [StaffController::class, 'loginPage']);
 Route::post('/staffs/login', [StaffController::class, 'login']);
 
+// Staff Forget Password
+Route::get('/staffs/resetPasswordEmail', [StaffController::class, 'resetPasswordEmail']);
+Route::post('/staffs/getCode', [StaffController::class, 'getCode']);
+Route::get('/staffs/resetPasswordPage', [StaffController::class, 'resetPasswordPage']);
+Route::post('/staffs/resetPassword', [StaffController::class, 'resetPassword']);
+Route::get('/staffs/successPasswordReset', [StaffController::class, 'successReset']);
 
 /*
 |--------------------------------------------------------------------------
@@ -123,7 +129,6 @@ Route::group(['middleware' => ['role:staff']], function () {
 
     // Logout
     Route::get('/staffs/logout', [StaffController::class, 'logout']);
-
 });
 
 /*

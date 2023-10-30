@@ -6,6 +6,7 @@ use App\Models\Staff;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class StaffController extends Controller
@@ -16,7 +17,8 @@ class StaffController extends Controller
     public function index()
     {
         $staffs = Staff::where('account_type', 2)->paginate(9);
-        return view('staffs.staffs.index', compact('staffs'));
+        $staffsCount = $staffs->total();
+        return view('staffs.staffs.index', compact('staffs', 'staffsCount'));
     }
 
     public function searchStaff(Request $request)
@@ -36,12 +38,15 @@ class StaffController extends Controller
             $staffs = Staff::where('account_type', 2)->paginate(9);
         }
 
-        return view('staffs.staffs.index', compact('staffs'));
+        $staffsCount = $staffs->total();
+        return view('staffs.staffs.index', compact('staffs', 'staffsCount'));
     }
 
     public function dashboard()
     {
-        return view('staffs.dashboard');
+        $totalStudents = Student::count();
+
+        return view('staffs.dashboard')->with('totalStudents', $totalStudents);
     }
 
     public function profile(Request $request)
@@ -249,11 +254,102 @@ class StaffController extends Controller
         }
     }
 
+    public function resetPasswordEmail()
+    {
+        return view('staffs.resetPasswordEmail');
+    }
+
+    public function getCode(Request $request)
+    {
+        $validators = [
+            'email' => 'required|max:50|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+        ];
+
+        $errMsgs = [
+            'email.required' => 'Email should not be empty.',
+            'email.max' => 'Email should only be 50 characters long.',
+            'email.regex' => 'Email should follow the pattern: [...@student.tarc.edu.my].',
+        ];
+
+        $request->validate($validators, $errMsgs);
+
+        $staff = Staff::where('email', $request->email)->first();
+
+        if ($staff) {
+            // Safe email that required password change
+            $request->session()->put('resetEmailStaff', $request->email);
+
+            // Generate and set code
+            $randomCode = Str::random(8);
+            $request->session()->put('resetCodeStaff', $randomCode);
+
+            // send email
+            MailController::resetPassword($request->email, $randomCode);
+
+            return redirect('/staffs/resetPasswordPage');
+        } else {
+            return redirect()->back()->withErrors(['email' => 'Email does not exist in the system.'])->withInput();
+        }
+    }
+
+    public function resetPasswordPage()
+    {
+        return view('staffs.resetPassword');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        // Retrieve the session value
+        $sessionCode = $request->session()->get('resetCodeStaff');
+        $email = $request->session()->get('resetEmailStaff');
+
+        // Compare the session value with the form data named 'code'
+        if ($sessionCode == $request->code) {
+            $validators = [
+                'code' => 'required',
+                'pass' => 'required|max:100|min:8|regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+                're_pass' => 'required|same:pass'
+            ];
+
+            $errMsgs = [
+                'code.required' => 'Verification code should not be empty.',
+                'pass.required' => 'Password should not be empty.',
+                'pass.max' => 'Password should only be 100 characters long.',
+                'pass.min' => 'Password should be at least 8 characters long.',
+                'pass.regex' => 'Password should contains at least 1 uppercase, 1 lowercase, 1 digit and 1 special character.',
+                're_pass.required' => 'Re-enter password should not be empty.',
+                're_pass.same' => 'Re-enter password should be same with Password.',
+            ];
+
+            $validated = $request->validate($validators, $errMsgs);
+
+            // Find the staff with the matching email
+            $staff = Staff::where('email', $email)->first();
+
+            if ($staff) {
+                // Update the password
+                $staff->password = Hash::make($request->pass);
+                $staff->save();
+
+                // Clear the session data
+                $request->session()->forget('resetEmailStaff');
+                $request->session()->forget('resetCodeStaff');
+
+                return view('staffs.successPasswordReset');
+            } else {
+                return redirect()->back()->withErrors(['re_pass' => 'Something went wrong. Please try again later.'])->withInput();
+            }
+        } else {
+            return redirect()->back()->withErrors(['code' => 'Wrong verification code entered.'])->withInput();
+        }
+    }
+
+
     public function viewAllStud()
     {
         $students = Student::paginate(9);
-
-        return view('staffs.students.viewAllStud', compact('students'));
+        $studentsCount = $students->total();
+        return view('staffs.students.viewAllStud', compact('students', 'studentsCount'));
     }
 
     public function searchStudent(Request $request)
@@ -262,18 +358,19 @@ class StaffController extends Controller
 
         if ($query) {
             $students = Student::where(function ($q) use ($query) {
-                    $q->where('stud_id', 'like', '%' . $query . '%')
+                $q->where('stud_id', 'like', '%' . $query . '%')
                     ->orWhere('name', 'like', '%' . $query . '%')
                     ->orWhere('email', 'like', '%' . $query . '%')
                     ->orWhere('address', 'like', '%' . $query . '%')
-                        ->orWhere('created_at', 'like', '%' . $query . '%');
-                })
+                    ->orWhere('created_at', 'like', '%' . $query . '%');
+            })
                 ->paginate(9);
         } else {
             $students = Student::paginate(9);
         }
 
-        return view('staffs.students.viewAllStud', compact('students'));
+        $studentsCount = $students->total();
+        return view('staffs.students.viewAllStud', compact('students', 'studentsCount'));
     }
 
     public function viewStudDetail($id)

@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Staff</h5>
+                        <h5 class="card-title">Staff  <span>(Result count: {{ $staffsCount }})</span></h5>
                         <table class="table" id="staffTable">
                             <thead>
                                 <tr>
