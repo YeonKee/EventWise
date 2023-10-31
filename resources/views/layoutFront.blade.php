@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.29/sweetalert2.all.min.js"></script>
     <script src="https://kit.fontawesome.com/288dd6b8ec.js" crossorigin="anonymous"></script>
-    
+
     <!-- Favicons -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon">
     <link href="{{ asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
@@ -63,6 +63,34 @@
     @include('sweetalert::alert')
 
     @yield('body')
+
+    <!-- Chat bubble -->
+    <div class="chat-bubble" onclick="toggleChatWindow()">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chat window -->
+    <div class="chat-window" id="chatWindow" style="display: none;">
+        <!-- Chat window content goes here -->
+        <div class="chat-header">
+            <span class="close-btn" onclick="toggleChatWindow()">&times;</span>
+            <h4>Chat with Real Staff</h4>
+        </div>
+        <div class="chat-body">
+            <a href="/chat">Click here to chat with real staff</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleChatWindow() {
+            var chatWindow = document.getElementById('chatWindow');
+            if (chatWindow.style.display === 'none') {
+                chatWindow.style.display = 'block';
+            } else {
+                chatWindow.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 
 </html>

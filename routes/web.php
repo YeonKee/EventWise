@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatRatingController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\PusherController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UpdateController;
@@ -77,6 +78,12 @@ Route::post('/staffs/getCode', [StaffController::class, 'getCode']);
 Route::get('/staffs/resetPasswordPage', [StaffController::class, 'resetPasswordPage']);
 Route::post('/staffs/resetPassword', [StaffController::class, 'resetPassword']);
 Route::get('/staffs/successPasswordReset', [StaffController::class, 'successReset']);
+
+// LiveChat
+Route::get('/chat', [PusherController::class, 'index']);
+Route::post('/broadcast', [PusherController::class, 'broadcast']);
+Route::post('/receive', [PusherController::class, 'receive']);
+
 
 /*
 |--------------------------------------------------------------------------
