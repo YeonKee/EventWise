@@ -16,3 +16,9 @@
 
 <hr/>
 <a href="/staffs/loginPage" class="btn btn-primary">Login</a><br/>
+
+<hr/>
+<a href="/chatTesting" class="btn btn-primary">Chat Tesing</a><br/>
+
+<hr/>
+<a href="/chat" class="btn btn-primary">Live Chat</a><br/>

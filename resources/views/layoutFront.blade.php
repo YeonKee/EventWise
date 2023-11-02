@@ -64,7 +64,105 @@
 
     @yield('body')
 
-    <!-- Chat bubble -->
+    <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
+    </div>
+    <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>
+
+    <script>
+        const checkExist = setInterval(function() {
+            const parentDiv = document.querySelector('.css-eifp3v');
+            const firstChildDiv = document.querySelector('.css-1abdig3');
+            if (parentDiv && firstChildDiv) {
+                clearInterval(checkExist);
+                const secondChildDiv = document.createElement('div');
+                parentDiv.insertBefore(secondChildDiv, firstChildDiv.nextSibling);
+
+                const childContent = document.createElement('button');
+                childContent.setAttribute('id', 'click_to_record');
+
+                const icon = document.createElement('i');
+                icon.classList.add('fas', 'fa-microphone');
+                childContent.appendChild(icon);
+                childContent.style.backgroundColor = 'transparent';
+                childContent.style.border = 'none';
+                secondChildDiv.appendChild(childContent);
+
+                const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
+
+                // Define a variable to store the transcript
+                let savedTranscript = '';
+
+                childContent.addEventListener('click', function() {
+                    var speech = true;
+                    window.SpeechRecognition = window.webkitSpeechRecognition;
+
+                    const recognition = new SpeechRecognition();
+                    recognition.interimResults = true;
+
+                    const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
+
+                    recognition.addEventListener('result', e => {
+                        const transcript = Array.from(e.results)
+                            .map(result => result[0])
+                            .map(result => result.transcript)
+                            .join('');
+
+                        savedTranscript = transcript;
+
+                        if (textArea) {
+                            textArea.value = savedTranscript;
+                            textArea.dispatchEvent(new Event('input', {
+                                bubbles: true
+                            }));
+                            textArea.dispatchEvent(new Event('change', {
+                                bubbles: true
+                            }));
+                            textArea.innerHTML = 'Yay';
+                        }
+
+                        console.log(transcript);
+                    });
+
+                    if (speech == true) {
+                        recognition.start();
+                    }
+                });
+            }
+        }, 100); // Check every 100ms
+    </script>
+
+    {{-- <script>
+        // Function to customize the Rasa chat widget
+        function customizeRasaChatWidget() {
+            // Check if the Rasa chat widget has been fully loaded
+            const checkExist = setInterval(function() {
+                const parentDiv = document.querySelector('.css-eifp3v');
+                const firstChildDiv = document.querySelector('.css-1abdig3');
+                if (parentDiv && firstChildDiv) {
+                    clearInterval(checkExist);
+                    // Create a new div element
+                    const secondChildDiv = document.createElement('div');
+
+                    // Insert the secondChildDiv before the firstChildDiv
+                    parentDiv.insertBefore(secondChildDiv, firstChildDiv.nextSibling);
+
+                    // Add content to the secondChildDiv
+                    const childContent = document.createElement('button');
+                    const icon = document.createElement('i');
+                    icon.classList.add('fas', 'fa-microphone'); // Add Font Awesome classes for the heart icon
+                    childContent.appendChild(icon);
+                    childContent.style.backgroundColor = 'transparent';
+                    childContent.style.borderColor = 'transparent';
+                    secondChildDiv.appendChild(childContent);
+                }
+            }, 100); // Check every 100ms
+        }
+
+        // Call the function to customize the Rasa chat widget
+        customizeRasaChatWidget();
+    </script> --}}
+
+    {{-- <!-- Chat bubble -->
     <div class="chat-bubble" onclick="toggleChatWindow()">
         <i class="fas fa-comments"></i>
     </div>
@@ -90,7 +188,7 @@
                 chatWindow.style.display = 'none';
             }
         }
-    </script>
+    </script> --}}
 </body>
 
 </html>
