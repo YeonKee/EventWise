@@ -72,6 +72,7 @@
         const checkExist = setInterval(function() {
             const parentDiv = document.querySelector('.css-eifp3v');
             const firstChildDiv = document.querySelector('.css-1abdig3');
+
             if (parentDiv && firstChildDiv) {
                 clearInterval(checkExist);
                 const secondChildDiv = document.createElement('div');
@@ -89,42 +90,58 @@
 
                 const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
 
+                let recognition; // declare the recognition variable outside the event listener
+
                 // Define a variable to store the transcript
                 let savedTranscript = '';
 
+                let isListening = false; // create a flag to check if the microphone is listening
+                let firstClick = true; // create a flag to check if the button is clicked for the first time
+
                 childContent.addEventListener('click', function() {
-                    var speech = true;
-                    window.SpeechRecognition = window.webkitSpeechRecognition;
+                    if (firstClick) {
+                        firstClick = false;
+                        Swal.fire({
+                            title: 'Microphone activated',
+                            html: 'Click the microphone button again to stop speaking.<br><span style="font-size: smaller; "><i>Please provide an input key to the input before sending.</i></span>',
+                            icon: 'info',
+                            showConfirmButton: true,
+                        });
+                        isListening = true;
+                    }
 
-                    const recognition = new SpeechRecognition();
-                    recognition.interimResults = true;
+                    if (!isListening) {
+                        isListening = true;
+                        window.SpeechRecognition = window.webkitSpeechRecognition;
+                        recognition = new SpeechRecognition();
+                        recognition.interimResults = true;
 
-                    const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
+                        recognition.addEventListener('result', e => {
+                            const transcript = Array.from(e.results)
+                                .map(result => result[0])
+                                .map(result => result.transcript)
+                                .join('');
 
-                    recognition.addEventListener('result', e => {
-                        const transcript = Array.from(e.results)
-                            .map(result => result[0])
-                            .map(result => result.transcript)
-                            .join('');
+                            savedTranscript = transcript;
 
-                        savedTranscript = transcript;
+                            if (textArea) {
+                                textArea.value = savedTranscript;
+                                textArea.dispatchEvent(new Event('input', {
+                                    bubbles: true
+                                }));
+                                textArea.dispatchEvent(new Event('change', {
+                                    bubbles: true
+                                }));
+                                textArea.innerHTML = savedTranscript;
+                            }
 
-                        if (textArea) {
-                            textArea.value = savedTranscript;
-                            textArea.dispatchEvent(new Event('input', {
-                                bubbles: true
-                            }));
-                            textArea.dispatchEvent(new Event('change', {
-                                bubbles: true
-                            }));
-                            textArea.innerHTML = 'Yay';
-                        }
+                            console.log(transcript);
+                        });
 
-                        console.log(transcript);
-                    });
-
-                    if (speech == true) {
                         recognition.start();
+                    } else {
+                        isListening = false;
+                        recognition.stop(); // stop the speech recognition when the button is clicked again
                     }
                 });
             }
