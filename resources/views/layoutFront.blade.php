@@ -127,6 +127,7 @@
 
     @yield('body')
 
+<<<<<<< HEAD
      <!-- Footer Section Begin -->
      <footer class="footer-section">
         {{-- <div class="container">
@@ -203,6 +204,124 @@
 <!-- Footer Section End -->
 
     <!-- Chat bubble -->
+=======
+    <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
+    </div>
+    <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>
+
+    <script>
+        const checkExist = setInterval(function() {
+            const parentDiv = document.querySelector('.css-eifp3v');
+            const firstChildDiv = document.querySelector('.css-1abdig3');
+
+            if (parentDiv && firstChildDiv) {
+                clearInterval(checkExist);
+                const secondChildDiv = document.createElement('div');
+                parentDiv.insertBefore(secondChildDiv, firstChildDiv.nextSibling);
+
+                const childContent = document.createElement('button');
+                childContent.setAttribute('id', 'click_to_record');
+
+                const icon = document.createElement('i');
+                icon.classList.add('fas', 'fa-microphone');
+                childContent.appendChild(icon);
+                childContent.style.backgroundColor = 'transparent';
+                childContent.style.border = 'none';
+                secondChildDiv.appendChild(childContent);
+
+                const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
+
+                let recognition; // declare the recognition variable outside the event listener
+
+                // Define a variable to store the transcript
+                let savedTranscript = '';
+
+                let isListening = false; // create a flag to check if the microphone is listening
+                let firstClick = true; // create a flag to check if the button is clicked for the first time
+
+                childContent.addEventListener('click', function() {
+                    if (firstClick) {
+                        firstClick = false;
+                        Swal.fire({
+                            title: 'Microphone activated',
+                            html: 'Click the microphone button again to stop speaking.<br><span style="font-size: smaller; "><i>Please provide an input key to the input before sending.</i></span>',
+                            icon: 'info',
+                            showConfirmButton: true,
+                        });
+                        isListening = true;
+                    }
+
+                    if (!isListening) {
+                        isListening = true;
+                        window.SpeechRecognition = window.webkitSpeechRecognition;
+                        recognition = new SpeechRecognition();
+                        recognition.interimResults = true;
+
+                        recognition.addEventListener('result', e => {
+                            const transcript = Array.from(e.results)
+                                .map(result => result[0])
+                                .map(result => result.transcript)
+                                .join('');
+
+                            savedTranscript = transcript;
+
+                            if (textArea) {
+                                textArea.value = savedTranscript;
+                                textArea.dispatchEvent(new Event('input', {
+                                    bubbles: true
+                                }));
+                                textArea.dispatchEvent(new Event('change', {
+                                    bubbles: true
+                                }));
+                                textArea.innerHTML = savedTranscript;
+                            }
+
+                            console.log(transcript);
+                        });
+
+                        recognition.start();
+                    } else {
+                        isListening = false;
+                        recognition.stop(); // stop the speech recognition when the button is clicked again
+                    }
+                });
+            }
+        }, 100); // Check every 100ms
+    </script>
+
+    {{-- <script>
+        // Function to customize the Rasa chat widget
+        function customizeRasaChatWidget() {
+            // Check if the Rasa chat widget has been fully loaded
+            const checkExist = setInterval(function() {
+                const parentDiv = document.querySelector('.css-eifp3v');
+                const firstChildDiv = document.querySelector('.css-1abdig3');
+                if (parentDiv && firstChildDiv) {
+                    clearInterval(checkExist);
+                    // Create a new div element
+                    const secondChildDiv = document.createElement('div');
+
+                    // Insert the secondChildDiv before the firstChildDiv
+                    parentDiv.insertBefore(secondChildDiv, firstChildDiv.nextSibling);
+
+                    // Add content to the secondChildDiv
+                    const childContent = document.createElement('button');
+                    const icon = document.createElement('i');
+                    icon.classList.add('fas', 'fa-microphone'); // Add Font Awesome classes for the heart icon
+                    childContent.appendChild(icon);
+                    childContent.style.backgroundColor = 'transparent';
+                    childContent.style.borderColor = 'transparent';
+                    secondChildDiv.appendChild(childContent);
+                }
+            }, 100); // Check every 100ms
+        }
+
+        // Call the function to customize the Rasa chat widget
+        customizeRasaChatWidget();
+    </script> --}}
+
+    {{-- <!-- Chat bubble -->
+>>>>>>> 7be31dcb873df1cf804e618e0feb5000465fdf6f
     <div class="chat-bubble" onclick="toggleChatWindow()">
         <i class="fas fa-comments"></i>
     </div>
@@ -228,7 +347,7 @@
                 chatWindow.style.display = 'none';
             }
         }
-    </script>
+    </script> --}}
 </body>
 
 </html>

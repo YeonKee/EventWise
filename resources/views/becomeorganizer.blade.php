@@ -415,7 +415,7 @@
                             </ul>
                         </div>
                         <div class="row buttons">
-                            <button class="clear-canvas">Clear Canvas</button>
+                            <button class="clear-canvas">Clear Canva</button>
                             <button class="save-img">Save As Image</button>
                         </div>
                     </section>

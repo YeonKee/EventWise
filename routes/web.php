@@ -31,6 +31,11 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 
+// Testing
+Route::get('/chatTesting', function () {
+    return view('chatTesting');
+});
+
 // Route to homepage
 Route::get('/', function () {
     return view('homepage');
