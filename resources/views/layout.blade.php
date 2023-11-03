@@ -1,88 +1,78 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>@yield('title', 'Event Wise')</title>
+    {{-- <link rel="icon" type="image/x-icon" href="http://127.0.0.1:8000/mini_logo.ico"> --}}
+    <!-- Google Font -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Manup Template">
+    <meta name="keywords" content="Manup, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>@yield('title', 'EventWise')</title>
-
-    <!-- Stylesheet -->
-    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:8000/mini_logo.ico">
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-    <!-- Script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/javascript/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.29/sweetalert2.all.min.js"></script>
-    <script src="https://kit.fontawesome.com/288dd6b8ec.js" crossorigin="anonymous"></script>
-    <script src="venue.js" defer></script>
+    <!-- Js Plugins -->
 
-    <!-- Favicons -->
-    <link href="{{ asset('img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
 
-    <!-- Template Main CSS File -->
-    <link href="{{ asset('css/styleFront.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    {{-- CSS --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/cart.css') }}"> --}}
 
-    <!-- Form -->
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    {{-- Form --}}
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}" /> --}}
 
     <style>
         .container1 {
             margin-left: auto;
             margin-right: auto;
-            margin-bottom: -100px;
         }
 
         .logo {
-            margin-right: 200px;
-            width: 250px;
-            height: 250px;
+            margin-right: 550px;
         }
 
         .nav-menu {
             font-size: 18px;
-            margin-left: 50px;
-        }
-
-        ul{
-            margin-bottom: -10px;
         }
 
         #btnSearch {
             background-color: pink;
         }
     </style>
+
+    {{-- @yield('head') --}}
 </head>
 
 <body>
-    <!-- ======= Header ======= -->
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
     <header class="header-section">
         <div class="container1">
-            <div class="logo">
+            {{-- <div class="logo">
                 <a href="./index.html">
                     <img src="img/logo.png" alt="">
                 </a>
-            </div>
+            </div> --}}
             <div class="nav-menu">
                 <nav class="mainmenu mobile-menu">
                     <ul>
@@ -95,7 +85,7 @@
                                 <li><a href="#">Workshop</a></li>
                                 <li><a href="#">Festival</a></li>
                                 <li><a href="#">Exhibition</a></li>
-                                <li><a href="#">Others</a></li>
+                                <li><a href="#">Festival</a></li>
                             </ul>
                         </li>
                         <li><a href="./schedule.html">Schedule</a></li>
@@ -110,11 +100,11 @@
                                 </div>
                             </form>
                         </li>
-                        {{-- <button data-get="/event/becomeorganizer" onclick="redirectToPage(this)"
+                        <button data-get="/event/becomeorganizer" onclick="redirectToPage(this)"
                             class="primary-btn top-btn" style="padding:15px"> Become an organizer
-                        </button> --}}
+                        </button>
                         <button type="button" class="primary-btn top-btn" onclick="location.href = '/becomeorganizer'" style="padding:15px"> Become an organizer</button>
-                    {{-- <li><a href="/event/becomeorganizer" onclick="location.href = '/event/becomeorganizer'"class="primary-btn top-btn" style="padding:15px"> Become an organizer </a></li> --}}
+                    {{-- <li><a href="/event/becomeorganizer" onclick="location.href = '/event/becomeorganizer'"class="primary-btn top-btn" style="padding:15px"> Become an organizer </a></li> --}} --}}
                     </ul>
                 </nav>
             </div>
@@ -122,14 +112,12 @@
         </div>
     </header>
 
-
-     @include('sweetalert::alert') 
-
+    <!-- Header End -->
     @yield('body')
 
-     <!-- Footer Section Begin -->
-     <footer class="footer-section">
-        {{-- <div class="container">
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <div class="container">
             <div class="partner-logo owl-carousel">
                 <a href="#" class="pl-table">
                     <div class="pl-tablecell">
@@ -161,13 +149,12 @@
                         <img src="img/partner-logo/logo-6.png" alt="">
                     </div>
                 </a>
-            </div> --}}
-
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="footer-text">
                         <div class="ft-logo">
-                            <a href="#" class="footer-logo">Event Wise</a>
+                            <a href="#" class="footer-logo"><img src="img/footer-logo.png" alt=""></a>
                         </div>
                         <ul>
                             <li><a href="#">Home</a></li>
@@ -199,36 +186,9 @@
             </div>
         </div>
     </footer> 
+</body>
 
 <!-- Footer Section End -->
 
-    <!-- Chat bubble -->
-    <div class="chat-bubble" onclick="toggleChatWindow()">
-        <i class="fas fa-comments"></i>
-    </div>
-
-    <!-- Chat window -->
-    <div class="chat-window" id="chatWindow" style="display: none;">
-        <!-- Chat window content goes here -->
-        <div class="chat-header">
-            <span class="close-btn" onclick="toggleChatWindow()">&times;</span>
-            <h4>Chat with Real Staff</h4>
-        </div>
-        <div class="chat-body">
-            <a href="/chat">Click here to chat with real staff</a>
-        </div>
-    </div>
-
-    <script>
-        function toggleChatWindow() {
-            var chatWindow = document.getElementById('chatWindow');
-            if (chatWindow.style.display === 'none') {
-                chatWindow.style.display = 'block';
-            } else {
-                chatWindow.style.display = 'none';
-            }
-        }
-    </script>
-</body>
 
 </html>

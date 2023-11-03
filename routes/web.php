@@ -155,3 +155,32 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::delete('/staffs/staffs/destroy/{id}', [StaffController::class, 'destroy']);
 
 });
+
+//--------------HOMEPAGE ROUTE----------
+// Main page
+Route::get('/homepage', function () {
+    return view('homepage');
+});
+
+Route::get('/index', function () {
+    return view('index');
+});
+
+Route::get('/layout', function () {
+    return view('layout');
+});
+
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
+
+Route::get('/contact', function () {
+    return view('contact');
+});
+
+Route::get('/becomeorganizer', function () {
+    return view('becomeorganizer');
+});
+
+//Route::get('/event/search', [EventController::class, 'searchProducts']);
+Route::resource('event','App\Http\Controllers\EventController');
