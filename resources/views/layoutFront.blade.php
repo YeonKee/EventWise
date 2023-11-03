@@ -27,6 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.29/sweetalert2.all.min.js"></script>
     <script src="https://kit.fontawesome.com/288dd6b8ec.js" crossorigin="anonymous"></script>
+    <script src="venue.js" defer></script>
 
     <!-- Favicons -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon">
@@ -44,27 +45,90 @@
 
     <!-- Form -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <style>
+        .container1 {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: -100px;
+        }
+
+        .logo {
+            margin-right: 200px;
+            width: 250px;
+            height: 250px;
+        }
+
+        .nav-menu {
+            font-size: 18px;
+            margin-left: 50px;
+        }
+
+        ul{
+            margin-bottom: -10px;
+        }
+
+        #btnSearch {
+            background-color: pink;
+        }
+    </style>
 </head>
 
 <body>
     <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
+    <header class="header-section">
+        <div class="container1">
+            <div class="logo">
+                <a href="./index.html">
+                    <img src="img/logo.png" alt="">
+                </a>
+            </div>
+            <div class="nav-menu">
+                <nav class="mainmenu mobile-menu">
+                    <ul>
+                        <li class="active"><a href="/homepage">Home</a></li>
+                        <li><a href="/aboutus">About</a></li>
+                        <li><a href="./speaker.html">Events</a>
+                            <ul class="dropdown">
+                                <li><a href="#">Outdoors</a></li>
+                                <li><a href="#">Talk</a></li>
+                                <li><a href="#">Workshop</a></li>
+                                <li><a href="#">Festival</a></li>
+                                <li><a href="#">Exhibition</a></li>
+                                <li><a href="#">Others</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="./schedule.html">Schedule</a></li>
+                        <li><a href="/contact">Contacts</a></li>
+                        <li>
+                            <form action="/event/search" method="GET">
+                                @csrf
+                                <div class="form-inline mt-2 mt-md-0 search-bar">
+                                    <input type="text" id="txtSearch" class="searchbox" name="search" />
+                                    <button id="btnSearch" class='btn btn-success my-2 my-sm-0'>
+                                        <i class="fa fa-search"></i></button>
+                                </div>
+                            </form>
+                        </li>
+                        {{-- <button data-get="/event/becomeorganizer" onclick="redirectToPage(this)"
+                            class="primary-btn top-btn" style="padding:15px"> Become an organizer
+                        </button> --}}
+                        <button type="button" class="primary-btn top-btn" onclick="location.href = '/becomeorganizer'" style="padding:15px"> Become an organizer</button>
+                    {{-- <li><a href="/event/becomeorganizer" onclick="location.href = '/event/becomeorganizer'"class="primary-btn top-btn" style="padding:15px"> Become an organizer </a></li> --}}
+                    </ul>
+                </nav>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
 
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">EventWise</span>
-            </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
 
-        </div><!-- End Logo -->
-    </header><!-- End Header -->
-
-    @include('sweetalert::alert')
+     @include('sweetalert::alert') 
 
     @yield('body')
 
-    <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io"></div>
+    <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
+    </div>
     <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>
 
     <script>
@@ -197,6 +261,7 @@
     </script> --}}
 
     {{-- <!-- Chat bubble -->
+>>>>>>> 7be31dcb873df1cf804e618e0feb5000465fdf6f
     <div class="chat-bubble" onclick="toggleChatWindow()">
         <i class="fas fa-comments"></i>
     </div>
