@@ -136,6 +136,7 @@
 
     @yield('body')
 
+<<<<<<< HEAD
     <!-- Footer Section Begin -->
     <footer class="footer-section">
         {{-- <div class="container">
@@ -212,11 +213,31 @@
     <!-- Footer Section End -->
 
     <!-- Chat bubble -->
+=======
+>>>>>>> 20b3d6a204c2475425d32210603d5266caf8c9af
     <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
     </div>
     <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>
 
     <script>
+        let firstClickChat = true;
+
+        // Chatbot usage
+        const element = document.querySelector('.css-qmypsf');
+        element.addEventListener('click', function() {
+            if (firstClickChat) {
+                firstClickChat = false;
+                Swal.fire({
+                    title: 'Let\'s start chatting',
+                    html: 'Says hello to our chat to start the conversation!</i></span>',
+                    icon: 'info',
+                    showConfirmButton: true,
+                });
+                isListening = true;
+            }
+        });
+
+        // Voice input to text
         const checkExist = setInterval(function() {
             const parentDiv = document.querySelector('.css-eifp3v');
             const firstChildDiv = document.querySelector('.css-1abdig3');
@@ -289,7 +310,7 @@
                         recognition.start();
                     } else {
                         isListening = false;
-                        recognition.stop(); // stop the speech recognition when the button is clicked again
+                        // recognition.stop(); // stop the speech recognition when the button is clicked again
                     }
                 });
             }
