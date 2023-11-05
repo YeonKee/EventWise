@@ -8,13 +8,15 @@
         <script src="/js/venue.js" defer></script>
 
         <style type="text/css">
-
+            /* drag and drop */
             .container {
                 display: flex;
                 width: 100%;
                 gap: 10px;
                 padding: 10px;
                 max-width: 1050px;
+                height: 515px;
+                margin-top: 70px;
             }
 
             section {
@@ -22,9 +24,42 @@
                 border-radius: 7px;
             }
 
+            .titleShapes,
+            .titleOptions,
+            .titleColors {
+                font-size: 19px;
+                margin-bottom: 200px;
+            }
+
+            .titleOptions,
+            .titleColors {
+                margin-bottom: -30px;
+            }
+
+            .titleOptions {
+                margin-bottom: 0px;
+                margin-top: 15px;
+            }
+
+            .titleColors {
+                margin-bottom: 0px;
+                margin-top: -15px;
+            }
+
+            /* .#brush,#eraser {
+                            margin-top: 10px;
+                        } */
+            input[type=range] {
+                -webkit-appearance: progress-bar !important;
+            }
+
+            .rowOptions {
+                margin-top: -130px;
+            }
+
             .tools-board {
                 width: 210px;
-                padding: 15px 22px 0;
+                padding-left: 15px;
             }
 
             .tools-board .row {
@@ -33,14 +68,29 @@
 
             .row .options {
                 list-style: none;
-                margin: 10px 0 0 5px;
+                margin: 30px 0 0 10px;
+            }
+
+            .row .options.shapes {
+                margin-left: -57px;
+            }
+
+            .row .options.colors {
+                margin-left: -50px;
             }
 
             .row .options .option {
                 display: flex;
                 cursor: pointer;
-                align-items: center;
-                margin-bottom: 10px;
+                align-items: left;
+                margin-bottom: 5px;
+            }
+
+            .rowShape .options .option {
+                display: flex;
+                cursor: pointer;
+                align-items: left;
+                margin-bottom: 5px;
             }
 
             .option:is(:hover, .active) img {
@@ -71,6 +121,8 @@
                 width: 100%;
                 height: 5px;
                 margin-top: 10px;
+                padding: 0px;
+                margin-bottom: 11px;
             }
 
             .colors .options {
@@ -82,7 +134,7 @@
                 height: 20px;
                 width: 20px;
                 border-radius: 50%;
-                margin-top: 3px;
+                margin-top: -5px;
                 position: relative;
             }
 
@@ -130,11 +182,11 @@
             }
 
             .buttons button {
-                width: 100%;
+                width: 80%;
                 color: #fff;
                 border: none;
                 outline: none;
-                padding: 11px 0;
+                padding: 8px 0;
                 font-size: 0.9rem;
                 margin-bottom: 13px;
                 background: none;
@@ -161,7 +213,7 @@
             .drawing-board {
                 flex: 1;
                 overflow: hidden;
-                border:3px solid #000;
+                border: 3px solid #000;
             }
 
             .drawing-board canvas {
@@ -169,6 +221,7 @@
                 height: 100%;
             }
 
+            /* normal css */
             img#picture_preview {
                 width: 130px;
                 height: 130px;
@@ -202,7 +255,7 @@
 
             .mt-4 {
                 margin-top: 1.5rem !important;
-                margin-bottom: 1200px;
+                margin-bottom: 2200px;
             }
 
             .underline-input {
@@ -222,6 +275,39 @@
                 border-bottom: 1px solid #00F;
 
                 outline: none;
+            }
+
+            label {
+                position: relative;
+                margin-bottom: 40px;
+                top: 20%;
+            }
+
+            input[type=text] {
+                margin-top: -30px;
+            }
+
+            .event_venuearr {
+                margin-top: -80px;
+            }
+
+            input[type=checkbox] {
+                display: block !important;
+                margin-top: 10px !important;
+            }
+
+            form#form1 label {
+                transform: translateY(0%);
+                -webkit-transform: translateY(0%);
+            }
+
+            #event_remark {
+                margin-top: -28px;
+            }
+
+            .input-group-append {
+                margin-left: -1px;
+                margin-top: -28px;
             }
         </style>
     </head>
@@ -354,7 +440,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="event_venuearr">Venue Arrangement
+                <label for="event_venuearr" class="event_venuearr">Venue Arrangement
                     <span class="text-danger"><b>*</b>
                         @error('event_venuearr')
                             {{ $message }}
@@ -365,8 +451,8 @@
                 <div class="container">
                     <section class="tools-board">
                         <div class="row">
-                            <label class="title">Shapes</label>
-                            <ul class="options">
+                            <label class="titleShapes">Shapes</label>
+                            <ul class="options shapes">
                                 <li class="option tool" id="rectangle">
                                     <img src="img/venue/rectangle.svg" alt="">
                                     <span>Rectangle</span>
@@ -386,25 +472,27 @@
                             </ul>
                         </div>
                         <div class="row">
-                            <label class="title">Options</label>
-                            <ul class="options">
-                                <li class="option active tool" id="brush">
-                                    <img src="img/venue/brush.svg" alt="">
-                                    <span>Brush</span>
-                                </li>
-                                <li class="option tool" id="eraser">
-                                    <img src="img/venue/eraser.svg" alt="">
-                                    <span>Eraser</span>
-                                </li>
-                                <li class="option">
-                                    <input type="range" id="size-slider" min="1" max="30"
-                                        value="5">
-                                </li>
-                            </ul>
+                            <div class="rowOptions">
+                                <label class="titleOptions">Options</label>
+                                <ul class="options">
+                                    <li class="option active tool" id="brush">
+                                        <img src="img/venue/brush.svg" alt="">
+                                        <span>Brush</span>
+                                    </li>
+                                    <li class="option tool" id="eraser">
+                                        <img src="img/venue/eraser.svg" alt="">
+                                        <span>Eraser</span>
+                                    </li>
+                                    <li class="option">
+                                        <input type="range" id="size-slider" min="1" max="30"
+                                            value="5">
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="row colors">
-                            <label class="title">Colors</label>
-                            <ul class="options">
+                            <label class="titleColors">Colors</label>
+                            <ul class="options colors">
                                 <li class="option"></li>
                                 <li class="option selected"></li>
                                 <li class="option"></li>
@@ -415,13 +503,14 @@
                             </ul>
                         </div>
                         <div class="row buttons">
-                            <button class="clear-canvas">Clear Canva</button>
-                            <button class="save-img">Save As Image</button>
+                            <button class="clear-canvas" type="button">Clear Canva</button>
+                            <button class="save-img" type="button">Save As Image</button>
                         </div>
                     </section>
                     <section class="drawing-board">
                         <canvas></canvas>
                     </section>
+                    <input name="venueImage" type="hidden" value="" id="venueImage">
                 </div>
             </div>
         </div>
@@ -509,22 +598,6 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <div class="form-group input-group">
-                    <label for="prod_pic">Event Picture/Poster:
-                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
-                        <input class="d-none" type="file" name="prod_pic" accept=".jpg, .jpeg, .png" capture>
-                        <span class="text-danger"><b>*</b>
-                            @error('prod_pic')
-                                {{ $message }}
-                            @enderror
-                        </span></label>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="form-row mb-4">
-            <div class="col-5 mx-auto">
                 <label for="event_remark">Remarks
                     <span class="text-danger"><b>*</b>
                         @error('event_remark')
@@ -538,6 +611,21 @@
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button">Generate</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <div class="form-group input-group">
+                    <label for="event_pic">Event Picture/Poster:
+                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <input class="d-none" type="file" name="event_pic" accept=".jpg, .jpeg, .png" capture>
+                        <span class="text-danger"><b>*</b>
+                            @error('event_pic')
+                                {{ $message }}
+                            @enderror
+                        </span></label>
                 </div>
             </div>
         </div>
@@ -556,7 +644,7 @@
 
     @section('foot')
         <script src="/js/register_event.js"></script>
-       
+
         <script>
             $("[data-get]").on("click", function(e) {
                 const url = $(this).attr("data-get");

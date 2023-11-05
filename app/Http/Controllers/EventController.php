@@ -28,7 +28,9 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
+        $file = $request->venueImage;
+        dd($file);
     }
 
     /**
