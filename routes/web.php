@@ -8,11 +8,13 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TextGeneratorController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -184,8 +186,20 @@ Route::get('/contact', function () {
 });
 
 Route::get('/becomeorganizer', function () {
-    return view('becomeorganizer');
+    $title = '';
+    $content = '';
+    return view('becomeorganizer', compact('title', 'content'));
 });
 
-//Route::get('/event/search', [EventController::class, 'searchProducts']);
-Route::resource('event','App\Http\Controllers\EventController');
+Route::get('/event/registerEvent', function () {
+    $title = '';
+    $content = '';
+    return view('becomeorganizer', compact('title', 'content'));
+    });
+
+Route::get('/event/search', [EventController::class, 'searchProducts']);
+Route::resource('event', 'App\Http\Controllers\EventController');
+
+
+Route::post('/event/generate',[TextGeneratorController::class,'index']);
+    

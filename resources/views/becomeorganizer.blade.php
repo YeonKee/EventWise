@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="venue.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="/js/venue.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
 
         <style type="text/css">
             /* drag and drop */
@@ -47,8 +48,8 @@
             }
 
             /* .#brush,#eraser {
-                            margin-top: 10px;
-                        } */
+                                                        margin-top: 10px;
+                                                    } */
             input[type=range] {
                 -webkit-appearance: progress-bar !important;
             }
@@ -309,6 +310,16 @@
                 margin-left: -1px;
                 margin-top: -28px;
             }
+
+            textarea {
+                resize: none;
+                overflow-y: scroll;
+            }
+
+            .remark_label{
+                margin-top: -300px;
+                margin-bottom: -30px;
+            }
         </style>
     </head>
 
@@ -351,21 +362,34 @@
                             {{ $message }}
                         @enderror
                     </span></label>
-                <input type="text" class="form-control" id="event_picContactNoe" name="event_picContactNo"
+                <input type="text" class="form-control" id="event_picContactNo" name="event_picContactNo"
                     autocomplete="off" value="{{ old('event_picContactNo') }}">
             </div>
         </div>
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="prod_name">Event Name
+                <label for="pic_email">Email
                     <span class="text-danger"><b>*</b>
-                        @error('prod_name')
+                        @error('pic_email')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+                <input type="text" class="form-control" id="pic_email" name="pic_email" value="{{ old('pic_email') }}">
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <label for="event_name">Event Name
+                    <span class="text-danger"><b>*</b>
+                        @error('event_name')
                             {{ $message }}
                         @enderror
                     </span></label>
-                <input type="text" class="form-control" id="prod_name" name="prod_name" autocomplete="off"
-                    value="{{ old('prod_name') }}">
+                <input type="text" class="form-control" id="event_name" name="event_name" autocomplete="off"
+                    value="{{ old('event_name') }}">
             </div>
         </div>
 
@@ -379,7 +403,7 @@
                     </span>
                 </label>
                 <div class="input-group">
-                    <select class="form-control" id="event_cat" name="event_cat">
+                    <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
                         <option value="Outdoor">Outdoor</option>
                         <option value="Talk">Talk</option>
                         <option value="Walkshop">Walkshop</option>
@@ -403,7 +427,7 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var eventCatSelect = document.getElementById('event_cat');
+                var eventCatSelect = document.getElementById('event_cat_dropdown');
                 var otherCategory = document.getElementById('otherCategory');
 
                 // Function to toggle the visibility of the otherCategory input
@@ -433,8 +457,8 @@
                         @enderror
                     </span>
                 </label>
-                <input type="text" class="form-control" id="event_desc" name="event_desc"
-                    value="{{ old('event_desc') }}">
+                <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc"
+                    value="{{ old('event_desc') }}"></textarea>
             </div>
         </div>
 
@@ -533,6 +557,34 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
+                <label for="pic_accNo">Beneficiary Account Number
+                    <span class="text-danger"><b>*</b>
+                        @error('pic_accNo')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+                <input type="text" class="form-control" id="pic_accNo" name="pic_accNo"
+                    value="{{ old('pic_accNo') }}">
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <label for="event_capacity">Capacity
+                    <span class="text-danger"><b>*</b>
+                        @error('event_capacity')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+                <input type="text" class="form-control" id="event_capacity" name="event_capacity"
+                    value="{{ old('event_capacity') }}">
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
                 <label for="event_date">Event Actual Date
                     <span class="text-danger"><b>*</b>
                         @error('event_date')
@@ -581,68 +633,60 @@
         </div>
 
 
-        {{-- <div class="form-row mb-4">
-            <div class="col-5 mx-auto">
-                <label for="prod_endTime">Event End Time
-                    <span class="text-danger"><b>*</b>
-                        @error('prod_endTime')
-                            {{ $message }}
-                        @enderror
-                    </span>
-                </label>
-                <input type="time" class="form-control" id="prod_endTime" name="prod_endTime"
-                    value="{{ old('prod_endTime') }}">
-            </div>
-        </div> --}}
 
-
-        <div class="form-row mb-4">
-            <div class="col-5 mx-auto">
-                <label for="event_remark">Remarks
-                    <span class="text-danger"><b>*</b>
-                        @error('event_remark')
-                            {{ $message }}
-                        @enderror
-                    </span>
-                </label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="event_remark" name="event_remark"
-                        value="{{ old('event_remark') }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Generate</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <div class="form-group input-group">
                     <label for="event_pic">Event Picture/Poster:
-                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
-                        <input class="d-none" type="file" name="event_pic" accept=".jpg, .jpeg, .png" capture>
                         <span class="text-danger"><b>*</b>
                             @error('event_pic')
                                 {{ $message }}
                             @enderror
-                        </span></label>
+                        </span>
+                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <input class="d-none" type="file" name="event_pic" accept=".jpg, .jpeg, .png" capture>
+                    </label>
                 </div>
             </div>
         </div>
 
+        </form>
+
+        <form action="/event/generate" method="post">
+            @csrf
+            <div class="form-row mb-4">
+                <div class="col-5 mx-auto">
+                    <div class="remark_label">
+                    <label for="event_remark">Remarks
+                        <span class="text-danger"><b>*</b>
+                            @error('event_remark')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                    </label>
+                </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="event_remark" name="title"
+                            value="{{ $title }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Generate</button>
+                        </div>
+        </form>
+        @if ($content)
+            <textarea name="remark" id="remark" cols="50" rows="4">{{ $content }}</textarea>
+        @endif
+        </div>
+        </div>
+        </div>
 
         <div class="form-row mb-5">
             <div class="col-5 mx-auto recaptcha_box">
                 <button type="button" class="btn btn-secondary mr-2"
                     onclick="location.href = '/products/create'">Clear</button>
-                <button type="submit" class="btn btn-warning">Submit</button>
+                <button type="button" class="btn btn-warning" id="submit_mainform">Submit</button>
             </div>
         </div>
-
-        </form>
-    @endsection
-
-    @section('foot')
         <script src="/js/register_event.js"></script>
 
         <script>
@@ -650,5 +694,18 @@
                 const url = $(this).attr("data-get");
                 location = url || location;
             });
+
+
+            $(document).ready(function() {
+                var submitButton = document.getElementById("submit_mainform");
+                submitButton.addEventListener("click", function(e) {
+                    var form = document.getElementById("form1");
+                    form.submit();
+                });
+            });
         </script>
+    @endsection
+
+
+    @section('foot')
     @endsection

@@ -1,4 +1,4 @@
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">>
 
 <head>
     <meta charset="utf-8">
@@ -136,7 +136,6 @@
 
     @yield('body')
 
-<<<<<<< HEAD
     <!-- Footer Section Begin -->
     <footer class="footer-section">
         {{-- <div class="container">
@@ -213,8 +212,6 @@
     <!-- Footer Section End -->
 
     <!-- Chat bubble -->
-=======
->>>>>>> 20b3d6a204c2475425d32210603d5266caf8c9af
     <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
     </div>
     <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>

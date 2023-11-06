@@ -12,11 +12,11 @@ return new class extends Migration
             // Drop the cat_id column
             
                 // Drop the cat_id column
-                $table->dropColumn('cat_id');
+               // $table->dropColumn('cat_id');
             
             // Add the category column
             // $table->string('category', 255)->nullable();
-
+            $table->string('email', 255)->nullable();
             // Remove the event_picture, event_venuearr, and registration_status columns if they exist
             // $table->dropColumn('event_picture');
             // $table->dropColumn('event_venuearr');
@@ -27,6 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('events', function (Blueprint $table) {
+            $table->string('email')->nullable();
             // Reverse the changes by adding back the cat_id column as a foreign key
             // $table->unsignedBigInteger('cat_id');
             // $table->foreign('cat_id')->references('id')->on('categories');
@@ -36,7 +37,7 @@ return new class extends Migration
             // $table->string('event_venuearr')->nullable();
             // $table->string('registration_status', 255)->default('Close');
 
-            $table->string('cat_id')->nullable();
+            //$table->string('cat_id')->nullable();
         });
     }
 };
