@@ -185,20 +185,28 @@ Route::get('/contact', function () {
     return view('contact');
 });
 
+// Route::get('/textGenerator', function () {
+//     return view('textGenerator');
+// });
+
+Route::resource('/event', EventController::class);
+
 Route::get('/becomeorganizer', function () {
     $title = '';
     $content = '';
     return view('becomeorganizer', compact('title', 'content'));
 });
 
-Route::get('/event/registerEvent', function () {
+
+
+Route::get('/textGenerator', function () {
     $title = '';
     $content = '';
-    return view('becomeorganizer', compact('title', 'content'));
+    return view('textGenerator', compact('title', 'content'));
     });
 
 Route::get('/event/search', [EventController::class, 'searchProducts']);
-Route::resource('event', 'App\Http\Controllers\EventController');
+
 
 
 Route::post('/event/generate',[TextGeneratorController::class,'index']);

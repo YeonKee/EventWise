@@ -119,13 +119,56 @@ clearCanvas.addEventListener("click", () => {
     setCanvasBackground();
 });
 
+// saveImg.addEventListener("click", () => {
+//     const link = document.createElement("a"); // creating <a> element
+//     link.download = `${Date.now()}.jpg`; // passing current date as link download value
+//     link.href = canvas.toDataURL(); // passing canvasData as link href value
+//     link.click(); // clicking link to download image
+//     console.log(canvas.toDataURL());
+// });
+
 saveImg.addEventListener("click", () => {
+
     const link = document.createElement("a"); // creating <a> element
-    console.log(link);
     link.download = `${Date.now()}.jpg`; // passing current date as link download value
     link.href = canvas.toDataURL(); // passing canvasData as link href value
     link.click(); // clicking link to download image
+    console.log(canvas.toDataURL());
 });
+
+// venue.addEventListener("click", () => {
+
+//     const link = document.createElement("a"); // creating <a> element
+//    // link.download = `${Date.now()}.jpg`; // passing current date as link download value
+//     link.href = canvas.toDataURL(); // passing canvasData as link href value
+//     link.click(); // clicking link to download image
+//     console.log(canvas.toDataURL());
+
+//     const venueData = canvas.toDataURL(); // Get the data URL
+//     document.getElementById('venueImage').value = venueData; // Set it as the value of the hidden input
+
+//     // Submit the form using AJAX
+//     const form = document.getElementById('form1');
+//     const formData = new FormData(form);
+
+//     fetch(form.action, {
+//         method: 'POST',
+//         body: formData
+//     })
+//     .then(response => {
+//         // Handle the response from the server
+//         if (response.status === 200) {
+//             console.log('Image data sent to the controller successfully');
+//         } else {
+//             console.error('Error sending image data to the controller');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('An error occurred:', error);
+//     });
+
+    
+// });
 
 canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
@@ -142,5 +185,7 @@ form.addEventListener('submit', (event) => {
     
     // Now, you can submit the form
     form.submit();
+
+   
 });
 

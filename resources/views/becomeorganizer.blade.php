@@ -47,9 +47,6 @@
                 margin-top: -15px;
             }
 
-            /* .#brush,#eraser {
-                                                        margin-top: 10px;
-                                                    } */
             input[type=range] {
                 -webkit-appearance: progress-bar !important;
             }
@@ -256,7 +253,7 @@
 
             .mt-4 {
                 margin-top: 1.5rem !important;
-                margin-bottom: 2200px;
+                margin-bottom: 1600px;
             }
 
             .underline-input {
@@ -457,8 +454,7 @@
                         @enderror
                     </span>
                 </label>
-                <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc"
-                    value="{{ old('event_desc') }}"></textarea>
+                <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc">{{ old('event_desc') }}</textarea>
             </div>
         </div>
 
@@ -651,61 +647,34 @@
             </div>
         </div>
 
-        </form>
-
-        <form action="/event/generate" method="post">
-            @csrf
-            <div class="form-row mb-4">
-                <div class="col-5 mx-auto">
-                    <div class="remark_label">
-                    <label for="event_remark">Remarks
-                        <span class="text-danger"><b>*</b>
-                            @error('event_remark')
-                                {{ $message }}
-                            @enderror
-                        </span>
-                    </label>
-                </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="event_remark" name="title"
-                            value="{{ $title }}">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Generate</button>
-                        </div>
-        </form>
-        @if ($content)
-            <textarea name="remark" id="remark" cols="50" rows="4">{{ $content }}</textarea>
-        @endif
-        </div>
-        </div>
-        </div>
-
         <div class="form-row mb-5">
             <div class="col-5 mx-auto recaptcha_box">
                 <button type="button" class="btn btn-secondary mr-2"
-                    onclick="location.href = '/products/create'">Clear</button>
-                <button type="button" class="btn btn-warning" id="submit_mainform">Submit</button>
+                    onclick="location.href = '/becomeorganizer'">Clear</button>
+                <button type="submit" class="btn btn-warning" >Submit</button>
+                
             </div>
         </div>
-        <script src="/js/register_event.js"></script>
-
-        <script>
-            $("[data-get]").on("click", function(e) {
-                const url = $(this).attr("data-get");
-                location = url || location;
-            });
-
-
-            $(document).ready(function() {
-                var submitButton = document.getElementById("submit_mainform");
-                submitButton.addEventListener("click", function(e) {
-                    var form = document.getElementById("form1");
-                    form.submit();
-                });
-            });
-        </script>
+    </form>
     @endsection
 
 
-    @section('foot')
+    @section('foot') 
+    <script src="/js/register_event.js"></script>
+
+    <script>
+        $("[data-get]").on("click", function(e) {
+            const url = $(this).attr("data-get");
+            location = url || location;
+        });
+
+
+        // $(document).ready(function() {
+        //     var submitButton = document.getElementById("submit_mainform");
+        //     submitButton.addEventListener("click", function(e) {
+        //         var form = document.getElementById("form1");
+        //         form.submit();
+        //     });
+        // });
+    </script>
     @endsection

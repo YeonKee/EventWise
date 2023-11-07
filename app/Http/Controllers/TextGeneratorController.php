@@ -9,9 +9,6 @@ class TextGeneratorController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->title == null) {
-            return;
-        }
     
         $title = $request->title;
     
@@ -22,13 +19,13 @@ class TextGeneratorController extends Controller
             "frequency_penalty" => 0,
             "presence_penalty" => 0,
             'max_tokens' => 600,
-            'prompt' => sprintf('Generate s full sentence for: %s', $title),
+            'prompt' => sprintf('Generate a full sentence for: %s', $title),
         ]);
     
         $content = trim($result['choices'][0]['text']);
     
     
-        return view('becomeorganizer', compact('title', 'content'));
+        return view('textGenerator', compact('title', 'content'));
     }
     
 }

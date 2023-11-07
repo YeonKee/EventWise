@@ -91,7 +91,9 @@ $(document).ready(function () {
         var event_capacity_field = $("#event_capacity");
         var event_date_field = $("#event_date");
         var event_duration_field = $("#event_duration");
-        var event_time_field = $("#event_time");
+        var event_time = $("#event_time");
+        var event_start_time_field = $("#event_startTime");
+        var event_end_time_field = $("#event_endTime");
         var event_remark_field = $("#event_remark");
 
         //PIC name validation
@@ -198,6 +200,7 @@ $(document).ready(function () {
         }
 
         //event price validation
+        var event_price_regex = new RegExp('/^\d{1,3}(\.\d{2})?$/');
         var event_price_span = event_price_field.siblings("label").find("span");
         if (!$.trim(event_price_field.val())) {
             submit = false;
@@ -267,10 +270,12 @@ $(document).ready(function () {
         }
 
         //event time validation
-            var startTime = document.getElementById("event_startTime").value;
-            var endTime = document.getElementById("event_endTime").value;
-            var event_time_span = event_time_field.siblings("label").find("span");
+            var startTime = event_start_time_field.value;
+            var endTime = event_end_time_field.value;
+            var event_time_span = event_time.siblings("label").find("span");
         
+            event.preventDefault;
+
             if (startTime > endTime) {
                 event_time_span.html("<b>*</b>Start time cannot be later than end time.");
             } else if (endTime < startTime){
@@ -280,8 +285,6 @@ $(document).ready(function () {
             }
 
         //
-
-
 
         //-----------------------------------------------
         if (!submit) {
