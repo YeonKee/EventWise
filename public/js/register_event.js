@@ -1,12 +1,11 @@
 $(document).ready(function () {
 
-
     let have_picture = false;
 
     function validatePicture(input) {
 
         var picture = $("input[name='event_pic']");
-        var prod_pic_span = picture.siblings("label").find("span");
+        var event_pic_span = picture.siblings("label").find("span");
         var inputLen = input.value.length;
         var file = input.files[0];
         var URL = window.URL || window.webkitURL;
@@ -38,7 +37,7 @@ $(document).ready(function () {
             // file size problem
             if (file.size > (1 * 1024 * 1024)) {
                 if (!$('#picture_2').length) {
-                    prod_pic_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
+                    event_pic_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
                         Please make sure the image size is not more than 1MB.\n\
                     </div>");
                 }
@@ -58,8 +57,6 @@ $(document).ready(function () {
             picture.val('');
         }
 
-
-
     }
 
     // trigger file input
@@ -69,11 +66,16 @@ $(document).ready(function () {
 
     // detect file input changes
     $("input[name='event_pic']").change(function () {
-        validatePicture(this);
+        var input = this
+        validatePicture(input);
     });
 
+
+
     //validate form input
-    $("form").submit(function (e) {
+    $("#submit").on('click', function (e) {
+
+        e.preventDefault();
 
         $(".message").text("");
 
@@ -223,9 +225,9 @@ $(document).ready(function () {
         } else if (!pic_accNo_regex.test(event_picAccNo_field.val())) {
             submit = false;
             pic_accNo_span.html("<b>*</b> The account number can be digits only.");
-        } else if(pic_accNo > event_desc_maxLength){
+        } else if (pic_accNo > event_desc_maxLength) {
             pic_accNo_span.html("<b>*</b> The account number can be 15 digits only.");
-        }else {
+        } else {
             pic_accNo_span.html("<b>*</b>");
         }
 
@@ -251,7 +253,7 @@ $(document).ready(function () {
             // The selected date is not valid (before three weeks from now)
             submit = false;
             event_date_span.html("<b>*</b> Event date must be after three weeks from the current date.");
-           
+
         } else {
             event_capacity_span.html("<b>*</b>");
         }
@@ -270,25 +272,24 @@ $(document).ready(function () {
         }
 
         //event time validation
-            var startTime = event_start_time_field.value;
-            var endTime = event_end_time_field.value;
-            var event_time_span = event_time.siblings("label").find("span");
-        
-            event.preventDefault;
+        var startTime = event_start_time_field.value;
+        var endTime = event_end_time_field.value;
+        var event_time_span = event_time.siblings("label").find("span");
 
-            if (startTime > endTime) {
-                event_time_span.html("<b>*</b>Start time cannot be later than end time.");
-            } else if (endTime < startTime){
-                event_time_span.html("<b>*</b>End time cannot be earlier than start time.");
-            } else {
-                event_time_span.html("<b>*</b>");
-            }
 
-        //
+        if (startTime > endTime) {
+            event_time_span.html("<b>*</b>Start time cannot be later than end time.");
+        } else if (endTime < startTime) {
+            event_time_span.html("<b>*</b>End time cannot be earlier than start time.");
+        } else {
+            event_time_span.html("<b>*</b>");
+        }
 
-        //-----------------------------------------------
-        if (!submit) {
-            e.preventDefault();
+
+
+
+        if (submit) {
+            $("#form1").submit();
         }
     });
 });

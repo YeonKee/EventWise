@@ -1,326 +1,326 @@
 @extends('layoutFront')
+@section('head')
+    <link rel="stylesheet" href="venue.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/venue.js" defer></script>
+    <script src="/js/register_event.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        /* drag and drop */
+        .container {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            padding: 10px;
+            max-width: 1050px;
+            height: 515px;
+            margin-top: 70px;
+        }
+
+        section {
+            background: #fff;
+            border-radius: 7px;
+        }
+
+        .titleShapes,
+        .titleOptions,
+        .titleColors {
+            font-size: 19px;
+            margin-bottom: 200px;
+        }
+
+        .titleOptions,
+        .titleColors {
+            margin-bottom: -30px;
+        }
+
+        .titleOptions {
+            margin-bottom: 0px;
+            margin-top: 15px;
+        }
+
+        .titleColors {
+            margin-bottom: 0px;
+            margin-top: -15px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: progress-bar !important;
+        }
+
+        .rowOptions {
+            margin-top: -130px;
+        }
+
+        .tools-board {
+            width: 210px;
+            padding-left: 15px;
+        }
+
+        .tools-board .row {
+            margin-bottom: 20px;
+        }
+
+        .row .options {
+            list-style: none;
+            margin: 30px 0 0 10px;
+        }
+
+        .row .options.shapes {
+            margin-left: -57px;
+        }
+
+        .row .options.colors {
+            margin-left: -50px;
+        }
+
+        .row .options .option {
+            display: flex;
+            cursor: pointer;
+            align-items: left;
+            margin-bottom: 5px;
+        }
+
+        .rowShape .options .option {
+            display: flex;
+            cursor: pointer;
+            align-items: left;
+            margin-bottom: 5px;
+        }
+
+        .option:is(:hover, .active) img {
+            filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
+        }
+
+        .option :where(span, label) {
+            color: #5A6168;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+
+        .option:is(:hover, .active) :where(span, label) {
+            color: #4A98F7;
+        }
+
+        .option #fill-color {
+            cursor: pointer;
+            height: 14px;
+            width: 14px;
+        }
+
+        #fill-color:checked~label {
+            color: #4A98F7;
+        }
+
+        .option #size-slider {
+            width: 100%;
+            height: 5px;
+            margin-top: 10px;
+            padding: 0px;
+            margin-bottom: 11px;
+        }
+
+        .colors .options {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .colors .option {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            margin-top: -5px;
+            position: relative;
+        }
+
+        .colors .option:nth-child(1) {
+            background-color: #fff;
+            border: 1px solid #bfbfbf;
+        }
+
+        .colors .option:nth-child(2) {
+            background-color: #000;
+        }
+
+        .colors .option:nth-child(3) {
+            background-color: #E02020;
+        }
+
+        .colors .option:nth-child(4) {
+            background-color: #6DD400;
+        }
+
+        .colors .option:nth-child(5) {
+            background-color: #4A98F7;
+        }
+
+        .colors .option.selected::before {
+            position: absolute;
+            content: "";
+            top: 50%;
+            left: 50%;
+            height: 12px;
+            width: 12px;
+            background: inherit;
+            border-radius: inherit;
+            border: 2px solid #fff;
+            transform: translate(-50%, -50%);
+        }
+
+        .colors .option:first-child.selected::before {
+            border-color: #ccc;
+        }
+
+        .option #color-picker {
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .buttons button {
+            width: 80%;
+            color: #fff;
+            border: none;
+            outline: none;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            margin-bottom: 13px;
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .buttons .clear-canvas {
+            color: #6C757D;
+            border: 1px solid #6C757D;
+            transition: all 0.3s ease;
+        }
+
+        .clear-canvas:hover {
+            color: #fff;
+            background: #6C757D;
+        }
+
+        .buttons .save-img {
+            background: #4A98F7;
+            border: 1px solid #4A98F7;
+        }
+
+        .drawing-board {
+            flex: 1;
+            overflow: hidden;
+            border: 3px solid #000;
+        }
+
+        .drawing-board canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* normal css */
+        img#picture_preview {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        img#picture_preview:hover {
+            background-color: white;
+            border: 3px dashed #87CEFA;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-style: italic;
+        }
+
+        input[type=date],
+        input[type=time] {
+            width: 200px;
+        }
+
+        .ml-2 {
+            margin-left: 2.0rem !important;
+            margin-right: 0.5rem !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1600px;
+        }
+
+        .underline-input {
+            position: relative;
+        }
+
+        .underline-input input {
+            border: none;
+            border-bottom: 1px solid #000;
+            background-color: transparent;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        /* Add focus styles if needed */
+        .underline-input input:focus {
+            border-bottom: 1px solid #00F;
+
+            outline: none;
+        }
+
+        label {
+            position: relative;
+            margin-bottom: 40px;
+            top: 20%;
+        }
+
+        input[type=text] {
+            margin-top: -30px;
+        }
+
+        .event_venuearr {
+            margin-top: -80px;
+        }
+
+        input[type=checkbox] {
+            display: block !important;
+            margin-top: 10px !important;
+        }
+
+        form#form1 label {
+            transform: translateY(0%);
+            -webkit-transform: translateY(0%);
+        }
+
+        #event_remark {
+            margin-top: -28px;
+        }
+
+        .input-group-append {
+            margin-left: -1px;
+            margin-top: -28px;
+        }
+
+        textarea {
+            resize: none;
+            overflow-y: scroll;
+        }
+
+        .remark_label {
+            margin-top: -300px;
+            margin-bottom: -30px;
+        }
+    </style>
+@endsection
 @section('body')
-
-    <head>
-
-        <link rel="stylesheet" href="venue.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="/js/venue.js" defer></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-
-        <style type="text/css">
-            /* drag and drop */
-            .container {
-                display: flex;
-                width: 100%;
-                gap: 10px;
-                padding: 10px;
-                max-width: 1050px;
-                height: 515px;
-                margin-top: 70px;
-            }
-
-            section {
-                background: #fff;
-                border-radius: 7px;
-            }
-
-            .titleShapes,
-            .titleOptions,
-            .titleColors {
-                font-size: 19px;
-                margin-bottom: 200px;
-            }
-
-            .titleOptions,
-            .titleColors {
-                margin-bottom: -30px;
-            }
-
-            .titleOptions {
-                margin-bottom: 0px;
-                margin-top: 15px;
-            }
-
-            .titleColors {
-                margin-bottom: 0px;
-                margin-top: -15px;
-            }
-
-            input[type=range] {
-                -webkit-appearance: progress-bar !important;
-            }
-
-            .rowOptions {
-                margin-top: -130px;
-            }
-
-            .tools-board {
-                width: 210px;
-                padding-left: 15px;
-            }
-
-            .tools-board .row {
-                margin-bottom: 20px;
-            }
-
-            .row .options {
-                list-style: none;
-                margin: 30px 0 0 10px;
-            }
-
-            .row .options.shapes {
-                margin-left: -57px;
-            }
-
-            .row .options.colors {
-                margin-left: -50px;
-            }
-
-            .row .options .option {
-                display: flex;
-                cursor: pointer;
-                align-items: left;
-                margin-bottom: 5px;
-            }
-
-            .rowShape .options .option {
-                display: flex;
-                cursor: pointer;
-                align-items: left;
-                margin-bottom: 5px;
-            }
-
-            .option:is(:hover, .active) img {
-                filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
-            }
-
-            .option :where(span, label) {
-                color: #5A6168;
-                cursor: pointer;
-                padding-left: 10px;
-            }
-
-            .option:is(:hover, .active) :where(span, label) {
-                color: #4A98F7;
-            }
-
-            .option #fill-color {
-                cursor: pointer;
-                height: 14px;
-                width: 14px;
-            }
-
-            #fill-color:checked~label {
-                color: #4A98F7;
-            }
-
-            .option #size-slider {
-                width: 100%;
-                height: 5px;
-                margin-top: 10px;
-                padding: 0px;
-                margin-bottom: 11px;
-            }
-
-            .colors .options {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .colors .option {
-                height: 20px;
-                width: 20px;
-                border-radius: 50%;
-                margin-top: -5px;
-                position: relative;
-            }
-
-            .colors .option:nth-child(1) {
-                background-color: #fff;
-                border: 1px solid #bfbfbf;
-            }
-
-            .colors .option:nth-child(2) {
-                background-color: #000;
-            }
-
-            .colors .option:nth-child(3) {
-                background-color: #E02020;
-            }
-
-            .colors .option:nth-child(4) {
-                background-color: #6DD400;
-            }
-
-            .colors .option:nth-child(5) {
-                background-color: #4A98F7;
-            }
-
-            .colors .option.selected::before {
-                position: absolute;
-                content: "";
-                top: 50%;
-                left: 50%;
-                height: 12px;
-                width: 12px;
-                background: inherit;
-                border-radius: inherit;
-                border: 2px solid #fff;
-                transform: translate(-50%, -50%);
-            }
-
-            .colors .option:first-child.selected::before {
-                border-color: #ccc;
-            }
-
-            .option #color-picker {
-                opacity: 0;
-                cursor: pointer;
-            }
-
-            .buttons button {
-                width: 80%;
-                color: #fff;
-                border: none;
-                outline: none;
-                padding: 8px 0;
-                font-size: 0.9rem;
-                margin-bottom: 13px;
-                background: none;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-
-            .buttons .clear-canvas {
-                color: #6C757D;
-                border: 1px solid #6C757D;
-                transition: all 0.3s ease;
-            }
-
-            .clear-canvas:hover {
-                color: #fff;
-                background: #6C757D;
-            }
-
-            .buttons .save-img {
-                background: #4A98F7;
-                border: 1px solid #4A98F7;
-            }
-
-            .drawing-board {
-                flex: 1;
-                overflow: hidden;
-                border: 3px solid #000;
-            }
-
-            .drawing-board canvas {
-                width: 100%;
-                height: 100%;
-            }
-
-            /* normal css */
-            img#picture_preview {
-                width: 130px;
-                height: 130px;
-                object-fit: cover;
-            }
-
-            img#picture_preview:hover {
-                background-color: white;
-                border: 3px dashed #87CEFA;
-                cursor: pointer;
-            }
-
-            h2 {
-                text-align: center;
-            }
-
-            h5 {
-                text-align: center;
-                font-style: italic;
-            }
-
-            input[type=date],
-            input[type=time] {
-                width: 200px;
-            }
-
-            .ml-2 {
-                margin-left: 2.0rem !important;
-                margin-right: 0.5rem !important;
-            }
-
-            .mt-4 {
-                margin-top: 1.5rem !important;
-                margin-bottom: 1600px;
-            }
-
-            .underline-input {
-                position: relative;
-            }
-
-            .underline-input input {
-                border: none;
-                border-bottom: 1px solid #000;
-                background-color: transparent;
-                width: 100%;
-                padding: 5px 0;
-            }
-
-            /* Add focus styles if needed */
-            .underline-input input:focus {
-                border-bottom: 1px solid #00F;
-
-                outline: none;
-            }
-
-            label {
-                position: relative;
-                margin-bottom: 40px;
-                top: 20%;
-            }
-
-            input[type=text] {
-                margin-top: -30px;
-            }
-
-            .event_venuearr {
-                margin-top: -80px;
-            }
-
-            input[type=checkbox] {
-                display: block !important;
-                margin-top: 10px !important;
-            }
-
-            form#form1 label {
-                transform: translateY(0%);
-                -webkit-transform: translateY(0%);
-            }
-
-            #event_remark {
-                margin-top: -28px;
-            }
-
-            .input-group-append {
-                margin-left: -1px;
-                margin-top: -28px;
-            }
-
-            textarea {
-                resize: none;
-                overflow-y: scroll;
-            }
-
-            .remark_label{
-                margin-top: -300px;
-                margin-bottom: -30px;
-            }
-        </style>
-    </head>
-
-
     <h2><i class="fa fa-pencil mr-2"></i>Become an Organizer</h2>
     <h5>Creative, Innovative and Unity</h5><br>
 
@@ -628,9 +628,6 @@
             </div>
         </div>
 
-
-
-
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <div class="form-group input-group">
@@ -641,40 +638,64 @@
                             @enderror
                         </span>
                         <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
-                        <input class="d-none" type="file" name="event_pic" accept=".jpg, .jpeg, .png" capture>
+                        <input type="file" class="d-none" name="event_pic" accept=".jpg, .jpeg, .png" capture>
                     </label>
                 </div>
             </div>
         </div>
 
+
         <div class="form-row mb-5">
             <div class="col-5 mx-auto recaptcha_box">
                 <button type="button" class="btn btn-secondary mr-2"
                     onclick="location.href = '/becomeorganizer'">Clear</button>
-                <button type="submit" class="btn btn-warning" >Submit</button>
-                
+                <button type="button" id="submit" class="btn btn-warning">Submit</button>
+
             </div>
         </div>
-    </form>
+</form>
+
+        <script>
+            // $(document).ready(function() {
+            //     console.log("What you want!!!!");
+            //     console.log($("#form1"));
+            //     //validate form input
+            //     $("#submit").on('click', function(e) {
+
+            //         console.log("TJL");
+            //         return false;
+            //         e.preventDefault();
+
+            //     });
+            // });
+        </script>
     @endsection
 
 
-    @section('foot') 
-    <script src="/js/register_event.js"></script>
 
-    <script>
-        $("[data-get]").on("click", function(e) {
-            const url = $(this).attr("data-get");
-            location = url || location;
-        });
+    @section('foot')
+        {{-- <script>
+            $("[data-get]").on("click", function(e) {
+                const url = $(this).attr("data-get");
+                location = url || location;
+            });
 
 
-        // $(document).ready(function() {
-        //     var submitButton = document.getElementById("submit_mainform");
-        //     submitButton.addEventListener("click", function(e) {
-        //         var form = document.getElementById("form1");
-        //         form.submit();
-        //     });
-        // });
-    </script>
+            $(document).ready(function() {
+                //     var submitButton = document.getElementById("submit_mainform");
+                //     submitButton.addEventListener("click", function(e) {
+                //         var form = document.getElementById("form1");
+                //         form.submit();
+                //     });
+
+                //validate form input
+                $("#form1").on('submit',function(e) {
+
+                    console.log("TJL");
+                    return false;
+                    e.preventDefault();
+
+                });
+            });
+        </script> --}}
     @endsection

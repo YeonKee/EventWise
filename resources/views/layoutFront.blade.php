@@ -80,6 +80,7 @@
             width: 250px;
         }
     </style>
+   @yield('head');
 </head>
 
 <body>
@@ -135,6 +136,7 @@
     @include('sweetalert::alert')
 
     @yield('body')
+
 
     <!-- Footer Section Begin -->
     <footer class="footer-section">
@@ -372,6 +374,8 @@
             }
         }
     </script> --}}
+
+    @yield('foot')
 </body>
 
 </html>
