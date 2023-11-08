@@ -135,6 +135,7 @@
         let firstClickChat = true;
 
         // Chatbot usage
+        /*
         const element = document.querySelector('.css-qmypsf');
         element.addEventListener('click', function() {
             if (firstClickChat) {
@@ -148,6 +149,7 @@
                 isListening = true;
             }
         });
+        */
 
         // Voice input to text
         const checkExist = setInterval(function() {
