@@ -54,52 +54,55 @@ class EventController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate(
-            [
-                'event_personInCharge' => 'required|max:100',
-                'event_picContactNo' =>  ['required', 'regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/'],
-                'pic_email' => ['required', 'regex:/^[A-Z0-9._%+-]+@([A-Z0-9-]+.){2,4}$/i'],
-                'event_name' => 'required|max:100',
-                'event_cat' => 'required',
-                'other_category' => 'max:20',
-                'event_desc' => 'required|max:300',
-                'event_pic' => 'required', 
-                'event_price' => ['required', 'regex:/^\d{1,3}(\.\d{2})?$/'],
-                'pic_accNo' => ['required', 'regex:/^[0-9]*$/'],
-                'event_capacity' => ['required', 'regex:/^([1-9]|[1-9][0-9]{0,2}|3000)$/'],
-                'event_date' => 'required',
-                'event_duration' => ['required', 'regex:/[1-5]/'],
-                'event_startTime' => 'required',
-                'event_endTime' => 'required',
-                'event_remark' => 'required',
-            ],
-            [
-                'event_personInCharge' => 'Empty field',
-                'event_pic.required' => 'Empty field',
-                'event_picContactNo.required' => 'Empty field',
-                'pic_email.required' => 'Empty field',
-                'event_name.required' => 'Empty field',
-                'event_cat.required' => 'Empty field',
-                'other_category' => 'Empty field',
-                'event_desc.required' => 'Empty field',
-                'event_price.required' => 'Empty field',
-                'pic_accNo.required' => 'Empty field',
-                'event_capacity.required' => 'Empty field',
-                'event_date.required' => 'Empty field',
-                'event_duration.required' => 'Empty field',
-                'event_startTime.required' => 'Empty field',
-                'event_endTime.required' => 'Empty field',
-                'event_remark.required' => 'Empty field',
-            ]
-        );
+        // $request->validate(
+        //     [
+        //         'event_personInCharge' => 'required|max:100',
+        //         'event_picContactNo' =>  ['required', 'regex:/(\+?6?01)[0-46-9]-*[0-9]{7,8}/'],
+        //         'pic_email' => ['required', 'regex:/^[A-Z0-9._%+-]+@([A-Z0-9-]+.){2,4}$/i'],
+        //         'event_name' => 'required|max:100',
+        //         'event_cat' => 'required',
+        //         'other_category' => 'max:20',
+        //         'event_desc' => 'required|max:300',
+        //         'event_pic' => 'required', 
+        //         'event_price' => ['required', 'regex:/^\d{1,3}(\.\d{2})?$/'],
+        //         'pic_accNo' => ['required', 'regex:/^[0-9]*$/'],
+        //         'event_capacity' => ['required', 'regex:/^([1-9]|[1-9][0-9]{0,2}|3000)$/'],
+        //         'event_date' => 'required',
+        //         'event_duration' => ['required', 'regex:/[1-5]/'],
+        //         'event_startTime' => 'required',
+        //         'event_endTime' => 'required',
+        //         'event_remark' => 'required',
+        //     ],
+        //     [
+        //         'event_personInCharge' => 'Empty field',
+        //         'event_pic.required' => 'Empty field',
+        //         'event_picContactNo.required' => 'Empty field',
+        //         'pic_email.required' => 'Empty field',
+        //         'event_name.required' => 'Empty field',
+        //         'event_cat.required' => 'Empty field',
+        //         'other_category' => 'Empty field',
+        //         'event_desc.required' => 'Empty field',
+        //         'event_price.required' => 'Empty field',
+        //         'pic_accNo.required' => 'Empty field',
+        //         'event_capacity.required' => 'Empty field',
+        //         'event_date.required' => 'Empty field',
+        //         'event_duration.required' => 'Empty field',
+        //         'event_startTime.required' => 'Empty field',
+        //         'event_endTime.required' => 'Empty field',
+        //         'event_remark.required' => 'Empty field',
+        //     ]
+        // );
 
         $events = new Event();
         $events->person_inCharge = $request->event_personInCharge;
         $events->contact_number = $request->event_picContactNo;
         $events->email = $request->pic_email;
+
+        dd($request->pic_email);
+
         $events->name = $request->event_name;
         $events->category = $request->event_cat;
-        $events->other_Cat = $request->other_category;
+        // $events->other_Cat = $request->other_category;
         $events->description = $request->event_desc;
         $events->acc_number = $request->pic_accNo;
         $events->ticket_price = $request->event_price;

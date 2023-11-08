@@ -283,7 +283,7 @@
         }
 
         input[type=text] {
-            margin-top: -30px;
+            margin-top: -20px;
         }
 
         .event_venuearr {
@@ -335,7 +335,7 @@
 </h6>
 
 <form id="form1"
-        class="mt-4 h-100" method="post" action="/event" enctype="multipart/form-data">
+        class="mt-4 h-100" method="POST" action="/event" enctype="multipart/form-data">
         @csrf
 
         <div class="form-row mb-4">
@@ -413,11 +413,11 @@
             </div>
         </div>
 
-        <div class="form-row mb-4">
+        {{-- <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <div id="otherCategory" class="underline-input">
-                    <input type="text" class="form-control" id="other_category" name="other_category"
-                        placeholder="Please specify the event category">
+                <div id="otherCat" class="underline-input">
+                    <input type="text" class="form-control" id="other_category" name="other_category" autocomplete="off"
+                        placeholder="Please specify the event category" value="{{ old('other_category') }}">
                 </div>
             </div>
         </div>
@@ -425,7 +425,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var eventCatSelect = document.getElementById('event_cat_dropdown');
-                var otherCategory = document.getElementById('otherCategory');
+                var otherCategory = document.getElementById('otherCat');
 
                 // Function to toggle the visibility of the otherCategory input
                 function toggleOtherCategoryInput() {
@@ -442,7 +442,7 @@
                 // Event listener to toggle on select change
                 eventCatSelect.addEventListener('change', toggleOtherCategoryInput);
             });
-        </script>
+        </script> --}}
 
 
         <div class="form-row mb-4">
@@ -649,11 +649,11 @@
             <div class="col-5 mx-auto recaptcha_box">
                 <button type="button" class="btn btn-secondary mr-2"
                     onclick="location.href = '/becomeorganizer'">Clear</button>
-                <button type="button" id="submit" class="btn btn-warning">Submit</button>
+                <button type="submit" id="submit" class="btn btn-warning">Submit</button>
 
             </div>
         </div>
-</form>
+        </form>
 
         <script>
             // $(document).ready(function() {
