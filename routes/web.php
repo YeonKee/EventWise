@@ -189,7 +189,9 @@ Route::get('/contact', function () {
 //     return view('textGenerator');
 // });
 
-Route::resource('/event', EventController::class);
+//Route::resource('/event', EventController::class);
+Route::post('/event', [EventController::class,'store']);
+Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);
 
 Route::get('/becomeorganizer', function () {
     $title = '';

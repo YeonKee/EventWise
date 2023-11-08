@@ -73,7 +73,7 @@ $(document).ready(function () {
 
 
     //validate form input
-    $("#submit").on('click', function (e) {
+    $("#submit_form").on('click', function (e) {
         e.preventDefault();
 
         $(".message").text("");
@@ -354,13 +354,11 @@ $(document).ready(function () {
 
         console.log(submit);
 
-        console.log(form.submit);
 
         if (submit) {
-           // console.log("can i submit?");
+
             $("#form1").submit();
-            document.getElementById("#form1").submit();
-            //console.log("The form is submitted");
+
         }
         
     });

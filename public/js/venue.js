@@ -7,7 +7,9 @@ colorPicker = document.querySelector("#color-picker"),
 clearCanvas = document.querySelector(".clear-canvas"),
 saveImg = document.querySelector(".save-img"),
 ctx = canvas.getContext("2d"),
-form = document.querySelector("#form1");
+//form = document.querySelector("#form1");
+//form = document.getElementById('form1');
+submitButton = document.getElementById('submit_form');
 
 // global variables with default value
 let prevMouseX, prevMouseY, snapshot,
@@ -133,8 +135,12 @@ saveImg.addEventListener("click", () => {
     link.download = `${Date.now()}.jpg`; // passing current date as link download value
     link.href = canvas.toDataURL(); // passing canvasData as link href value
     link.click(); // clicking link to download image
-    console.log(canvas.toDataURL());
+    hiddenInput.value = canvas.toDataURL(); 
+    console.log(hiddenInput.value);
+    
+   // console.log(canvas.toDataURL());
 });
+
 
 // venue.addEventListener("click", () => {
 
@@ -175,17 +181,16 @@ canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => isDrawing = false);
 
 // -------
-form.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the default form submission
-    
-    // Get the canvas data and set it as the value of the hidden input field
-    const canvasData = canvas.toDataURL();
-    const hiddenInput = document.getElementById('venueImage'); 
-    hiddenInput.value = canvasData;
-    
-    // Now, you can submit the form
-    form.submit();
+// form.addEventListener('submit', (event) => {
+//     event.preventDefault(); // Prevent the default form submission
+//     // Get the canvas data and set it as the value of the hidden input field
+//     const canvasData = canvas.toDataURL();
+//     const hiddenInput = document.getElementById('venueImage'); 
+//     hiddenInput.value = canvasData;
+//     // Now, you can submit the form
+//     form.submit();
+// });
 
-   
-});
+
+
 

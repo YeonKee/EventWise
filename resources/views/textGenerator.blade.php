@@ -115,6 +115,7 @@
                         {{ $message }}
                     @enderror
                 </span>
+                <br><i>You are required to input some few keywords</i>
             </label>
         </div>
 

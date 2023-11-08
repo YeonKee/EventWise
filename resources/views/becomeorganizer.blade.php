@@ -649,7 +649,7 @@
             <div class="col-5 mx-auto recaptcha_box">
                 <button type="button" class="btn btn-secondary mr-2"
                     onclick="location.href = '/becomeorganizer'">Clear</button>
-                <button type="submit" id="submit" class="btn btn-warning">Submit</button>
+                <button type="submit" id="submit_form" class="btn btn-warning">Submit</button>
 
             </div>
         </div>
