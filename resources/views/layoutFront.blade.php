@@ -67,7 +67,7 @@
 
         ul {
             margin-bottom: -10px;
-            margin-left: 120px;
+            margin-left: 30px;
         }
 
         #btnSearch {
@@ -80,7 +80,7 @@
             width: 250px;
         }
     </style>
-   @yield('head');
+    @yield('head');
 </head>
 
 <body>
@@ -214,29 +214,31 @@
     <!-- Footer Section End -->
 
     <!-- Chat bubble -->
-    <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
+    {{-- <div id="rasa-chat-widget" data-websocket-url="http://localhost:8090/socket.io">
     </div>
-    <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script>
+    <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script> --}}
 
     <script>
-        let firstClickChat = true;
+        !(function() {
+            let e = document.createElement("script"),
+                t = document.head || document.getElementsByTagName("head")[0];
+            (e.src = "https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.js"),
+            (e.async = !0),
+            (e.onload = () => {
+                window.WebChat.default({
+                        socketUrl: "http://localhost:8090",
+                        initPayload: '/greet{"user_id": "' + {!! json_encode(session('studID')) !!} + '"}',
+                        title: "EventWise Chat System",
+                        socketPath: "/socket.io/",
+                    },
+                    null
+                );
+            }),
+            t.insertBefore(e, t.firstChild);
+        })();
+        localStorage.clear();
 
-        // Chatbot usage
-        /*
-        const element = document.querySelector('.css-qmypsf');
-        element.addEventListener('click', function() {
-            if (firstClickChat) {
-                firstClickChat = false;
-                Swal.fire({
-                    title: 'Let\'s start chatting',
-                    html: 'Says hello to our chat to start the conversation!</i></span>',
-                    icon: 'info',
-                    showConfirmButton: true,
-                });
-                isListening = true;
-            }
-        });
-        */
+        let firstClickChat = true;
 
         // Voice input to text
         const checkExist = setInterval(function() {
@@ -258,7 +260,7 @@
                 childContent.style.border = 'none';
                 secondChildDiv.appendChild(childContent);
 
-                const textArea = document.querySelector('.noBorder.variant--default.css-w3c9za');
+                const textArea = document.querySelector('.rw-new-message');
 
                 let recognition; // declare the recognition variable outside the event listener
 
