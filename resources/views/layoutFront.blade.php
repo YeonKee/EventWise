@@ -242,13 +242,11 @@
 
         // Voice input to text
         const checkExist = setInterval(function() {
-            const parentDiv = document.querySelector('.css-eifp3v');
-            const firstChildDiv = document.querySelector('.css-1abdig3');
+            const form = document.querySelector('.rw-sender'); // Select form
+            const textarea = document.querySelector('.rw-new-message'); // Select textarea
 
-            if (parentDiv && firstChildDiv) {
+            if (form && textarea) {
                 clearInterval(checkExist);
-                const secondChildDiv = document.createElement('div');
-                parentDiv.insertBefore(secondChildDiv, firstChildDiv.nextSibling);
 
                 const childContent = document.createElement('button');
                 childContent.setAttribute('id', 'click_to_record');
@@ -258,9 +256,8 @@
                 childContent.appendChild(icon);
                 childContent.style.backgroundColor = 'transparent';
                 childContent.style.border = 'none';
-                secondChildDiv.appendChild(childContent);
 
-                const textArea = document.querySelector('.rw-new-message');
+                form.insertBefore(childContent, textarea.nextSibling);
 
                 let recognition; // declare the recognition variable outside the event listener
 
@@ -274,8 +271,8 @@
                     if (firstClick) {
                         firstClick = false;
                         Swal.fire({
-                            title: 'Microphone activated',
-                            html: 'Click the microphone button again to stop speaking.<br><span style="font-size: smaller; "><i>Please provide an input key to the input before sending.</i></span>',
+                            title: 'Microphone activated!',
+                            html: 'Click the microphone button again to stop speaking!',
                             icon: 'info',
                             showConfirmButton: true,
                         });
@@ -289,6 +286,8 @@
                         recognition.interimResults = true;
 
                         recognition.addEventListener('result', e => {
+                        console.log("Inside");
+
                             const transcript = Array.from(e.results)
                                 .map(result => result[0])
                                 .map(result => result.transcript)
@@ -296,15 +295,18 @@
 
                             savedTranscript = transcript;
 
-                            if (textArea) {
-                                textArea.value = savedTranscript;
-                                textArea.dispatchEvent(new Event('input', {
+                            console.log(savedTranscript);
+
+
+                            if (textarea) {
+                                textarea.value = savedTranscript;
+                                textarea.dispatchEvent(new Event('input', {
                                     bubbles: true
                                 }));
-                                textArea.dispatchEvent(new Event('change', {
+                                textarea.dispatchEvent(new Event('change', {
                                     bubbles: true
                                 }));
-                                textArea.innerHTML = savedTranscript;
+                                textarea.innerHTML = savedTranscript;
                             }
 
                             console.log(transcript);
@@ -313,7 +315,7 @@
                         recognition.start();
                     } else {
                         isListening = false;
-                        // recognition.stop(); // stop the speech recognition when the button is clicked again
+                        recognition.stop(); // stop the speech recognition when the button is clicked again
                     }
                 });
             }

@@ -38,6 +38,11 @@ Route::get('/chatTesting', function () {
     return view('chatTesting');
 });
 
+// All links (easy testing)
+Route::get('/easytest', function () {
+    return view('easytest');
+});
+
 // Route to homepage
 Route::get('/', function () {
     return view('homepage');
