@@ -204,6 +204,9 @@ Route::get('/becomeorganizer', function () {
     return view('becomeorganizer', compact('title', 'content'));
 });
 
+Route::get('/venueArr', function () {
+    return view('venueArr');
+});
 
 
 Route::get('/textGenerator', function () {

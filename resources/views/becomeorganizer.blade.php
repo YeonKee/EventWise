@@ -10,215 +10,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style type="text/css">
-        /* drag and drop */
-        .container {
-            display: flex;
-            width: 100%;
-            gap: 10px;
-            padding: 10px;
-            max-width: 1050px;
-            height: 515px;
-            margin-top: 70px;
-        }
-
-        section {
-            background: #fff;
-            border-radius: 7px;
-        }
-
-        .titleShapes,
-        .titleOptions,
-        .titleColors {
-            font-size: 19px;
-            margin-bottom: 200px;
-        }
-
-        .titleOptions,
-        .titleColors {
-            margin-bottom: -30px;
-        }
-
-        .titleOptions {
-            margin-bottom: 0px;
-            margin-top: 15px;
-        }
-
-        .titleColors {
-            margin-bottom: 0px;
-            margin-top: -15px;
-        }
-
-        input[type=range] {
-            -webkit-appearance: progress-bar !important;
-        }
-
-        .rowOptions {
-            margin-top: -130px;
-        }
-
-        .tools-board {
-            width: 210px;
-            padding-left: 15px;
-        }
-
-        .tools-board .row {
-            margin-bottom: 20px;
-        }
-
-        .row .options {
-            list-style: none;
-            margin: 30px 0 0 10px;
-        }
-
-        .row .options.shapes {
-            margin-left: -57px;
-        }
-
-        .row .options.colors {
-            margin-left: -50px;
-        }
-
-        .row .options .option {
-            display: flex;
-            cursor: pointer;
-            align-items: left;
-            margin-bottom: 5px;
-        }
-
-        .rowShape .options .option {
-            display: flex;
-            cursor: pointer;
-            align-items: left;
-            margin-bottom: 5px;
-        }
-
-        .option:is(:hover, .active) img {
-            filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
-        }
-
-        .option :where(span, label) {
-            color: #5A6168;
-            cursor: pointer;
-            padding-left: 10px;
-        }
-
-        .option:is(:hover, .active) :where(span, label) {
-            color: #4A98F7;
-        }
-
-        .option #fill-color {
-            cursor: pointer;
-            height: 14px;
-            width: 14px;
-        }
-
-        #fill-color:checked~label {
-            color: #4A98F7;
-        }
-
-        .option #size-slider {
-            width: 100%;
-            height: 5px;
-            margin-top: 10px;
-            padding: 0px;
-            margin-bottom: 11px;
-        }
-
-        .colors .options {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .colors .option {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            margin-top: -5px;
-            position: relative;
-        }
-
-        .colors .option:nth-child(1) {
-            background-color: #fff;
-            border: 1px solid #bfbfbf;
-        }
-
-        .colors .option:nth-child(2) {
-            background-color: #000;
-        }
-
-        .colors .option:nth-child(3) {
-            background-color: #E02020;
-        }
-
-        .colors .option:nth-child(4) {
-            background-color: #6DD400;
-        }
-
-        .colors .option:nth-child(5) {
-            background-color: #4A98F7;
-        }
-
-        .colors .option.selected::before {
-            position: absolute;
-            content: "";
-            top: 50%;
-            left: 50%;
-            height: 12px;
-            width: 12px;
-            background: inherit;
-            border-radius: inherit;
-            border: 2px solid #fff;
-            transform: translate(-50%, -50%);
-        }
-
-        .colors .option:first-child.selected::before {
-            border-color: #ccc;
-        }
-
-        .option #color-picker {
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .buttons button {
-            width: 80%;
-            color: #fff;
-            border: none;
-            outline: none;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            margin-bottom: 13px;
-            background: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .buttons .clear-canvas {
-            color: #6C757D;
-            border: 1px solid #6C757D;
-            transition: all 0.3s ease;
-        }
-
-        .clear-canvas:hover {
-            color: #fff;
-            background: #6C757D;
-        }
-
-        .buttons .save-img {
-            background: #4A98F7;
-            border: 1px solid #4A98F7;
-        }
-
-        .drawing-board {
-            flex: 1;
-            overflow: hidden;
-            border: 3px solid #000;
-        }
-
-        .drawing-board canvas {
-            width: 100%;
-            height: 100%;
-        }
 
         /* normal css */
         img#picture_preview {
@@ -228,6 +19,18 @@
         }
 
         img#picture_preview:hover {
+            background-color: white;
+            border: 3px dashed #87CEFA;
+            cursor: pointer;
+        }
+
+        img#picture_preview2 {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        img#picture_preview2:hover {
             background-color: white;
             border: 3px dashed #87CEFA;
             cursor: pointer;
@@ -432,36 +235,7 @@
             </div>
         </div>
 
-        {{-- <div class="form-row mb-4">
-            <div class="col-5 mx-auto">
-                <div id="otherCat" class="underline-input">
-                    <input type="text" class="form-control" id="other_category" name="other_category" autocomplete="off"
-                        placeholder="Please specify the event category" value="{{ old('other_category') }}">
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var eventCatSelect = document.getElementById('event_cat_dropdown');
-                var otherCategory = document.getElementById('otherCat');
-
-                // Function to toggle the visibility of the otherCategory input
-                function toggleOtherCategoryInput() {
-                    if (eventCatSelect.value === 'Others') {
-                        otherCategory.style.display = 'block';
-                    } else {
-                        otherCategory.style.display = 'none';
-                    }
-                }
-
-                // Initial state
-                toggleOtherCategoryInput();
-
-                // Event listener to toggle on select change
-                eventCatSelect.addEventListener('change', toggleOtherCategoryInput);
-            });
-        </script> --}}
+ 
 
 
         <div class="form-row mb-4">
@@ -477,7 +251,7 @@
             </div>
         </div>
 
-        <div class="form-row mb-4">
+        {{-- <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <label for="event_venuearr" class="event_venuearr">Venue Arrangement
                     <span class="text-danger"><b>*</b>
@@ -551,6 +325,25 @@
                     </section>
                     <input name="venueImage" type="hidden" value="" id="venueImage">
                 </div>
+            </div>
+        </div> --}}
+
+        
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <div class="form-group input-group">
+                    <label for="event_venueArr">Venue Arrangement:
+                        <span class="text-danger"><b>*</b>
+                            @error('event_venueArr')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                        <img id="picture_preview2" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <input type="file" class="d-none" name="event_venueArr" accept=".jpg, .jpeg, .png" capture>
+                    </label>
+                </div>
+                <a href="http://127.0.0.1:8000/venueArr">Draw Now</a>
+                 
             </div>
         </div>
 
