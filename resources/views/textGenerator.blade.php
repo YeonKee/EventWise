@@ -4,6 +4,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="/js/textGenerator.js"></script>
 
         <style type="text/css">
             h2 {
@@ -105,8 +106,11 @@
 
 
         <form action="/event/generate"
-        method="post" id="form1" enctype="multipart/form-data">
+        method="post" id="form2" enctype="multipart/form-data">
         @csrf
+
+        <input type="hidden" class="form-control" id="event_id" name="event_id" value="{{ request()->get('success') }}">
+
 
         <div class="remark_label">
             <label for="event_remark">Remarks
@@ -115,7 +119,7 @@
                         {{ $message }}
                     @enderror
                 </span>
-                <br><i>You are required to input some few keywords</i>
+                <br><i>You are required to input few keywords.</i>
             </label>
         </div>
 
@@ -123,22 +127,28 @@
 
         <button class="btn btn-primary" type="submit" id="generate">Generate</button>
 
+
         </form>
-        <div class="content_box">
-            @if ($content)
-                <textarea name="remark" id="remark" cols="110" rows="4">{{ $content }}</textarea>
-            @endif
-        </div>
+        <form action="/event/generate/update" method="post" id="form3" enctype="multipart/form-data">
+            @csrf
 
+            <input type="hidden" class="form-control" id="event_id" name="event_id"
+                value="{{ request()->get('success') }}">
 
-
-        <div class="form-row mb-5">
-            <div class="col-5 mx-auto recaptcha_box">
-                <button type="button" class="btn btn-secondary mr-2"
-                    onclick="location.href = '/textGenerator'">Clear</button>
-                <button type="button" class="btn btn-warning" id="submit_mainform">Submit</button>
+            <div class="content_box">
+                @if ($content)
+                    <textarea name="remark" id="remark" cols="110" rows="4">{{ $content }}</textarea>
+                @endif
             </div>
-        </div>
+
+            <div class="form-row mb-5">
+                <div class="col-5 mx-auto recaptcha_box">
+                    <button type="button" class="btn btn-secondary mr-2"
+                        onclick="location.href = '/textGenerator'">Clear</button>
+                    <button type="submit" class="btn btn-warning" id="submit_mainform">Submit</button>
+                </div>
+            </div>
+        </form>
     @endsection
 
 

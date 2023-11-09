@@ -212,4 +212,5 @@ Route::get('/event/search', [EventController::class, 'searchProducts']);
 
 
 Route::post('/event/generate',[TextGeneratorController::class,'index']);
+Route::post('/event/generate/update',[TextGeneratorController::class,'updateRemark']);
     

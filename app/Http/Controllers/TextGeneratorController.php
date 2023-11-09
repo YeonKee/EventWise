@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -9,6 +10,7 @@ class TextGeneratorController extends Controller
 {
     public function index(Request $request)
     {
+       // $event = Event::find($eventId);
     
         $title = $request->title;
     
@@ -24,8 +26,35 @@ class TextGeneratorController extends Controller
     
         $content = trim($result['choices'][0]['text']);
     
-    
         return view('textGenerator', compact('title', 'content'));
+    }
+
+    public function updateRemark(Request $request) {
+        // Find the event by its ID
+
+
+        $event= Event::where('event_id',$request->session()->get('event_id'))->first();
+        //dd($event);
+     
+      //dd($request->remark);
+    
+        if ($event) {
+            // Update the 'status' column
+            $event->remark =$request->remark;
+            $event->save();
+            $request->session()->forget('event_id');
+
+            return redirect('/textGenerator?success=' . $event->event_id);
+
+    
+            // Return a response, redirect, or do other actions as needed
+        } else {
+            // Handle the case when the event is not found
+        }
+
+        
+    
+        // You can return a response or redirect to another page
     }
     
 }

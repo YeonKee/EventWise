@@ -180,16 +180,16 @@ canvas.addEventListener("mousedown", startDraw);
 canvas.addEventListener("mousemove", drawing);
 canvas.addEventListener("mouseup", () => isDrawing = false);
 
-// -------
-// form.addEventListener('submit', (event) => {
-//     event.preventDefault(); // Prevent the default form submission
-//     // Get the canvas data and set it as the value of the hidden input field
-//     const canvasData = canvas.toDataURL();
-//     const hiddenInput = document.getElementById('venueImage'); 
-//     hiddenInput.value = canvasData;
-//     // Now, you can submit the form
-//     form.submit();
-// });
+form.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    // Get the canvas data and set it as the value of the hidden input field
+    const canvasData = canvas.toDataURL();
+    const hiddenInput = document.getElementById('venueImage'); 
+    hiddenInput.value = canvasData;
+    console.log(canvasData);
+    // Now, you can submit the form
+    //form.submit();
+});
 
 
 

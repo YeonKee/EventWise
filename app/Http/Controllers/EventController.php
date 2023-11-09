@@ -59,12 +59,15 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+
+        
         $events = new Event();
         $events->person_inCharge = $request->event_personInCharge;
         $events->contact_number = $request->event_picContactNo;
         $events->email = $request->pic_email;
         $events->name = $request->event_name;
         $events->category = $request->event_cat_dropdown;
+        $events->openFor = $request->open_For_dropdown;
         $events->description = $request->event_desc;
         $events->acc_number = $request->pic_accNo;
         $events->ticket_price = $request->event_price;
@@ -81,11 +84,13 @@ class EventController extends Controller
         $events->registration_status = "Closed";
         $events->save();
 
+        $request->session()->put('event_id', $events->event_id);
+
         $this->savePicture($request->event_pic, $events->event_id);
 
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
         $venueData = $request->input('venueImage');
-       // dd($venueData);
+        dd($venueData);
 
         // Decode the data URL and get the binary data
         $venueData = str_replace('data:image/png;base64,', '', $venueData);
@@ -117,6 +122,7 @@ class EventController extends Controller
         if ($event) {
             // Update the 'status' column
             $event->update(['remark' =>$request->remark]);
+            //return redirect('/textGenerator?success=' . $events->event_id);
     
             // Optionally, you can save the changes to the database
             // $event->save();
