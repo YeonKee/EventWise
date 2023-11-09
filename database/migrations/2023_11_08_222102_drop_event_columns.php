@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->varchar('start_time')->change();
-            $table->varchar('end_time')->change();
+            $table->string('start_time')->change();
+            $table->string('end_time')->change();
           });
     }
 
