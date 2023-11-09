@@ -254,7 +254,7 @@
 
         .mt-4 {
             margin-top: 1.5rem !important;
-            margin-bottom: 1600px;
+            margin-bottom: 1650px;
         }
 
         .underline-input {
@@ -407,6 +407,25 @@
                         <option value="Festival">Festival</option>
                         <option value="Exhibition">Exhibition</option>
                         <option value="Others">Others</option>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <label for="open_For">Open For
+                    <span class="text-danger"><b>*</b>
+                        @error('open_For')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+                <div class="input-group">
+                    <select class="form-control" id="open_For_dropdown" name="open_For_dropdown">
+                        <option value="Public">Public</option>
+                        <option value="Student">Students</option>
                     </select>
 
                 </div>
