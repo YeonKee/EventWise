@@ -44,6 +44,11 @@ class EventController extends Controller
         Image::make($file)->fit(300)->save(public_path("/img/eventPicture/eventPicture_$event_id.png"));
     }
 
+    private function saveVenue($file, $event_id)
+    {
+        Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
+    }
+
     // private function saveVenue($file, $event_id)
     // {
     //     Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
@@ -87,29 +92,11 @@ class EventController extends Controller
         $request->session()->put('event_id', $events->event_id);
 
         $this->savePicture($request->event_pic, $events->event_id);
+        $this->saveVenue($request->event_venueArr, $events->event_id);
 
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
-        $venueData = $request->input('venueImage');
-        dd($venueData);
-
-        // Decode the data URL and get the binary data
-        $venueData = str_replace('data:image/png;base64,', '', $venueData);
-        $venueData = str_replace(' ', '+', $venueData);
-        $venueData = base64_decode($venueData);
-        //dd($venueData);
-
-        //$this->saveVenue($request->venueData, $events->event_id);
-
-
-        // Generate a unique filename
-        $filename = 'venueArr_' . $events->event_id . '.png';
-
-        // Define the path where you want to save the image
-        $path = public_path('img/venueArr/' . $filename);
-
-        // Save the image to the specified path
-        // file_put_contents($path, $venueData);
         $events->event_venuearr = "/img/venueArr/venueArr_$events->event_id.png";
+
         $events->save();
         return redirect('/textGenerator?success=' . $events->event_id);
         

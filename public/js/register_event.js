@@ -59,6 +59,63 @@ $(document).ready(function () {
 
     }
 
+    function validateVenue(input) {
+
+        var picture = $("input[name='event_venueArr']");
+        var event_venue_span = picture.siblings("label").find("span");
+        var inputLen = input.value.length;
+        var file = input.files[0];
+        var URL = window.URL || window.webkitURL;
+        var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+
+        // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+        if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+            picture.removeClass("is-invalid");
+            have_picture = true;
+
+            $('#picture_preview2').attr('src', URL.createObjectURL(file));
+
+        } // invalid file
+        else if (inputLen) {
+            picture.addClass("is-invalid");
+            have_picture = false;
+
+            // file format problem
+            if (!picture_regex.test(file.type)) {
+                if (!$('#picture_1').length) {
+                    picture_1_span.html("<div class='invalid-feedback text-center' id='profile_1'>\n\
+                        Please select image in GIF, JPG, JPEG, and PNG format only.\n\
+                    </div>");
+                }
+            } else {
+                $("#picture_1").remove();
+            }
+
+            // file size problem
+            if (file.size > (1 * 1024 * 1024)) {
+                if (!$('#picture_2').length) {
+                    event_venue_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
+                        Please make sure the image size is not more than 1MB.\n\
+                    </div>");
+                }
+            } else {
+                $("#picture_2").remove();
+            }
+
+        } // no file selected
+        else {
+            picture.removeClass("is-invalid");
+            have_picture = false;
+        }
+
+        // restore the profile input
+        if (!have_picture) {
+            $("#profile_preview2").attr("src", "/img/default_eventpic.png");
+            picture.val('');
+        }
+
+    }
+
     // trigger file input
     $("#picture_preview").click(function () {
         $("input[name='event_pic']").click();
@@ -69,6 +126,19 @@ $(document).ready(function () {
         var input = this
         validatePicture(input);
     });
+
+    
+    // trigger file input
+    $("#picture_preview2").click(function () {
+        $("input[name='event_venueArr']").click();
+    });
+
+    // detect file input changes
+    $("input[name='event_venueArr']").change(function () {
+        var input = this
+        validateVenue(input);
+    });
+
 
 
 
