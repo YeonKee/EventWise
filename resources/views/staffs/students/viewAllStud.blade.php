@@ -32,6 +32,7 @@
                         <table class="table" id="studentTable">
                             <thead>
                                 <tr>
+                                    <th scope="col">#</th>
                                     <th scope="col">Student ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
@@ -43,6 +44,7 @@
                             <tbody>
                                 @foreach ($students as $student)
                                     <tr>
+                                        <td>{{ $count }}</td>
                                         <td>{{ $student->stud_id }}</td>
                                         <td>{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
@@ -91,7 +93,7 @@
                 info: false // Disable information display
             });
         });
-
+        
         // style
         const SwalStyledButtons = Swal.mixin({
             customClass: {

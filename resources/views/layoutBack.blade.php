@@ -52,7 +52,7 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/styleBack.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/nice-admin.css') }}" rel="stylesheet">
 </head>
 
 <body>

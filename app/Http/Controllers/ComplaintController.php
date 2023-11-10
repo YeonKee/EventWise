@@ -12,7 +12,9 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        return view('staffs.chats.complaint.index');
+        $complaints = Complaint::paginate(9);
+        $complaintsCount = $complaints->total();
+        return view('staffs.chats.complaint.index', compact('complaints', 'complaintsCount'));
     }
 
     /**
@@ -58,8 +60,30 @@ class ComplaintController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Complaint $complaint)
+    public function destroy($id)
     {
-        //
+        $complaint = Complaint::find($id);
+        $complaint->delete();
+
+        return redirect()->back()->with('query', '');
+    }
+
+    public function searchComplaint(Request $request)
+    {
+        $query = $request->input('query');
+
+        if ($query) {
+            $complaints = Complaint::where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('created_at', 'like', '%' . $query . '%');
+            })
+                ->paginate(9);
+        } else {
+            $complaints = Complaint::paginate(9);
+        }
+
+        $complaintsCount = $complaints->total();
+        return view('staffs.chats.complaint.index', compact('complaints', 'complaintsCount'));
     }
 }
