@@ -204,11 +204,14 @@
                 </label>
                 <div class="input-group">
                     <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
-                        <option value="Outdoor">Outdoor</option>
-                        <option value="Talk">Talk</option>
-                        <option value="Walkshop">Walkshop</option>
+                        <option value="Webinar_talk">Webinar/Talk</option>
+                        <option value="Exhibitions">Exhibitions</option>
+                        <option value="Walkshop">Sports</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Charity">Charity</option>
+                        <option value="Competition">Competition</option>
                         <option value="Festival">Festival</option>
-                        <option value="Exhibition">Exhibition</option>
                         <option value="Others">Others</option>
                     </select>
 
@@ -250,83 +253,6 @@
                 <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc">{{ old('event_desc') }}</textarea>
             </div>
         </div>
-
-        {{-- <div class="form-row mb-4">
-            <div class="col-5 mx-auto">
-                <label for="event_venuearr" class="event_venuearr">Venue Arrangement
-                    <span class="text-danger"><b>*</b>
-                        @error('event_venuearr')
-                            {{ $message }}
-                        @enderror
-                    </span>
-                </label>
-                <br>
-                <div class="container">
-                    <section class="tools-board">
-                        <div class="row">
-                            <label class="titleShapes">Shapes</label>
-                            <ul class="options shapes">
-                                <li class="option tool" id="rectangle">
-                                    <img src="img/venue/rectangle.svg" alt="">
-                                    <span>Rectangle</span>
-                                </li>
-                                <li class="option tool" id="circle">
-                                    <img src="img/venue/circle.svg" alt="">
-                                    <span>Circle</span>
-                                </li>
-                                <li class="option tool" id="triangle">
-                                    <img src="img/venue/triangle.svg" alt="">
-                                    <span>Triangle</span>
-                                </li>
-                                <li class="option">
-                                    <input type="checkbox" id="fill-color">
-                                    <label for="fill-color">Fill color</label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="row">
-                            <div class="rowOptions">
-                                <label class="titleOptions">Options</label>
-                                <ul class="options">
-                                    <li class="option active tool" id="brush">
-                                        <img src="img/venue/brush.svg" alt="">
-                                        <span>Brush</span>
-                                    </li>
-                                    <li class="option tool" id="eraser">
-                                        <img src="img/venue/eraser.svg" alt="">
-                                        <span>Eraser</span>
-                                    </li>
-                                    <li class="option">
-                                        <input type="range" id="size-slider" min="1" max="30"
-                                            value="5">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row colors">
-                            <label class="titleColors">Colors</label>
-                            <ul class="options colors">
-                                <li class="option"></li>
-                                <li class="option selected"></li>
-                                <li class="option"></li>
-                                <li class="option"></li>
-                                <li class="option">
-                                    <input type="color" id="color-picker" value="#4A98F7">
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="row buttons">
-                            <button class="clear-canvas" type="button">Clear Canva</button>
-                            <button class="save-img" type="button">Save As Image</button>
-                        </div>
-                    </section>
-                    <section class="drawing-board">
-                        <canvas></canvas>
-                    </section>
-                    <input name="venueImage" type="hidden" value="" id="venueImage">
-                </div>
-            </div>
-        </div> --}}
 
         
         <div class="form-row mb-4">

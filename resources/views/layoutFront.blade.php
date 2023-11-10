@@ -99,12 +99,14 @@
                         <li><a href="/aboutus">About</a></li>
                         <li><a href="./speaker.html">Events</a>
                             <ul class="dropdown">
-                                <li><a href="#">Outdoors</a></li>
-                                <li><a href="#">Talk</a></li>
-                                <li><a href="#">Workshop</a></li>
-                                <li><a href="#">Festival</a></li>
-                                <li><a href="#">Exhibition</a></li>
-                                <li><a href="#">Others</a></li>
+                                <li><a href="/event/viewByCategory/Webinar_talk">Webinar/Talk</a></li>
+                                <li><a href="/event/viewByCategory/Exhibition">Exhibition</a></li>
+                                <li><a href="/event/viewByCategory/Sports">Sports</a></li>
+                                <li><a href="/event/viewByCategory/Entertainment">Entertainment</a></li>
+                                <li><a href="/event/viewByCategory/Workshop">Workshop</a></li>
+                                <li><a href="/event/viewByCategory/Charity">Charity</a></li>
+                                <li><a href="/event/viewByCategory/Competition">Competition</a></li>
+                                <li><a href="/event/viewByCategory/Others">Others</a></li>
                             </ul>
                         </li>
                         <li><a href="./schedule.html">Schedule</a></li>
@@ -114,8 +116,8 @@
                                 @csrf
                                 <div class="form-inline mt-2 mt-md-0 search-bar">
                                     <input type="text" id="txtSearch" class="searchbox" name="search" />
-                                    <button id="btnSearch" class='btn btn-success my-2 my-sm-0'>
-                                        <i class="fa fa-search"></i></button>
+                                    <button id="btnSearch" class='btn btn-success my-2 my-sm-0'><i
+                                            class='fa fa-search'></i></button>
                                 </div>
                             </form>
                         </li>

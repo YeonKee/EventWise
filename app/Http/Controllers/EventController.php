@@ -25,9 +25,36 @@ class EventController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function Category(Request $request)
+    {
+        $events = Event::where('category', $request->category)->where('status','Approved')->get();
+        return view('category', ['events' => $events]);
+    }
+
+    public function viewById(Request $request)
+    {
+
+        // if ($request->session()->has('user_id')) {
+        //     $cust_id = $request->session()->get('user_id');
+        //     $memberRank = Customer::where('cust_id', $cust_id)->first(['member_rank'])->member_rank;
+        // }
+
+        $event = Event::where('event_id', $request->id)->first();
+
+        return view('show', ['event' => $event]);
+    }
+
+    public function searchEvents(Request $request)
+    {
+        if ($request->has('search')) {
+            $events = Event::where('name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('category', 'LIKE', '%' . $request->search . '%')->get();
+            return view('category', ['events' => $events]);
+        } else {
+            return view('homepage');
+        }
+    }
+
+
     private function getPicture($event_id)
     {
         if (file_exists(public_path("/img/eventPicture/eventPicture_$event_id.png"))) {

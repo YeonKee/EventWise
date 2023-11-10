@@ -208,7 +208,7 @@ Route::get('/contact', function () {
 // });
 
 //Route::resource('/event', EventController::class);
-Route::post('/event', [EventController::class,'store']);
+Route::post('/event', [EventController::class, 'store']);
 Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);
 
 Route::get('/becomeorganizer', function () {
@@ -226,12 +226,13 @@ Route::get('/textGenerator', function () {
     $title = '';
     $content = '';
     return view('textGenerator', compact('title', 'content'));
-    });
+});
 
-Route::get('/event/search', [EventController::class, 'searchProducts']);
+Route::get('/event/viewByCategory/{category}', [EventController::class, 'Category']);
+Route::get('/event/viewById/{id}', [EventController::class, 'viewById']);
+Route::get('/event/search', [EventController::class, 'searchEvents']);
 
 
 
-Route::post('/event/generate',[TextGeneratorController::class,'index']);
-Route::post('/event/generate/update',[TextGeneratorController::class,'updateRemark']);
-    
+Route::post('/event/generate', [TextGeneratorController::class, 'index']);
+Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
