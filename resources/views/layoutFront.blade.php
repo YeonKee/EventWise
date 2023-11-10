@@ -1,4 +1,4 @@
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -44,7 +44,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Form -->
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" >
 
     <style>
         .container1 {
@@ -80,7 +80,7 @@
             width: 250px;
         }
     </style>
-    @yield('head');
+    @yield('head')
 </head>
 
 <body>
