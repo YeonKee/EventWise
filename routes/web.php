@@ -135,9 +135,22 @@ Route::group(['middleware' => ['role:staff']], function () {
     Route::delete('/staffs/students/deleteStud/{id}', [StaffController::class, 'deleteStud']);
 
     // Automated Chat
+    // Appointment
     Route::get('/staffs/chats/appointment/viewAppointment', [AppointmentController::class, 'index']);
+    Route::get('/staffs/chats/appointment/viewAppointmentSearch', [AppointmentController::class, 'searchAppointment']);
+    Route::post('/staffs/chats/appointment/approveApp', [AppointmentController::class, 'approveApp']);
+    Route::post('/staffs/chats/appointment/furtherDiscuss', [AppointmentController::class, 'furtherDiscuss']);
+    Route::delete('/staffs/chats/appointment/deleteApp/{id}', [AppointmentController::class, 'destroy']);
+    
+    // Compliant
     Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
+    Route::get('/staffs/chats/complaint/viewComplaintSearch', [ComplaintController::class, 'searchComplaint']);
+    Route::delete('/staffs/chats/complaint/deleteComp/{id}', [ComplaintController::class, 'destroy']);
+    
+    // Rating
     Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
+    Route::get('/staffs/chats/rating/viewRatingSearch', [ChatRatingController::class, 'searchRating']);
+    Route::delete('/staffs/chats/rating/deleteRating/{id}', [ChatRatingController::class, 'destroy']);
 
     // Live Chat
     Route::get('/staffs/livechat', [StaffController::class, 'livechat']);

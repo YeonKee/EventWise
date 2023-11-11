@@ -12,7 +12,13 @@ class ChatRatingController extends Controller
      */
     public function index()
     {
-        return view('staffs.chats.rating.index');
+        $chatRatings = Chat_Rating::paginate(9);
+        $chaRatingsCounts = $chatRatings->total();
+
+        $totalRatings = Chat_Rating::sum('ratings');
+        $averageRatings = number_format($totalRatings / ($chaRatingsCounts * 5) * 100, 2);
+
+        return view('staffs.chats.rating.index', compact('chatRatings', 'chaRatingsCounts', 'averageRatings'));
     }
 
     /**
@@ -58,8 +64,37 @@ class ChatRatingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Chat_Rating $chat_Rating)
+    public function destroy($id)
     {
-        //
+        $chatRating = Chat_Rating::find($id);
+        $chatRating->delete();
+
+        return redirect()->back()->with('query', '');
+    }
+
+    public function searchRating(Request $request)
+    {
+        $query = $request->input('query');
+
+        if ($query) {
+            $chatRatings = Chat_Rating::where(function ($q) use ($query) {
+                $q->where('ratings', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->orWhere('created_at', 'like', '%' . $query . '%');
+            })
+                ->paginate(9);
+        } else {
+            $chatRatings = Chat_Rating::paginate(9);
+        }
+
+        // Calculate average score
+        $allChats = Chat_Rating::paginate(9);
+        $allChatsCount = $allChats->total();
+        $totalRatings = Chat_Rating::sum('ratings');
+        $averageRatings = number_format($totalRatings / ($allChatsCount * 5) * 100, 2);
+
+        $chaRatingsCounts = $chatRatings->total();
+        return view('staffs.chats.rating.index', compact('chatRatings', 'chaRatingsCounts', 'averageRatings'));
+
     }
 }

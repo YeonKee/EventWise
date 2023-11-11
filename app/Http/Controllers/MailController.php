@@ -37,6 +37,29 @@ class MailController extends Controller
             $message->from(config('mail.mailers.smtp.username'), 'EventWise');
         });
     }
+    
+    public static function approveAppEmail($to, $title)
+    {
+        Mail::send(['html' => 'emailTemplate.approvedApp'], ['title' => $title], function ($message) use ($to) {
+            $message->to($to)->subject('Appointment Approval');
+            $message->from(config('mail.mailers.smtp.username'), 'EventWise');
+        });
+    }
 
+    public static function furtherDiscussEmail($to, $title)
+    {
+        Mail::send(['html' => 'emailTemplate.pendingApp'], ['title' => $title], function ($message) use ($to) {
+            $message->to($to)->subject('Further Discussion on Appointment');
+            $message->from(config('mail.mailers.smtp.username'), 'EventWise');
+        });
+    }
+
+    public static function cancelAppEmail($to, $title)
+    {
+        Mail::send(['html' => 'emailTemplate.pendingApp'], ['title' => $title], function ($message) use ($to) {
+            $message->to($to)->subject('Further Discussion on Appointment');
+            $message->from(config('mail.mailers.smtp.username'), 'EventWise');
+        });
+    }
 
 }

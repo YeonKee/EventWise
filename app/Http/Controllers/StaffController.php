@@ -244,7 +244,7 @@ class StaffController extends Controller
                 $request->session()->put('staffName', $staff->name);
 
                 // back to home
-                return redirect('/');
+                return redirect('/staffs/dashboard');
 
             } else {
                 return redirect()->back()->withErrors(['pass' => 'Incorrect password.'])->withInput();

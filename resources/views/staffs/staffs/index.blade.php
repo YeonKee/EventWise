@@ -27,10 +27,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Staff  <span>(Result count: {{ $staffsCount }})</span></h5>
+                        <h5 class="card-title">Staff <span>(Result count: {{ $staffsCount }})</span></h5>
+                        @php
+                            $count = $staffs->firstItem();
+                        @endphp
                         <table class="table" id="staffTable">
                             <thead>
                                 <tr>
+                                    <th scope="col">#</th>
                                     <th scope="col">Staff ID</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
@@ -39,8 +43,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($staffs as $staff)    
+                                @foreach ($staffs as $staff)
                                     <tr>
+                                        <td>{{ $count }}</td>
                                         <td>{{ $staff->staff_id }}</td>
                                         <td>{{ $staff->name }}</td>
                                         <td>{{ $staff->email }}</td>
@@ -59,12 +64,15 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    @php
+                                        $count++;
+                                    @endphp
                                 @endforeach
                                 </tr>
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-center custom-pagination">
-                            {{ $staffs->links('pagination::bootstrap-4') }}
+                            {{ $staffs->appends(request()->query())->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
                 </div>
