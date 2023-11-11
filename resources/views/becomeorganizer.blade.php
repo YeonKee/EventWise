@@ -250,7 +250,7 @@
                         @enderror
                     </span>
                 </label>
-                <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc">{{ old('event_desc') }}</textarea>
+                <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc" style="resize: none">{{ old('event_desc') }}</textarea>
             </div>
         </div>
 
@@ -298,8 +298,25 @@
                         @enderror
                     </span>
                 </label>
+                <div class="input-group">
+                    <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
+                        <option value="Maybank">Maybank</option>
+                        <option value="Public Bank">Public Bank</option>
+                        <option value="RHB Bank">RHB Bank</option>
+                        <option value="Hong Leong Bank">Hong Leong Bank</option>
+                        <option value="AmBank">AmBank</option>
+                        <option value="Bank Rakyat">Bank Rakyat</option>
+                        <option value="OCBC Bank">OCBC Bank</option>
+                        <option value="HSCB Bank">HSCB Bank</option>
+                        <option value="Bank Islam Malaysia">Bank Islam Malaysia</option>
+                        <option value="Affin Bank">Affin Bank</option>
+                        <option value="Alliance Bank">Alliance Bank</option>
+                        <option value="CIMB Bank">CIMB Bank</option>
+                    </select>
+
+                </div>
                 <input type="text" class="form-control" id="pic_accNo" name="pic_accNo"
-                    value="{{ old('pic_accNo') }}">
+                    value="{{ old('pic_accNo') }}" style="margin-top: 10px">
             </div>
         </div>
 

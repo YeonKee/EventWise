@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -54,6 +55,13 @@ class EventController extends Controller
         }
     }
 
+    public function registerEvent(Request $request)
+    {
+        $event = Event::where('event_id', $request->id)->first();
+
+        return view('registerEvent', ['event' => $event]);
+    }
+
 
     private function getPicture($event_id)
     {
@@ -76,6 +84,11 @@ class EventController extends Controller
         Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
     }
 
+    private function saveReceipt($file, $reg_id)
+    {
+        Image::make($file)->fit(300)->save(public_path("/img/receipt/receipt_$reg_id.png"));
+    }
+
     // private function saveVenue($file, $event_id)
     // {
     //     Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
@@ -90,9 +103,7 @@ class EventController extends Controller
 
 
     public function store(Request $request)
-    {
-
-        
+    { 
         $events = new Event();
         $events->person_inCharge = $request->event_personInCharge;
         $events->contact_number = $request->event_picContactNo;
@@ -102,6 +113,7 @@ class EventController extends Controller
         $events->openFor = $request->open_For_dropdown;
         $events->description = $request->event_desc;
         $events->acc_number = $request->pic_accNo;
+        $events->bank_Name = $request->bank_Name_dropdown;
         $events->ticket_price = $request->event_price;
         $events->capacity = $request->event_capacity;
         $events->date = $request->event_date;
@@ -147,6 +159,37 @@ class EventController extends Controller
         }
     
         // You can return a response or redirect to another page
+    }
+
+    public function registration(Request $request)
+    {
+        $registrations = new Registration();
+        $registrations->event_id = $request->event_id;
+        $registrations->stud_id = 1;
+        $registrations->payment_method = 1;
+        $registrations->receipt = "";
+        $registrations->amount = $request->ticket_price;
+        $registrations->part_name = $request->part_name;
+        $registrations->part_contactNo = $request->part_ContactNo;
+        $registrations->part_email = $request->part_email;
+        $registrations->states = $request->part_States_dropdown;
+        $registrations->address = $request->part_add;
+
+        if($request->suggest == null){
+            $registrations->suggest = 'No';
+        }else{
+            $registrations->suggest = 'Yes';
+        }
+        $registrations->save();
+
+        $this->saveReceipt($request->part_receipt, $registrations->reg_id);
+
+        $registrations->receipt = "/img/receipt/receipt_$registrations->reg_id.png";
+
+        $registrations->save();
+        //return redirect('/registerEvent?success=' . $registrations->reg_id);
+        return redirect('/success');
+        
     }
 
     /**

@@ -128,12 +128,10 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <form action="/orders" method="POST">
-                @csrf
 
-                {{-- <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
+                <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
 
-                <h3 class="card-title"> {{ $event->name }} </h3> --}}
+                <h3 class="card-title"> {{ $event->name }} </h3>
 
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-6">
@@ -146,7 +144,7 @@
                         <h4 class="box-title mt-5">Event description:</h4>
                         <p>{{ $event->description }}</p>
                         <h4 class="box-title mt-5">Ticket Price(RM):</h4>
-                        <p>{{ $event->ticket_price }}</p>
+                        <p>{{ number_format($event->ticket_price,2) }}</p>
 
                         <h4 class="box-title mt-5">Capacity:</h4>
                         <p>{{ $event->capacity }}</p>
@@ -155,11 +153,15 @@
 
                        
                         <br><br>
-                        <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <a
+                                 href="/event/registerEvent/{{$event->event_id}}">Join the event!</a></button>
+                        </div>
+                        {{-- <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br> --}}
                     </div>
                 </div>
 
-            </form>
         </div>
     </div>
 </div>

@@ -196,7 +196,10 @@ Route::get('/contact', function () {
 
 //Route::resource('/event', EventController::class);
 Route::post('/event', [EventController::class, 'store']);
+Route::post('/event/register', [EventController::class, 'registration']);
 Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);
+Route::get('/registerEvent?success={id}', [EventController::class, 'registration']);
+
 
 Route::get('/becomeorganizer', function () {
     $title = '';
@@ -206,6 +209,10 @@ Route::get('/becomeorganizer', function () {
 
 Route::get('/venueArr', function () {
     return view('venueArr');
+});
+
+Route::get('/success', function () {
+    return view('success');
 });
 
 
@@ -218,6 +225,7 @@ Route::get('/textGenerator', function () {
 Route::get('/event/viewByCategory/{category}', [EventController::class, 'Category']);
 Route::get('/event/viewById/{id}', [EventController::class, 'viewById']);
 Route::get('/event/search', [EventController::class, 'searchEvents']);
+Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent']);
 
 
 
