@@ -126,7 +126,11 @@ Route::group(['middleware' => ['role:staff']], function () {
     Route::get('/staffs/dashboard', [StaffController::class, 'dashboard']);
 
     // Event
-    Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
+    // Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
+    Route::get('/staffs/events/viewEvent', [EventController::class, 'viewAllEvent']);
+    Route::get('/staffs/events/staffEventSearch', [EventController::class, 'staffSearchEvents']);
+    Route::get('/staffs/events/viewEventDetail/{id}', [EventController::class, 'viewEventDetail']);
+    Route::delete('/staffs/events/deleteEvent/{id}', [EventController::class, 'deleteEvent']);
 
     // Student
     Route::get('/staffs/students/viewStudent', [StaffController::class, 'viewAllStud']);
@@ -141,12 +145,12 @@ Route::group(['middleware' => ['role:staff']], function () {
     Route::post('/staffs/chats/appointment/approveApp', [AppointmentController::class, 'approveApp']);
     Route::post('/staffs/chats/appointment/furtherDiscuss', [AppointmentController::class, 'furtherDiscuss']);
     Route::delete('/staffs/chats/appointment/deleteApp/{id}', [AppointmentController::class, 'destroy']);
-    
+
     // Compliant
     Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
     Route::get('/staffs/chats/complaint/viewComplaintSearch', [ComplaintController::class, 'searchComplaint']);
     Route::delete('/staffs/chats/complaint/deleteComp/{id}', [ComplaintController::class, 'destroy']);
-    
+
     // Rating
     Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
     Route::get('/staffs/chats/rating/viewRatingSearch', [ChatRatingController::class, 'searchRating']);
@@ -222,7 +226,7 @@ Route::get('/becomeorganizer', function () {
 
 Route::get('/venueArr', function () {
     return view('venueArr');
-});#
+}); #
 
 // Route::get('/staffs/events/index', function () {
 //     return view('staffs.events.index');
@@ -251,8 +255,5 @@ Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent'
 Route::post('/event/generate', [TextGeneratorController::class, 'index']);
 Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
 
-//Event backend
-Route::get('/staffs/events/viewEvent', [EventController::class, 'viewAllEvent']);
-Route::get('/staffs/events/staffEventSearch', [EventController::class, 'staffSearchEvents']);
-Route::get('/staffs/events/viewEventDetail/{id}', [EventController::class, 'viewEventDetail']);
-Route::delete('/staffs/events/deleteEvent/{id}', [EventController::class, 'deleteEvent']);
+
+

@@ -79,9 +79,11 @@
         }
 
         label {
-            position: relative;
+            /* position: relative;
             margin-bottom: 40px;
-            top: 20%;
+            top: 20%; */
+            display: inline-block;
+            width: 300px;
         }
 
         input[type=text] {
@@ -146,7 +148,8 @@
                             @csrf
                             @method('put')
 
-                            <table class="profile-table text-left mb-3" style="width:100%;margin-left:-250px">
+                            <table class="profile-table text-left mb-3"
+                                style="width:100%;margin-left:-150px;margin-top:-300px">
 
                                 <tr>
                                     <div class="form-row mb-4">
@@ -161,7 +164,7 @@
                                         </td>
                                         <td style="width: 75%">
                                             <input type="text" class="form-control" id="event_personInCharge"
-                                                name="event_personInCharge" autocomplete="off"
+                                                name="event_personInCharge" autocomplete="off" style="width: 500px"
                                                 value="{{ old('event_personInCharge', $event->person_inCharge) }}">
 
                                     </div>

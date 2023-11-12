@@ -14,7 +14,7 @@
 
         <div class="search-bar col-lg-2 mb-3 d-flex">
             <div class="ml-auto">
-                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/students/staffEventSearch">
+                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/events/staffEventSearch">
                     <input type="text" name="query" placeholder="Search" title="Enter search keyword">
                     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
                 </form>
@@ -113,8 +113,8 @@
 
                 Swal.fire({
                     icon: "warning",
-                    title: "Are you sure to delete student <b>" + name + "</b>?",
-                    text: "The student information and account is not recoverable once deleted.",
+                    title: "Are you sure to delete event <b>" + name + "</b>?",
+                    text: "Please make sure that you have informed the event PIC, as the event information is not recoverable once deleted.",
                     showCancelButton: true,
                     confirmButtonText: `Yes`,
                     reverseButtons: false,

@@ -196,7 +196,6 @@ class EventController extends Controller
     {
         $events = Event::paginate(9);
         $eventsCount = $events->total();
-        dd();
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
 
