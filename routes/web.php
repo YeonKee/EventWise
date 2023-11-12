@@ -222,7 +222,16 @@ Route::get('/becomeorganizer', function () {
 
 Route::get('/venueArr', function () {
     return view('venueArr');
+});#
+
+// Route::get('/staffs/events/index', function () {
+//     return view('staffs.events.index');
+// });
+
+Route::get('/staffs/students/viewAllStud', function () {
+    return view('staffs.students.viewAllStud');
 });
+
 
 Route::get('/success', function () {
     return view('success');
@@ -239,8 +248,11 @@ Route::get('/event/viewByCategory/{category}', [EventController::class, 'Categor
 Route::get('/event/viewById/{id}', [EventController::class, 'viewById']);
 Route::get('/event/search', [EventController::class, 'searchEvents']);
 Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent']);
-
-
-
 Route::post('/event/generate', [TextGeneratorController::class, 'index']);
 Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
+
+//Event backend
+Route::get('/staffs/events/viewEvent', [EventController::class, 'viewAllEvent']);
+Route::get('/staffs/events/staffEventSearch', [EventController::class, 'staffSearchEvents']);
+Route::get('/staffs/events/viewEventDetail/{id}', [EventController::class, 'viewEventDetail']);
+Route::delete('/staffs/events/deleteEvent/{id}', [EventController::class, 'deleteEvent']);
