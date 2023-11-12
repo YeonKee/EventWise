@@ -192,6 +192,69 @@ class EventController extends Controller
         
     }
 
+    public function viewAllEvent()
+    {
+        $events = Event::paginate(9);
+        $eventsCount = $events->total();
+        dd();
+        return view('staffs.events.index', compact('events', 'eventsCount'));
+    }
+
+    public function staffSearchEvents(Request $request)
+    {
+        $query = $request->input('query');
+
+        if ($query) {
+            $events = Event::where(function ($q) use ($query) {
+                $q->where('event_id', 'like', '%' . $query . '%')
+                    ->orWhere('person_inCharge', 'like', '%' . $query . '%')
+                    ->orWhere('contact_number', 'like', '%' . $query . '%')
+                    ->orWhere('name', 'like', '%' . $query . '%')
+                    ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('ticket_price', 'like', '%' . $query . '%')
+                    ->orWhere('capacity', 'like', '%' . $query . '%')
+                    ->orWhere('participated_count', 'like', '%' . $query . '%')
+                    ->orWhere('start_time', 'like', '%' . $query . '%')
+                    ->orWhere('end_time', 'like', '%' . $query . '%')
+                    ->orWhere('duration', 'like', '%' . $query . '%')
+                    ->orWhere('status', 'like', '%' . $query . '%')
+                    ->orWhere('remark', 'like', '%' . $query . '%')
+                    ->orWhere('created_at', 'like', '%' . $query . '%')
+                    ->orWhere('updated_at', 'like', '%' . $query . '%')
+                    ->orWhere('category', 'like', '%' . $query . '%')
+                    ->orWhere('registration_status', 'like', '%' . $query . '%')
+                    ->orWhere('email', 'like', '%' . $query . '%')
+                    ->orWhere('acc_number', 'like', '%' . $query . '%')
+                    ->orWhere('openFor', 'like', '%' . $query . '%')
+                    ->orWhere('bank_Name', 'like', '%' . $query . '%');
+            })
+                ->paginate(9);
+        } else {
+            $events = Event::paginate(9);
+        }
+
+        $eventsCount = $events->total();
+        return view('staffs.events.index', compact('events', 'eventsCount'));
+    }
+
+    public function viewEventDetail($id)
+    {
+        $event = Event::where('event_id', $id)->first();
+        return view('staffs.events.viewEventDetail')->with(['event' => $event]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function deleteEvent($id)
+    {
+        $event = Event::findOrFail($id);
+        $event->delete();
+
+        return redirect()->back();
+    }
+
+
     /**
      * Display the specified resource.
      */
