@@ -30,6 +30,7 @@
     <script src="https://kit.fontawesome.com/288dd6b8ec.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
 
     <!-- Favicons -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon">
@@ -53,6 +54,7 @@
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/styleBack.css') }}" rel="stylesheet">
     <link href="{{ asset('css/nice-admin.css') }}" rel="stylesheet">
+
 </head>
 
 <body>
@@ -149,7 +151,7 @@
             </li><!-- End Staff Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" id="livechatNav" href="/staffs/livechat">
+                <a class="nav-link collapsed" id="livechatNav" href="/staffs/livechat/0">
                     <i class="fas fa-comment-dots"></i>
                     <span>Live Chat</span>
                 </a>
@@ -178,11 +180,11 @@
     @yield('body')
 
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
+    {{-- <footer id="footer" class="footer">
         <div class="copyright">
             &copy; Copyright <strong><span>EventWise</span></strong>. All Rights Reserved
         </div>
-    </footer><!-- End Footer -->
+    </footer><!-- End Footer --> --}}
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
@@ -198,7 +200,7 @@
     <script src="{{ asset('vendor/php-email-form/validate.js') }}"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/nice-admin.js') }}"></script>
 
 </body>
 

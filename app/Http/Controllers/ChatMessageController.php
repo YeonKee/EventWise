@@ -2,62 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PusherBroadcast;
 use App\Models\ChatMessage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Models\Student;
 
-class PusherController extends Controller
+class ChatMessageController extends Controller
 {
-    public function index()
+    public function getChat($id)
     {
-        return view("chat");
-    }
+        // Fetch staff-specific messages from the database
+        $chatSessions = ChatMessage::distinct('chat_session')
+            ->orderBy('chat_id')
+            ->pluck('chat_session');
 
-    public function broadcast(Request $request)
-    {
-        $message = $request->get('message');
-        
-        if ($request->session()->has('studID')){
-            $studID = $request->session()->get('studID');
-        }else{
-            // Not authenticated user
-            $studID = Str::random(8);
+        if ($id == "0") {
+            $id = $chatSessions->first();
         }
 
-        $chatMessage = new ChatMessage([
-            'message' => $message,
-            'sender_id' => $studID,
-            'receiver_id' => '0',       // All staff can reveive
+        // Fetch staff-specific messages from the database
+        $messages = ChatMessage::where('chat_session', $id)
+            ->orderBy('created_at', 'asc') // Adjust the order as needed
+            ->get();
+
+        $student = Student::where('stud_id', $id)->first();
+
+        // Pass the staff-specific messages to the view
+        return view("staffs.livechat", [
+            'chatSessions' => $chatSessions,
+            'messages' => $messages,
+            'currentChatSession' => $id,
+            'student' => $student
         ]);
-
-        $chatMessage->save();
-
-        broadcast(new PusherBroadcast($message))->toOthers();
-        return view('broadcast', ['message' => $message]);
     }
 
-    public function receive(Request $request)
+    public function destroy($id)
     {
-        $message = $request->get('message');
-        
-        if ($request->session()->has('studID')){
-            $studID = $request->session()->get('studID');
-        }else{
-            // Not authenticated user
-            $studID = Str::random(8);
-        }
+        $chats = ChatMessage::where('chat_session', $id)->get();
+        $chats->each->delete();
 
-        $chatMessage = new ChatMessage([
-            'message' => $message,
-            'sender_id' => $studID,
-            'receiver_id' => '0',  // All staff can receive
-        ]);
-
-        $chatMessage->save();
-
-        broadcast(new PusherBroadcast($message))->toOthers();
-        return view("receive", ['message' => $request->get('message')]);
-
+        return redirect()->back()->with('chatSessions', '0');
     }
 }

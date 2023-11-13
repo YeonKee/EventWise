@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ChatMessageController;
 use App\Http\Controllers\ChatRatingController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\EventController;
@@ -93,6 +94,7 @@ Route::get('/staffs/successPasswordReset', [StaffController::class, 'successRese
 
 // LiveChat
 Route::get('/chat', [PusherController::class, 'index']);
+Route::get('/staffChat', [PusherController::class, 'staffIndex']);
 Route::post('/broadcast', [PusherController::class, 'broadcast']);
 Route::post('/receive', [PusherController::class, 'receive']);
 
@@ -157,7 +159,8 @@ Route::group(['middleware' => ['role:staff']], function () {
     Route::delete('/staffs/chats/rating/deleteRating/{id}', [ChatRatingController::class, 'destroy']);
 
     // Live Chat
-    Route::get('/staffs/livechat', [StaffController::class, 'livechat']);
+    Route::get('/staffs/livechat/{id}', [ChatMessageController::class, 'getChat']);
+    Route::delete('/staffs/livechat/deleteChat/{id}', [ChatMessageController::class, 'destroy']);
 
     // Profile
     Route::get('/staffs/profile', [StaffController::class, 'profile']);
