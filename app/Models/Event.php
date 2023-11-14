@@ -11,11 +11,38 @@ class Event extends Model
 
     protected $primaryKey = 'event_id';
 
-    public function registrations(){
+    public function registrations()
+    {
         return $this->hasMany(Registration::class, 'reg_id');
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::Class, 'cat_id');
     }
+
+    // public function calcCapacity()
+    // {
+    //     $event_capacity = $this->capacity;
+    //     $total = 0;
+
+    //     foreach ($event_capacity as $cap) {
+    //         $availableCap += $cap->calcCap();
+    //     }
+
+    //     return $total;
+    // }
+
+    public function calcCapacity()
+    {
+        $totalCapacity = $this->capacity;
+        $participatedCount = $this->participated_count;
+    
+        $remainingCapacity = max(0, $totalCapacity - $participatedCount);
+    
+        return $remainingCapacity;
+    }
+    
+
+
 }

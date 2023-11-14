@@ -80,8 +80,8 @@
 
         label {
             /* position: relative;
-            margin-bottom: 40px;
-            top: 20%; */
+                margin-bottom: 40px;
+                top: 20%; */
             display: inline-block;
             width: 300px;
         }
@@ -122,9 +122,112 @@
             margin-top: -300px;
             margin-bottom: -30px;
         }
+
+        label {
+            display: inline-block;
+            width: 350px;
+        }
     </style>
 @endsection
 @section('body')
+
+<script>
+    $(document).ready(function () {
+
+        // new profile upload
+        $("#wizard-picture1").change(function () {
+            // clear error message
+            $("#profile_err1").text("");
+            // check profile
+            var inputLen = this.value.length;
+            var file = this.files[0];
+            var URL = window.URL || window.webkitURL;
+            var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+            // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+            if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                readURL(this);
+            } else if (inputLen) {
+
+                // file format problem
+                if (!picture_regex.test(file.type)) {
+                    $("#profile_err1").text(
+                            "Please select image in GIF, JPG, JPEG, and PNG format only.");
+                } else if (file.size > (1 * 1024 * 1024)) {
+                    $("#profile_err1").text("Please make sure the image size is not more than 1MB.");
+                }
+
+                $(this).val("");
+                $('[id$=wizardPicturePreview1]').attr('src', $('[id$=wizardPicturePreview1]').attr(
+                        "alt"));
+            }
+
+        });
+
+       
+        function isEmpty(str) {
+            return !$.trim(str);
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('[id$=wizardPicturePreview1]').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+    );
+</script>
+<script>
+    $(document).ready(function () {
+
+        $("#wizard-picture2").change(function () {
+            // clear error message
+            $("#profile_err2").text("");
+            // check profile
+            var inputLen = this.value.length;
+            var file = this.files[0];
+            var URL = window.URL || window.webkitURL;
+            var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+            // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+            if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                readURL(this);
+            } else if (inputLen) {
+
+                // file format problem
+                if (!picture_regex.test(file.type)) {
+                    $("#profile_err2").text(
+                            "Please select image in GIF, JPG, JPEG, and PNG format only.");
+                } else if (file.size > (1 * 1024 * 1024)) {
+                    $("#profile_err2").text("Please make sure the image size is not more than 1MB.");
+                }
+
+                $(this).val("");
+                $('[id$=wizardPicturePreview2]').attr('src', $('[id$=wizardPicturePreview2]').attr(
+                        "alt"));
+            }
+
+        });
+
+        function isEmpty(str) {
+            return !$.trim(str);
+        }
+
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('[id$=wizardPicturePreview2]').attr('src', e.target.result).fadeIn('slow');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+    );
+</script>
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Event</h1>
@@ -144,18 +247,18 @@
                         <h2 class="form-title">Event Details</h2>
 
 
-                        <form method="post" action="/events/update/{{ $event->event_id }}" enctype="multipart/form-data">
+                        <form method="post" action="/events/{{ $event->event_id }}" enctype="multipart/form-data">
                             @csrf
                             @method('put')
 
                             <table class="profile-table text-left mb-3"
-                                style="width:100%;margin-left:-150px;margin-top:-300px">
+                                style="width:100%;margin-left:-150px;margin-top:-400px">
 
                                 <tr>
                                     <div class="form-row mb-4">
                                         <td style="width: 70%">
                                             <div class="col-5 mx-auto">
-                                                <label for="event_personInCharge">Person In-charge
+                                                <label for="event_personInCharge" style="width: 450px">Person In-charge
                                                     <span class="text-danger"><b>*</b>
                                                         @error('event_personInCharge')
                                                             {{ $message }}
@@ -185,7 +288,7 @@
                             </td>
                             <td style="width: 75%">
                                 <input type="text" class="form-control" id="event_picContactNo" name="event_picContactNo"
-                                    autocomplete="off" value="{{ old('event_picContactNo', $event->person_inCharge) }}">
+                                    autocomplete="off" value="{{ old('event_picContactNo', $event->contact_number) }}">
 
                         </div>
                         </td>
@@ -204,7 +307,7 @@
                         </td>
                         <td style="width: 75%">
                             <input type="text" class="form-control" id="pic_email" name="pic_email" autocomplete="off"
-                                value="{{ old('pic_email', $event->person_inCharge) }}">
+                                value="{{ old('pic_email', $event->email) }}">
 
                     </div>
                     </td>
@@ -244,26 +347,15 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
-                        <option value="Webinar_talk" {{ old('event_cat_dropdown') == 'Webinar_talk' ? 'selected' : '' }}>
-                            Webinar/Talk</option>
-                        <option value="Exhibitions" {{ old('event_cat_dropdown') == 'Exhibitions' ? 'selected' : '' }}>
-                            Exhibitions</option>
-                        <option value="Walkshop" {{ old('event_cat_dropdown') == 'Walkshop' ? 'selected' : '' }}>Sports
-                        </option>
-                        <option value="Entertainment" {{ old('event_cat_dropdown') == 'Entertainment' ? 'selected' : '' }}>
-                            Entertainment</option>
-                        <option value="Workshop" {{ old('event_cat_dropdown') == 'Workshop' ? 'selected' : '' }}>Workshop
-                        </option>
-                        <option value="Charity" {{ old('event_cat_dropdown') == 'Charity' ? 'selected' : '' }}>Charity
-                        </option>
-                        <option value="Competition" {{ old('event_cat_dropdown') == 'Competition' ? 'selected' : '' }}>
-                            Competition</option>
-                        <option value="Festival" {{ old('event_cat_dropdown') == 'Festival' ? 'selected' : '' }}>Festival
-                        </option>
-                        <option value="Others" {{ old('event_cat_dropdown') == 'Others' ? 'selected' : '' }}>Others
-                        </option>
+                        <option value="Webinar_talk" {{ old('event_cat_dropdown', $event->category) == 'Webinar_talk' ? 'selected' : '' }}>Webinar/Talk</option>
+                        <option value="Exhibitions" {{ old('event_cat_dropdown', $event->category) == 'Exhibitions' ? 'selected' : '' }}>Exhibitions</option>
+                        <option value="Sports" {{ old('event_cat_dropdown', $event->category) == 'Sports' ? 'selected' : '' }}>Sports</option>
+                        <option value="Entertainment" {{ old('event_cat_dropdown', $event->category) == 'Entertainment' ? 'selected' : '' }}>Entertainment</option>
+                        <option value="Workshop" {{ old('event_cat_dropdown', $event->category) == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+                        <option value="Charity" {{ old('event_cat_dropdown', $event->category) == 'Charity' ? 'selected' : '' }}>Charity</option>
+                        <option value="Competition" {{ old('event_cat_dropdown', $event->category) == 'Competition' ? 'selected' : '' }}>Competition</option>
+                        <option value="Others" {{ old('event_cat_dropdown', $event->category) == 'Others' ? 'selected' : '' }}>Others</option>
                     </select>
-
             </div>
             </td>
             </div>
@@ -282,11 +374,10 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="open_For_dropdown" name="open_For_dropdown">
-                        <option value="Public" {{ old('open_For_dropdown') == 'Public' ? 'selected' : '' }}>Public</option>
-                        <option value="Student" {{ old('open_For_dropdown') == 'Student' ? 'selected' : '' }}>Students
-                        </option>
+                        <option value="Public" {{ old('open_For_dropdown', $event->openFor) == 'Public' ? 'selected' : '' }}>Public</option>
+                        <option value="Students" {{ old('open_For_dropdown', $event->openFor) == 'Students' ? 'selected' : '' }}>Students</option>
                     </select>
-            </div>
+                </div>
             </td>
             </div>
         </tr>
@@ -324,11 +415,11 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview" />
-                        <input type="file" id="wizard-picture" name="event_venueArr"
+                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1" />
+                        <input type="file" id="wizard-picture1" name="event_venueArr"
                             accept=".gif, .jpg, .jpeg, .png" />
                     </div>
-                    <span class="d-block mt-2 mb-4 text-danger" id="profile_err">
+                    <span class="d-block mt-2 mb-4 text-danger" id="profile_err1">
                         @error('event_venueArr')
                             <label class="text-danger mt-2">{{ $message }}</label><br>
                         @enderror
@@ -338,6 +429,9 @@
             </td>
             </div>
         </tr>
+
+        
+
 
         <tr>
             <div class="form-row mb-4">
@@ -372,22 +466,23 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
-                        <option value="Maybank">Maybank</option>
-                        <option value="Public Bank">Public Bank</option>
-                        <option value="RHB Bank">RHB Bank</option>
-                        <option value="Hong Leong Bank">Hong Leong Bank</option>
-                        <option value="AmBank">AmBank</option>
-                        <option value="Bank Rakyat">Bank Rakyat</option>
-                        <option value="OCBC Bank">OCBC Bank</option>
-                        <option value="HSCB Bank">HSCB Bank</option>
-                        <option value="Bank Islam Malaysia">Bank Islam Malaysia</option>
-                        <option value="Affin Bank">Affin Bank</option>
-                        <option value="Alliance Bank">Alliance Bank</option>
-                        <option value="CIMB Bank">CIMB Bank</option>
+                        <option value="Maybank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Maybank' ? 'selected' : '' }}>Maybank</option>
+                        <option value="Public Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Public Bank' ? 'selected' : '' }}>Public Bank</option>
+                        <option value="RHB Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'RHB Bank' ? 'selected' : '' }}>RHB Bank</option>
+                        <option value="Hong Leong Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Hong Leong Bank' ? 'selected' : '' }}>Hong Leong Bank</option>
+                        <option value="AmBank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'AmBank' ? 'selected' : '' }}>AmBank</option>
+                        <option value="Bank Rakyat" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Rakyat' ? 'selected' : '' }}>Bank Rakyat</option>
+                        <option value="OCBC Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'OCBC Bank' ? 'selected' : '' }}>OCBC Bank</option>
+                        <option value="HSBC Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'HSBC Bank' ? 'selected' : '' }}>HSBC Bank</option>
+                        <option value="Bank Islam Malaysia" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Islam Malaysia' ? 'selected' : '' }}>Bank Islam Malaysia</option>
+                        <option value="Affin Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Affin Bank' ? 'selected' : '' }}>Affin Bank</option>
+                        <option value="Alliance Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Alliance Bank' ? 'selected' : '' }}>Alliance Bank</option>
+                        <option value="CIMB Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'CIMB Bank' ? 'selected' : '' }}>CIMB Bank</option>
                     </select>
+
             </div>
             <input type="text" class="form-control" id="pic_accNo" name="pic_accNo" autocomplete="off"
-                value="{{ old('pic_accNo', $event->ticket_price) }}">
+                value="{{ old('pic_accNo', $event->acc_number) }}">
             </div>
         </tr>
 
@@ -403,7 +498,10 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <input type="text" class="form-control" id="event_capacity" name="event_capacity"
+                    <input type="text" class="form-control" style="width: 100px" value="{{ $event->participated_count }}" readonly> </td>
+                    <td style="width: 75%" ><span style="margin-left: -400px">/</span></td>
+                    <td style="width: 75%">
+                    <input type="text" class="form-control" id="event_capacity" name="event_capacity" style="width: 150px;margin-left:-390px"
                         autocomplete="off" value="{{ old('event_capacity', $event->capacity) }}">
 
             </div>
@@ -444,7 +542,7 @@
                 </td>
                 <td style="width: 75%">
                     <input type="text" class="form-control" id="event_duration" name="event_duration"
-                        value="{{ old('event_duration', $event->duartion) }}">
+                        value="{{ old('event_duration', $event->duration) }}">
 
             </div>
             </td>
@@ -469,7 +567,7 @@
                             value="{{ old('event_startTime', $event->start_time) }}">
                         <span class="ml-2">To:</span>
                         <input type="time" class="form-control" id="event_endTime" name="event_endTime"
-                            value="{{ old('event_endTime', $event->start_time) }}">
+                            value="{{ old('event_endTime', $event->end_time) }}">
                     </div>
 
             </div>
@@ -491,10 +589,10 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview" />
-                        <input type="file" id="wizard-picture" name="event_pic" accept=".gif, .jpg, .jpeg, .png" />
+                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2" />
+                        <input type="file" id="wizard-picture2" name="event_pic" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
-                    <span class="d-block mt-2 mb-4 text-danger" id="profile_err">
+                    <span class="d-block mt-2 mb-4 text-danger" id="profile_err2">
                         @error('event_pic')
                             <label class="text-danger mt-2">{{ $message }}</label><br>
                         @enderror
@@ -506,6 +604,93 @@
         </tr>
 
         <tr>
+            <div class="form-row mb-4">
+                <td style="width: 70%">
+                    <div class="col-5 mx-auto">
+                        <label for="remark">Remark
+                            <span class="text-danger"><b>*</b>
+                                @error('remark')
+                                    {{ $message }}
+                                @enderror
+                            </span></label>
+                </td>
+                <td style="width: 75%">
+                    <textarea rows="4" cols="50" class="form-control" id="remark" name="remark"
+                        style="resize: none">{{ old('remark', $event->remark) }}</textarea>
+
+            </div>
+            </td>
+            </div>
+        </tr>
+
+
+        <tr>
+            <div class="form-row mb-4">
+                <td style="width: 70%">
+                    <div class="col-5 mx-auto">
+                        <label for="approval_status">Approval Status
+                            <span class="text-danger"><b>*</b>
+                                @error('approval_status')
+                                    {{ $message }}
+                                @enderror
+                            </span></label>
+                </td>
+                <td style="width: 75%">
+                    <select class="form-control" id="approval_status_dropdown" name="approval_status_dropdown">
+                        <option value="Pending" {{ old('approval_status_dropdown', $event->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="Approved" {{ old('approval_status_dropdown', $event->status) == 'Approved' ? 'selected' : '' }}>Approved</option>
+                    </select>
+
+            </div>
+            </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-row mb-4">
+                <td style="width: 70%">
+                    <div class="col-5 mx-auto">
+                        <label for="registration_status">Registration Status
+                            <span class="text-danger"><b>*</b>
+                                @error('registration_status')
+                                    {{ $message }}
+                                @enderror
+                            </span></label>
+                </td>
+                <td style="width: 75%">
+                    <select class="form-control" id="registration_status_dropdown" name="registration_status_dropdown">
+                        <option value="Closed" {{ old('registration_status_dropdown', $event->registration_status) == 'Closed' ? 'selected' : '' }}>Closed</option>
+                        <option value="Open" {{ old('registration_status_dropdown', $event->registration_status) == 'Open' ? 'selected' : '' }}>Open</option>
+                    </select>
+            </div>
+            </td>
+            </div>
+        </tr>
+
+        <tr>
+            <div class="form-row mb-4">
+                <td style="width: 70%">
+                    <div class="col-5 mx-auto">
+                        <label for="event_status">Event Status
+                            <span class="text-danger"><b>*</b>
+                                @error('event_status')
+                                    {{ $message }}
+                                @enderror
+                            </span></label>
+                </td>
+                <td style="width: 75%">
+                    <select class="form-control" id="event_status_dropdown" name="event_status_dropdown">
+                        <option value="Upcoming" {{ old('event_status_dropdown', $event->event_status) == 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
+                        <option value="On going" {{ old('event_status_dropdown', $event->event_status) == 'On going' ? 'selected' : '' }}>On going</option>
+                        <option value="Past" {{ old('event_status_dropdown', $event->event_status) == 'Past' ? 'selected' : '' }}>Past</option>
+                    </select>
+            </div>
+            </td>
+            </div>
+        </tr>
+
+
+        <tr>
             <th></th>
             <td>
                 <button type="submit" id="submit_form" class="btn btn-warning">Save</button>
@@ -514,270 +699,19 @@
 
         </table>
 
-
-        {{-- <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_picContactNo">Contact number
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_picContactNo')
-                                                {{ $message }}
-                                            @enderror
-                                        </span></label>
-                                    <input type="text" class="form-control" id="event_picContactNo" name="event_picContactNo"
-                                        autocomplete="off" value="{{ old('event_picContactNo') }}">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="pic_email">Email
-                                        <span class="text-danger"><b>*</b>
-                                            @error('pic_email')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <input type="text" class="form-control" id="pic_email" name="pic_email" value="{{ old('pic_email') }}">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_name">Event Name
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_name')
-                                                {{ $message }}
-                                            @enderror
-                                        </span></label>
-                                    <input type="text" class="form-control" id="event_name" name="event_name" autocomplete="off"
-                                        value="{{ old('event_name') }}">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_cat">Event Category
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_cat')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
-                                            <option value="Webinar_talk">Webinar/Talk</option>
-                                            <option value="Exhibitions">Exhibitions</option>
-                                            <option value="Walkshop">Sports</option>
-                                            <option value="Entertainment">Entertainment</option>
-                                            <option value="Workshop">Workshop</option>
-                                            <option value="Charity">Charity</option>
-                                            <option value="Competition">Competition</option>
-                                            <option value="Festival">Festival</option>
-                                            <option value="Others">Others</option>
-                                        </select>
-                    
-                                    </div>
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="open_For">Open For
-                                        <span class="text-danger"><b>*</b>
-                                            @error('open_For')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select class="form-control" id="open_For_dropdown" name="open_For_dropdown">
-                                            <option value="Public">Public</option>
-                                            <option value="Student">Students</option>
-                                        </select>
-                    
-                                    </div>
-                                </div>
-                            </div>
-                    
-                     
-                    
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_desc">Event Description
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_desc')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc" style="resize: none">{{ old('event_desc') }}</textarea>
-                                </div>
-                            </div>
-                    
-                            
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <div class="form-group input-group">
-                                        <label for="event_venueArr">Venue Arrangement:
-                                            <span class="text-danger"><b>*</b>
-                                                @error('event_venueArr')
-                                                    {{ $message }}
-                                                @enderror
-                                            </span>
-                                            <img id="picture_preview2" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
-                                            <input type="file" class="d-none" name="event_venueArr" accept=".jpg, .jpeg, .png" capture>
-                                        </label>
-                                    </div>
-                                    <a href="http://127.0.0.1:8000/venueArr">Draw Now</a>
-                                     
-                                </div>
-                            </div>
-                    
-                    
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_price">Ticket Price(RM)
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_price')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <input type="text" class="form-control" id="event_price" name="event_price"
-                                        value="{{ old('event_price') }}">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="pic_accNo">Beneficiary Account Number
-                                        <span class="text-danger"><b>*</b>
-                                            @error('pic_accNo')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <div class="input-group">
-                                        <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
-                                            <option value="Maybank">Maybank</option>
-                                            <option value="Public Bank">Public Bank</option>
-                                            <option value="RHB Bank">RHB Bank</option>
-                                            <option value="Hong Leong Bank">Hong Leong Bank</option>
-                                            <option value="AmBank">AmBank</option>
-                                            <option value="Bank Rakyat">Bank Rakyat</option>
-                                            <option value="OCBC Bank">OCBC Bank</option>
-                                            <option value="HSCB Bank">HSCB Bank</option>
-                                            <option value="Bank Islam Malaysia">Bank Islam Malaysia</option>
-                                            <option value="Affin Bank">Affin Bank</option>
-                                            <option value="Alliance Bank">Alliance Bank</option>
-                                            <option value="CIMB Bank">CIMB Bank</option>
-                                        </select>
-                    
-                                    </div>
-                                    <input type="text" class="form-control" id="pic_accNo" name="pic_accNo"
-                                        value="{{ old('pic_accNo') }}" style="margin-top: 10px">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_capacity">Capacity
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_capacity')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <input type="text" class="form-control" id="event_capacity" name="event_capacity"
-                                        value="{{ old('event_capacity') }}">
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_date">Event Actual Date
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_date')
-                                                {{ $message }}
-                                            @enderror
-                                        </span></label>
-                                    <input type="date" class="form-control" id="event_date" name="event_date" autocomplete="off"
-                                        value="{{ old('event_date') }}">
-                                </div>
-                            </div>
-                    
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_duration">Event Duration (in days)
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_duration')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <input type="text" class="form-control" id="event_duration" name="event_duration"
-                                        value="{{ old('event_duration') }}">
-                                </div>
-                            </div>
-                    
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <label for="event_time">Event Time
-                                        <span class="text-danger"><b>*</b>
-                                            @error('event_time')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </label>
-                                    <div class="d-flex">
-                                        <span class="mr-2">From:</span>
-                                        <input type="time" class="form-control" id="event_startTime" name="event_startTime"
-                                            value="{{ old('event_startTime') }}">
-                                        <span class="ml-2">To:</span>
-                                        <input type="time" class="form-control" id="event_endTime" name="event_endTime"
-                                            value="{{ old('event_endTime') }}">
-                                    </div>
-                                </div>
-                            </div>
-                    
-                            <div class="form-row mb-4">
-                                <div class="col-5 mx-auto">
-                                    <div class="form-group input-group">
-                                        <label for="event_pic">Event Picture/Poster:
-                                            <span class="text-danger"><b>*</b>
-                                                @error('event_pic')
-                                                    {{ $message }}
-                                                @enderror
-                                            </span>
-                                            <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
-                                            <input type="file" class="d-none" name="event_pic" accept=".jpg, .jpeg, .png" capture>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                    
-                    
-                            <div class="form-row mb-5">
-                                <div class="col-5 mx-auto recaptcha_box">
-                                    <button type="button" class="btn btn-secondary mr-2"
-                                        onclick="location.href = '/becomeorganizer'">Clear</button>
-                                    <button type="submit" id="submit_form" class="btn btn-warning">Submit</button>
-                    
-                                </div>
-                            </div>
-                            <div>
-                                    <button type="submit" class="btn btn-warning">Save</button>
-                            </div> --}}
-
-        </table>
         </form>
         </div>
         </div>
         </div>
         </div>
     </main>
+@endsection
+
+@section('foot')
+<script>
+    $("[data-get]").on("click", function (e) {
+        const url = $(this).attr("data-get");
+        location = url || location;
+    });
+</script>
 @endsection

@@ -191,6 +191,20 @@
             </div>
         </div>
 
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <label for="part_city">City
+                    <span class="text-danger"><b>*</b>
+                        @error('part_city')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+                <textarea rows="4" cols="50" class="form-control" id="part_city" name="part_city" style="resize: none">{{ old('part_city') }}</textarea>
+            </div>
+        </div>
+
+
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">

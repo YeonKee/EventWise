@@ -150,7 +150,7 @@
                         @enderror
                     </span></label>
                 <input type="text" class="form-control" id="event_personInCharge" name="event_personInCharge"
-                    autocomplete="off" value="{{ old('event_personInCharge') }}">
+                    autocomplete="off" value="{{ old('person_inCharge') }}">
             </div>
         </div>
 
@@ -206,7 +206,7 @@
                     <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
                         <option value="Webinar_talk">Webinar/Talk</option>
                         <option value="Exhibitions">Exhibitions</option>
-                        <option value="Walkshop">Sports</option>
+                        <option value="Sports">Sports</option>
                         <option value="Entertainment">Entertainment</option>
                         <option value="Workshop">Workshop</option>
                         <option value="Charity">Charity</option>
@@ -231,7 +231,7 @@
                 <div class="input-group">
                     <select class="form-control" id="open_For_dropdown" name="open_For_dropdown">
                         <option value="Public">Public</option>
-                        <option value="Student">Students</option>
+                        <option value="Students">Students</option>
                     </select>
 
                 </div>
@@ -307,7 +307,7 @@
                         <option value="AmBank">AmBank</option>
                         <option value="Bank Rakyat">Bank Rakyat</option>
                         <option value="OCBC Bank">OCBC Bank</option>
-                        <option value="HSCB Bank">HSCB Bank</option>
+                        <option value="HSBC Bank">HSBC Bank</option>
                         <option value="Bank Islam Malaysia">Bank Islam Malaysia</option>
                         <option value="Affin Bank">Affin Bank</option>
                         <option value="Alliance Bank">Alliance Bank</option>
