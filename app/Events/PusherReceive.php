@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PusherBroadcast implements ShouldBroadcast
+class PusherReceive implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -38,6 +38,6 @@ class PusherBroadcast implements ShouldBroadcast
 
     public function broadcastAs(): string
     {
-        return 'chat';
+        return 'receive';
     }
 }

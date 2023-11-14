@@ -57,11 +57,6 @@ class StaffController extends Controller
         ;
     }
 
-    public function livechat()
-    {
-        return view('staffs.livechat');
-    }
-
     /**
      * Show the form for creating a new resource.
      */

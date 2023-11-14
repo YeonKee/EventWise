@@ -12,6 +12,7 @@
         <a href="students/create">Register account</a><br/>
         <a href="students/loginPage">Login</a><br/>
         <a href="/students/logout">Logout</a><br/>
+        <a href="/chat">Live chat</a><br/>
 
         <hr/>
 
@@ -19,5 +20,7 @@
         <a href="/staffs/staffs/create">Register account</a><br/>
         <a href="staffs/loginPage">Login</a><br/>
         <a href="/staffs/logout">Logout</a><br/>
+        <a href="/staffs/livechat/0">Live chat staff</a><br/>
+
     </body>
 </html>
