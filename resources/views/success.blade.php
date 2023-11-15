@@ -1,4 +1,8 @@
-@extends('layoutFront')
+@php
+    $selectedLayout = session('selected_layout', 'layoutFront'); // Get the selected layout from the session
+@endphp
+
+@extends($selectedLayout)
 @section('head')
     <link rel="stylesheet" href="venue.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

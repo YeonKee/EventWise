@@ -98,6 +98,16 @@ Route::get('/staffChat', [PusherController::class, 'staffIndex']);
 Route::post('/broadcast', [PusherController::class, 'broadcast']);
 Route::post('/receive', [PusherController::class, 'receive']);
 
+// Automated Chat
+Route::get('/set-layout', function () {
+    $layout = request('layout');
+
+    // Set a session variable to hold the selected layout
+    session(['selected_layout' => $layout]);
+
+    // Redirect back to the previous page or any desired page
+    return redirect()->back();
+});
 
 /*
 |--------------------------------------------------------------------------
