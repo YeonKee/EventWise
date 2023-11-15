@@ -89,12 +89,31 @@
                 </a>
             </li><!-- End Dashboard Nav -->
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" id="eventNav" href="/staffs/events/viewEvent">
                     <i class="fa fa-calendar"></i>
                     <span>Event</span>
                 </a>
-            </li><!-- End Event Nav -->
+            </li><!-- End Event Nav --> --}}
+
+              <li class="nav-item">
+                    <a class="nav-link collapsed" id="eventNav" data-bs-target="#event-nav" data-bs-toggle="collapse"
+                        href="#">
+                        <i class="fas fa-id-badge"></i><span>Event</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="event-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li>
+                            <a href="/staffs/events/viewEvent" class="" id="eventInfo">
+                                <i class="bi bi-circle"></i><span>Event Info</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/staffs/events/viewParticipantList" class="" id="participantList">
+                                <i class="bi bi-circle"></i><span>Participant List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li><!-- End Staff Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" id="studentNav" href="/staffs/students/viewStudent">

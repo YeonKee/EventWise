@@ -141,7 +141,11 @@ Route::group(['middleware' => ['role:staff']], function () {
     // Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
     Route::get('/staffs/events/viewEvent', [EventController::class, 'viewAllEvent']);
     Route::get('/staffs/events/staffEventSearch', [EventController::class, 'staffSearchEvents']);
+    Route::get('/staffs/events/staffParticipantSearch', [EventController::class, 'staffSearchParticipants']);
     Route::get('/staffs/events/viewEventDetail/{id}', [EventController::class, 'viewEventDetail']);
+    Route::get('/staffs/events/viewParticipantList', [EventController::class, 'viewParticipantList']);
+    Route::get('/staffs/events/viewParticipantList/{id}', [EventController::class, 'participantList']);
+    Route::post('/staffs/events/update/{id}', [EventController::class, 'updateEvent']);
     Route::delete('/staffs/events/deleteEvent/{id}', [EventController::class, 'deleteEvent']);
 
     // Student
@@ -200,9 +204,11 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 //--------------HOMEPAGE ROUTE----------
 // Main page
-Route::get('/homepage', function () {
-    return view('homepage');
-});
+
+Route::get('/homepage', [EventController::class, 'homepage']);
+// Route::get('/homepage', function () {
+//     return view('homepage');
+// });
 
 Route::get('/index', function () {
     return view('index');
@@ -224,7 +230,7 @@ Route::get('/contact', function () {
 //     return view('textGenerator');
 // });
 
-//Route::resource('/event', EventController::class);
+Route::resource('/events', EventController::class);
 Route::post('/event', [EventController::class, 'store']);
 Route::post('/event/register', [EventController::class, 'registration']);
 Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);

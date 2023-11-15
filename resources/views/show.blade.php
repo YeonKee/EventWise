@@ -14,7 +14,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style type="text/css">
-
         /* normal css */
         img#picture_preview {
             width: 130px;
@@ -128,10 +127,9 @@
     </style>
 @endsection
 @section('body')
-
-<div class="container">
-    <div class="card">
-        <div class="card-body">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
 
                 <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
 
@@ -148,29 +146,53 @@
                         <h4 class="box-title mt-5">Event description:</h4>
                         <p>{{ $event->description }}</p>
                         <h4 class="box-title mt-5">Ticket Price(RM):</h4>
-                        <p>{{ number_format($event->ticket_price,2) }}</p>
+                        <p>{{ number_format($event->ticket_price, 2) }}</p>
 
                         <h4 class="box-title mt-5">Capacity:</h4>
                         <p>{{ $event->capacity }}</p>
                         <h4 class="box-title mt-5">Capacity Available:</h4>
                         <p>{{ $event->capacity - $event->participated_count }}</p>
 
-                       
+
                         <br><br>
+                        {{-- Check if remaining capacity is greater than 0 --}}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="joinEvent()">
+                                Join the event!
+                            </button>
+                        </div>
+
+                        <script>
+                            function joinEvent() {
+                                var remainingCapacity = {{ $event->capacity - $event->participated_count }};
+
+                                // Check if remaining capacity is 0 or less
+                                if (remainingCapacity <= 0) {
+                                    // Show alert message
+                                    alert('Sorry, the capacity for the event is full.');
+                                } else {
+                                    // Redirect the user to the registration page
+                                    window.location.href = "/event/registerEvent/{{ $event->event_id }}";
+                                }
+                            }
+                        </script>
+
+
+                        {{--                 
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <a
                                  href="/event/registerEvent/{{$event->event_id}}">Join the event!</a></button>
-                        </div>
+                        </div> --}}
                         {{-- <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br> --}}
                     </div>
                 </div>
 
+            </div>
         </div>
     </div>
-</div>
 
-{{-- <script>
+    {{-- <script>
     $('.btn-plus, .btn-minus').on('click', function(e) {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
         const input = $(e.target).closest('.input-group').find('input');
@@ -180,17 +202,17 @@
     });
 </script> --}}
 
-@if (session()->has('successAddCart'))
-    <script>
-        $(function() {
-            $('.successAdd').modal('show');
-        });
-    </script>
-@elseif (session()->has('failAddCart'))
-    <script>
-        $(function() {
-            $('.failAdd').modal('show');
-        });
-    </script>
-@endif
+    @if (session()->has('successAddCart'))
+        <script>
+            $(function() {
+                $('.successAdd').modal('show');
+            });
+        </script>
+    @elseif (session()->has('failAddCart'))
+        <script>
+            $(function() {
+                $('.failAdd').modal('show');
+            });
+        </script>
+    @endif
 @endsection
