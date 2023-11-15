@@ -29,13 +29,13 @@ class EventController extends Controller
 
     public function homepage(Request $request)
     {
-        $events = Event::where('status','Approved');
+        $events = Event::where('status', 'Approved');
 
-        if(!$request->session()->has('studID')){
-                $events = $events->where('openFor','Public');
+        if (!$request->session()->has('studID')) {
+            $events = $events->where('openFor', 'Public');
         }
 
-        $events= $events->get();
+        $events = $events->get();
         return view('homepage', ['events' => $events]);
 
     }
@@ -43,13 +43,13 @@ class EventController extends Controller
 
     public function Category(Request $request)
     {
-        $events = Event::where('category', $request->category)->where('status','Approved');
+        $events = Event::where('category', $request->category)->where('status', 'Approved');
 
-        if(!$request->session()->has('studID')){
-                $events = $events->where('openFor','Public');
+        if (!$request->session()->has('studID')) {
+            $events = $events->where('openFor', 'Public');
         }
 
-        $events= $events->get();
+        $events = $events->get();
         return view('category', ['events' => $events]);
 
     }
@@ -124,7 +124,7 @@ class EventController extends Controller
 
 
     public function store(Request $request)
-    { 
+    {
         $events = new Event();
         $events->person_inCharge = $request->event_personInCharge;
         $events->contact_number = $request->event_picContactNo;
@@ -160,21 +160,22 @@ class EventController extends Controller
 
         $events->save();
         return redirect('/textGenerator?success=' . $events->event_id);
-        
+
     }
 
-    public function updateRemark(Request $request, $eventId) {
+    public function updateRemark(Request $request, $eventId)
+    {
         // Find the event by its ID
         $event = Event::find($eventId);
-    
+
         if ($event) {
             // Update the 'status' column
-            $event->update(['remark' =>$request->remark]);
-        
+            $event->update(['remark' => $request->remark]);
+
         } else {
             // Handle the case when the event is not found
         }
-    
+
         // You can return a response or redirect to another page
     }
 
@@ -195,9 +196,9 @@ class EventController extends Controller
         $registrations->city = $request->part_city;
         $registrations->address = $request->part_add;
 
-        if($request->suggest == null){
+        if ($request->suggest == null) {
             $registrations->suggest = 'No';
-        }else{
+        } else {
             $registrations->suggest = 'Yes';
         }
         $registrations->save();
@@ -215,16 +216,16 @@ class EventController extends Controller
             $event->save();
         }
 
-        if( $event->participated_count == $event->capacity){
+        if ($event->participated_count == $event->capacity) {
             $event->registration_status = "Closed";
             $event->save();
         }
-    
-        
+
+
         //return redirect('/registerEvent?success=' . $registrations->reg_id);
         return redirect('/success');
-   
-        
+
+
     }
 
     public function viewAllEvent()
@@ -233,6 +234,27 @@ class EventController extends Controller
         $eventsCount = $events->total();
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
+
+    public function viewParticipantList()
+    {
+        $events = Event::paginate(9);
+        $eventsCount = $events->total();
+        return view('staffs.events.viewParticipantList', compact('events', 'eventsCount'));
+    }
+
+    public function participantList($id)
+    {
+        // Get all participants for the given event_id
+        $participantList = Registration::where('event_id', $id)->paginate(9);
+
+        // Get the total number of participants
+        $totalParticipants = $participantList->total();
+        $event = Event::where('event_id', $id)->first();
+
+        return view('staffs.events.participantList')->with(['participantList' => $participantList, 'totalParticipants' => $totalParticipants,'event' => $event]);
+    }
+
+
 
     public function staffSearchEvents(Request $request)
     {
@@ -271,6 +293,30 @@ class EventController extends Controller
         $eventsCount = $events->total();
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
+
+    public function staffSearchParticipants(Request $request)
+    {
+        $query = $request->input('query');
+
+    if ($query) {
+        $participantList = Registration::where(function ($q) use ($query) {
+            $q->where('event_id', 'like', '%' . $query . '%')
+                ->orWhere('part_name', 'like', '%' . $query . '%')
+                ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
+                ->orWhere('part_email', 'like', '%' . $query . '%');
+        })
+            ->paginate(9);
+
+        // Get the total number of participants for the given query
+        $totalParticipants = $participantList->total();
+    } else {
+        // If no search query, fetch all participants
+        $participants = Registration::paginate(9);
+    }
+
+    return view('staffs.events.participantList', compact('participantList', 'totalParticipants'));
+    }
+
 
     public function viewEventDetail($id)
     {
@@ -311,8 +357,8 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-       
-   
+
+
         $event->person_inCharge = $request->event_personInCharge;
         $event->contact_number = $request->event_picContactNo;
         $event->email = $request->pic_email;
@@ -333,12 +379,12 @@ class EventController extends Controller
         $event->status = $request->approval_status_dropdown;
         $event->registration_status = $request->registration_status_dropdown;
         $event->event_status = $request->event_status_dropdown;
-  
+
         if ($request->hasFile('event_pic')) {
             $this->savePicture($request->event_pic, $event->event_id);
         }
 
-        
+
         if ($request->hasFile('event_venueArr')) {
             $this->saveVenue($request->event_venueArr, $event->event_id);
         }

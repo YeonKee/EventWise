@@ -131,7 +131,10 @@ Route::group(['middleware' => ['role:staff']], function () {
     // Route::get('/staffs/events/viewEvent', [EventController::class, 'index']);
     Route::get('/staffs/events/viewEvent', [EventController::class, 'viewAllEvent']);
     Route::get('/staffs/events/staffEventSearch', [EventController::class, 'staffSearchEvents']);
+    Route::get('/staffs/events/staffParticipantSearch', [EventController::class, 'staffSearchParticipants']);
     Route::get('/staffs/events/viewEventDetail/{id}', [EventController::class, 'viewEventDetail']);
+    Route::get('/staffs/events/viewParticipantList', [EventController::class, 'viewParticipantList']);
+    Route::get('/staffs/events/viewParticipantList/{id}', [EventController::class, 'participantList']);
     Route::post('/staffs/events/update/{id}', [EventController::class, 'updateEvent']);
     Route::delete('/staffs/events/deleteEvent/{id}', [EventController::class, 'deleteEvent']);
 
