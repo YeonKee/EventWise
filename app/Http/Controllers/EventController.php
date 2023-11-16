@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Registration;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends Controller
 {
@@ -66,6 +69,31 @@ class EventController extends Controller
 
         return view('show', ['event' => $event]);
     }
+
+
+    public function eventHistory(Request $request)
+    {
+        $stud_id=$request->session()->get('studID');
+
+         // Get the stud_id from the session
+        //  $stud_id = Session::get('stud_id');
+         //dd($stud_id);
+
+         // Check if stud_id exists in the session
+         if ($stud_id) {
+             // Retrieve the registrations for the current student
+             $registrations = Registration::where('stud_id', $stud_id)->get();
+ 
+             // If you have relationships set up, you can eager load the events
+             $registrations->load('event');
+ 
+             return view('students.eventHistory', ['registrations' => $registrations]);
+         }
+ 
+         // Handle the case where stud_id is not present in the session
+         return redirect()->route('/students/loginPage'); // Adjust the route as needed
+    }
+
 
     public function searchEvents(Request $request)
     {
@@ -208,6 +236,7 @@ class EventController extends Controller
         $registrations->receipt = "/img/receipt/receipt_$registrations->reg_id.png";
 
         $registrations->save();
+        $request->session()->put('reg_id', $registrations->reg_id);
 
         $event = Event::find($request->event_id);
 
@@ -223,7 +252,7 @@ class EventController extends Controller
 
 
         //return redirect('/registerEvent?success=' . $registrations->reg_id);
-        return redirect('/success');
+        return redirect('/success?success=' . $registrations->reg_id);
 
 
     }
@@ -251,9 +280,47 @@ class EventController extends Controller
         $totalParticipants = $participantList->total();
         $event = Event::where('event_id', $id)->first();
 
-        return view('staffs.events.participantList')->with(['participantList' => $participantList, 'totalParticipants' => $totalParticipants,'event' => $event]);
+        return view('staffs.events.participantList')->with(['participantList' => $participantList, 'totalParticipants' => $totalParticipants, 'event' => $event]);
     }
 
+    private function suggestNearParticipants($referenceParticipant, $participants)
+    {
+
+        $suggestedParticipants = $participants->filter(function ($participant) use ($referenceParticipant) {
+            // Compare states, cities, and check agreement to display info
+            return (
+                $participant->state == $referenceParticipant->state &&
+                $participant->city == $referenceParticipant->city &&
+                $participant->suggest == 'Yes'
+            );
+        });
+
+        return $suggestedParticipants;
+    }
+
+    public function suggestNearBy($id)
+    {
+        // Find the participant by its ID
+        $participant = Registration::find($id);
+
+        // Get the event for the participant
+        $event = Event::find($participant->event_id);
+
+        // Get all participants for the given event_id excluding the current participant
+        $participantList = Registration::where('event_id', $event->event_id)
+            ->where('reg_id', '!=', $id)
+            ->where('suggest', '=', 'Yes') // Assuming 'display_info' is the column indicating agreement
+            ->paginate(9);
+
+        // Suggest nearby participants based on address, city, state, and agreement to display info
+        $suggestedParticipants = $this->suggestNearParticipants($participant, $participantList);
+
+        return view('/suggestNearBy')->with([
+            'participantList' => $participantList,
+            'event' => $event,
+            'suggestedParticipants' => $suggestedParticipants,
+        ]);
+    }
 
 
     public function staffSearchEvents(Request $request)
@@ -298,23 +365,23 @@ class EventController extends Controller
     {
         $query = $request->input('query');
 
-    if ($query) {
-        $participantList = Registration::where(function ($q) use ($query) {
-            $q->where('event_id', 'like', '%' . $query . '%')
-                ->orWhere('part_name', 'like', '%' . $query . '%')
-                ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
-                ->orWhere('part_email', 'like', '%' . $query . '%');
-        })
-            ->paginate(9);
+        if ($query) {
+            $participantList = Registration::where(function ($q) use ($query) {
+                $q->where('event_id', 'like', '%' . $query . '%')
+                    ->orWhere('part_name', 'like', '%' . $query . '%')
+                    ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
+                    ->orWhere('part_email', 'like', '%' . $query . '%');
+            })
+                ->paginate(9);
 
-        // Get the total number of participants for the given query
-        $totalParticipants = $participantList->total();
-    } else {
-        // If no search query, fetch all participants
-        $participants = Registration::paginate(9);
-    }
+            // Get the total number of participants for the given query
+            $totalParticipants = $participantList->total();
+        } else {
+            // If no search query, fetch all participants
+            $participants = Registration::paginate(9);
+        }
 
-    return view('staffs.events.participantList', compact('participantList', 'totalParticipants'));
+        return view('staffs.events.participantList', compact('participantList', 'totalParticipants'));
     }
 
 

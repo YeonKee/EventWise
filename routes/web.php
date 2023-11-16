@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Facades\App\Facades\SessionManager;
 
 
 /*
@@ -104,7 +105,7 @@ Route::post('/receive', [PusherController::class, 'receive']);
 | STUDENT ROUTE
 |--------------------------------------------------------------------------
 */
-
+Route::get('/students/eventHistory', [EventController::class, 'eventHistory']);
 Route::group(['middleware' => ['role:student']], function () {
 
     // Profile
@@ -113,8 +114,18 @@ Route::group(['middleware' => ['role:student']], function () {
 
     // Logout
     Route::get('/students/logout', [StudentController::class, 'logout']);
+ 
 
 });
+
+//Route::get('/students/login', [StudentController::class, 'loginPage']);
+
+// Route::get('/students/login', function () {
+//     return SessionManager::showLogin();
+// });
+// Route::post('/students/login', function (Request $request) {
+//     return SessionManager::doLogin($request);
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -263,6 +274,7 @@ Route::get('/event/search', [EventController::class, 'searchEvents']);
 Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent']);
 Route::post('/event/generate', [TextGeneratorController::class, 'index']);
 Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
+Route::get('/event/suggestNearBy/{id}', [EventController::class, 'suggestNearBy']);
 
 
 

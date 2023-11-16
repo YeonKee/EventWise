@@ -128,6 +128,21 @@
                         <button type="button" class="primary-btn top-btn" onclick="location.href = '/becomeorganizer'"
                             style="padding:15px"> Become an organizer</button>
 
+                            <div class="dynamic_btn">
+                                @if (Session::get('role') != null && Session::get('role') == 'customer')
+                                    {{-- <a href="/customers/orders/viewCart" class="ml-4" title="Cart"><i
+                                            class="fa fa-shopping-cart"></i></a> --}}
+                                    <a href="/students/eventHistory" title="Event History"><i class="fa fa-history"></i></a>
+                                    <a href="/students/profile" title="Profile"><i class="fa fa-user-circle-o"></i></a>
+                                    <a href="/logout" title="Logout"><i class="fa fa-sign-out"></i></a>
+                                @else
+                                    <a class="ml-5 btn-lg btn-warning text-dark text-decoration-none" href="/students/login"
+                                        style="font-family:Century Gothic; font-size:18pt;">
+                                        Login <i class="fa fa-sign-in"></i>
+                                    </a>
+                                @endif
+                            </div>
+
                     </ul>
                 </nav>
             </div>

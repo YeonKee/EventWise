@@ -17,6 +17,30 @@
 @section('body')
     <section class="signin">
         <div class="container" style="width: 700px">
+
+      {{--       <div class="message text-center
+
+            @php
+                $tried = Cookie::get('try_password') ?? 0;
+            @endphp
+
+            @if (request()->has('accountNotExist'))
+                text-danger">
+                No account registered with email: {{ session()->get('noEmail') }}.<br/>
+                <a class="text-danger" href="/customers/create"><b>Register an Account?</b></a>
+            @elseif ($tried >= $maxAttempts)
+                text-danger">
+                You have entered wrong password for {{ $maxAttempts }} times.<br/>
+                Please <a class="text-danger" href="/customers/resetPassword"><b>reset your password</b></a>
+            @elseif (request()->has('wrongPassword'))
+                text-danger">
+                ID and password not matched. You have <b>{{ $maxAttempts - $tried }}</b> attempt(s) more.
+            @else
+                text-dark">
+                Welcome Back!
+            @endif
+        </div> --}}
+
             <form method="POST" class="register-form" id="register-form" action="/students/login">
                 @csrf
                 <div class="signin-content" style="width: 1600px">

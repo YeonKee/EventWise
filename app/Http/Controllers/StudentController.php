@@ -293,6 +293,7 @@ class StudentController extends Controller
 
     public function loginPage()
     {
+
         return view('students.login');
     }
 
@@ -329,7 +330,7 @@ class StudentController extends Controller
                 $request->session()->put('studID', $request->id);
 
                 // back to home
-                return redirect('/');
+                return redirect('/homepage');
 
             } else {
                 return redirect()->back()->withErrors(['pass' => 'Incorrect password.'])->withInput();

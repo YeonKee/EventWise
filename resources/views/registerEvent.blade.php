@@ -122,16 +122,6 @@
 
     <h4 class="box-title mt-5">Register for event:{{ $event->name }}</h4>
 
-    <h6 class="message font-weight-bold my-3 text-center
-    @if (request()->has('success')) text-success">
-    Registered successfully. Stay tuned for the updates!(Registration ID: {{ request()->get('success') }})
-    @elseif (request()->has('error'))
-    text-danger">
-    Opps, error encountered. Please try again.
-    @else
-    "> @endif
-</h6>
-
 <form id="form1"
         class="mt-4 h-100" method="POST" action="/event/register" enctype="multipart/form-data">
         @csrf

@@ -144,10 +144,20 @@
                         <h4 class="box-title mt-5">Ticket Price(RM):</h4>
                         <p>{{ number_format($event->ticket_price, 2) }}</p>
 
+                        <h4 class="box-title mt-5">Date:</h4>
+                        <p>{{ $event->date }}</p>
+
+                        <h4 class="box-title mt-5">Time:</h4>
+                        <p>{{ $event->start_time}} - {{ $event->end_time }}</p>
+
+                        <h4 class="box-title mt-5">Duration:</h4>
+                        <p>{{ $event->duration }}</p>
+
                         <h4 class="box-title mt-5">Capacity:</h4>
                         <p>{{ $event->capacity }}</p>
                         <h4 class="box-title mt-5">Capacity Available:</h4>
                         <p>{{ $event->capacity - $event->participated_count }}</p>
+
 
 
                         <br><br>
