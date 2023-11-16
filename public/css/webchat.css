@@ -1,0 +1,85 @@
+/* Chat Title */
+.rw-title{
+    color: white;
+}
+
+/* Chat Header */
+.rw-header{
+    background-color: #4452BC !important;
+}
+
+/* Button */
+.rw-reply{
+    background-color: #4452BC !important;
+}
+
+.rw-reply:hover{
+    background-color: #2B38A1 !important;
+}
+
+/* Send button */
+.rw-conversation-container .rw-send .rw-send-icon-ready{
+    fill: #4452BC !important;
+}
+
+/* User reply */
+.rw-client{
+    background-color: #4452BC !important;
+}
+
+/* Link */
+.rw-markdown a:hover{
+    color: #4452BC !important;
+}
+
+/* Microphone */
+.fa-microphone{
+    margin-right: 10px;
+    font-size: 20px;
+    color: #2B38A1;
+}
+
+/* Open & Close Button */
+.rw-launcher{
+    background-color: #4452BC !important;;
+}
+
+.rw-launcher:hover{
+    background-color: #2B38A1 !important;;
+}
+
+.rw-hide-sm{
+    background-color: #2B38A1 !important;;
+}
+
+/* Change chat bot language */
+.language-buttons {
+    position: fixed;
+    bottom: 25px;
+    right: 95px; 
+    z-index: 1000;
+}
+
+.language-button {
+    padding: 2px 10px;
+    margin: 5px;
+    font-size: 16px;
+    border: 1px solid #4452BC;
+    border-radius: 5px;
+    background-color: #4452BC;
+    cursor: pointer;
+    outline: none;
+    color: white;
+    box-shadow: 0 2px 10px 1px #b5b5b5;
+}
+
+.language-button:hover {
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #2B38A1;
+}
+
+.selected-lang{
+    border: 1px solid white;
+    background-color: #2B38A1;
+}

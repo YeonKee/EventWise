@@ -129,21 +129,6 @@
                         <button type="button" class="primary-btn top-btn" onclick="location.href = '/becomeorganizer'"
                             style="padding:15px"> Become an organizer</button>
 
-                            <div class="dynamic_btn">
-                                @if (Session::get('role') != null && Session::get('role') == 'customer')
-                                    {{-- <a href="/customers/orders/viewCart" class="ml-4" title="Cart"><i
-                                            class="fa fa-shopping-cart"></i></a> --}}
-                                    <a href="/students/eventHistory" title="Event History"><i class="fa fa-history"></i></a>
-                                    <a href="/students/profile" title="Profile"><i class="fa fa-user-circle-o"></i></a>
-                                    <a href="/logout" title="Logout"><i class="fa fa-sign-out"></i></a>
-                                @else
-                                    <a class="ml-5 btn-lg btn-warning text-dark text-decoration-none" href="/students/login"
-                                        style="font-family:Century Gothic; font-size:18pt;">
-                                        Login <i class="fa fa-sign-in"></i>
-                                    </a>
-                                @endif
-                            </div>
-
                     </ul>
                 </nav>
             </div>
@@ -234,8 +219,8 @@
 
     <!-- Chat bubble -->
     <div class="language-buttons">
-        <button class="language-button selected-lang" onclick="setLanguage('en')" title="Speak with the Bot in English!">EN</button>
-        <button class="language-button" onclick="setLanguage('zh')" title="Speak with the Bot in Chiinese!">CH</button>
+        <button class="language-button" onclick="setLanguage('en')" title="Speak with the Bot in English!">EN</button>
+        <button class="language-button selected-lang" onclick="setLanguage('zh')" title="Speak with the Bot in Chinese!">CH</button>
     </div>
 
     <script>
@@ -249,7 +234,7 @@
             }
         }
 
-        let selectedSocketUrl = 'http://localhost:8090';
+        let selectedSocketUrl = 'http://localhost:8091';
 
         !(function() {
             let e = document.createElement("script"),
@@ -259,8 +244,8 @@
             (e.onload = () => {
                 window.WebChat.default({
                         socketUrl: selectedSocketUrl,
-                        initPayload: '/greet{"user_id": "' + {!! json_encode(session('studID')) !!} + '"}',
-                        title: "EventWise Chat System",
+                        initPayload: '/greet_zn{"user_id": "' + {!! json_encode(session('studID')) !!} + '"}',
+                        title: "EventWise 自动聊天程序",
                         socketPath: "/socket.io/",
                     },
                     null
@@ -269,89 +254,6 @@
             t.insertBefore(e, t.firstChild);
         })();
         localStorage.clear();
-
-        let firstClickChat = true;
-
-        // Voice input to text
-        const checkExist = setInterval(function() {
-            const form = document.querySelector('.rw-sender'); // Select form
-            const textarea = document.querySelector('.rw-new-message'); // Select textarea
-
-            if (form && textarea) {
-                clearInterval(checkExist);
-
-                const childContent = document.createElement('button');
-                childContent.setAttribute('id', 'click_to_record');
-
-                const icon = document.createElement('i');
-                icon.classList.add('fas', 'fa-microphone');
-                childContent.appendChild(icon);
-                childContent.style.backgroundColor = 'transparent';
-                childContent.style.border = 'none';
-
-                form.insertBefore(childContent, textarea.nextSibling);
-
-                let recognition; // declare the recognition variable outside the event listener
-
-                // Define a variable to store the transcript
-                let savedTranscript = '';
-
-                let isListening = false; // create a flag to check if the microphone is listening
-                let firstClick = true; // create a flag to check if the button is clicked for the first time
-
-                childContent.addEventListener('click', function() {
-                    if (firstClick) {
-                        firstClick = false;
-                        Swal.fire({
-                            title: 'Microphone activated!',
-                            html: 'Click the microphone button again to stop speaking!',
-                            icon: 'info',
-                            showConfirmButton: true,
-                        });
-                        isListening = true;
-                    }
-
-                    if (!isListening) {
-                        isListening = true;
-                        window.SpeechRecognition = window.webkitSpeechRecognition;
-                        recognition = new SpeechRecognition();
-                        recognition.interimResults = true;
-
-                        recognition.addEventListener('result', e => {
-                            console.log("Inside");
-
-                            const transcript = Array.from(e.results)
-                                .map(result => result[0])
-                                .map(result => result.transcript)
-                                .join('');
-
-                            savedTranscript = transcript;
-
-                            console.log(savedTranscript);
-
-
-                            if (textarea) {
-                                textarea.value = savedTranscript;
-                                textarea.dispatchEvent(new Event('input', {
-                                    bubbles: true
-                                }));
-                                textarea.dispatchEvent(new Event('change', {
-                                    bubbles: true
-                                }));
-                                textarea.innerHTML = savedTranscript;
-                            }
-
-                            console.log(transcript);
-                        });
-
-                        recognition.start();
-                    } else {
-                        isListening = false;
-                        recognition.stop(); // stop the speech recognition when the button is clicked again
-                    }
-                });
-            }
-        }, 100); // Check every 100ms
     </script>
 
     {{-- <script>
