@@ -33,13 +33,15 @@ class EventController extends Controller
     public function homepage(Request $request)
     {
         $events = Event::where('status', 'Approved');
+        $upcoming = Event::where('event_status', 'Upcoming');
 
         if (!$request->session()->has('studID')) {
             $events = $events->where('openFor', 'Public');
         }
 
         $events = $events->get();
-        return view('homepage', ['events' => $events]);
+        $upcoming = $upcoming->get();
+        return view('homepage', ['events' => $events,'upcoming'=>$upcoming]);
 
     }
 
@@ -73,25 +75,25 @@ class EventController extends Controller
 
     public function eventHistory(Request $request)
     {
-        $stud_id=$request->session()->get('studID');
+        $stud_id = $request->session()->get('studID');
 
-         // Get the stud_id from the session
+        // Get the stud_id from the session
         //  $stud_id = Session::get('stud_id');
-         //dd($stud_id);
+        //dd($stud_id);
 
-         // Check if stud_id exists in the session
-         if ($stud_id) {
-             // Retrieve the registrations for the current student
-             $registrations = Registration::where('stud_id', $stud_id)->get();
- 
-             // If you have relationships set up, you can eager load the events
-             $registrations->load('event');
- 
-             return view('students.eventHistory', ['registrations' => $registrations]);
-         }
- 
-         // Handle the case where stud_id is not present in the session
-         return redirect()->route('/students/loginPage'); // Adjust the route as needed
+        // Check if stud_id exists in the session
+        if ($stud_id) {
+            // Retrieve the registrations for the current student
+            $registrations = Registration::where('stud_id', $stud_id)->get();
+
+            // If you have relationships set up, you can eager load the events
+            $registrations->load('event');
+
+            return view('students.eventHistory', ['registrations' => $registrations]);
+        }
+
+        // Handle the case where stud_id is not present in the session
+        return redirect()->route('/students/loginPage'); // Adjust the route as needed
     }
 
 
@@ -139,6 +141,12 @@ class EventController extends Controller
         Image::make($file)->fit(300)->save(public_path("/img/receipt/receipt_$reg_id.png"));
     }
 
+    private function saveQR($file, $event_id)
+    {
+        Image::make($file)->fit(300)->save(public_path("/img/paymentQR/paymentQR_$event_id.png"));
+    }
+
+
     // private function saveVenue($file, $event_id)
     // {
     //     Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
@@ -173,6 +181,7 @@ class EventController extends Controller
         $events->remark = "";
         $events->event_picture = "";
         $events->event_venuearr = "";
+        $events->payment_qr = "";
         $events->status = "Pending";
         $events->registration_status = "Closed";
         $events->event_status = "Upcoming";
@@ -182,9 +191,10 @@ class EventController extends Controller
 
         $this->savePicture($request->event_pic, $events->event_id);
         $this->saveVenue($request->event_venueArr, $events->event_id);
-
+        $this->saveQR($request->payment_qr, $events->event_id);
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
         $events->event_venuearr = "/img/venueArr/venueArr_$events->event_id.png";
+        $events->payment_qr = "/img/paymentQR/paymentQR_$events->event_id.png";
 
         $events->save();
         return redirect('/textGenerator?success=' . $events->event_id);
@@ -210,6 +220,18 @@ class EventController extends Controller
 
     public function registration(Request $request)
     {
+       
+        // Check if the email is already registered for the event
+        $existingRegistration = Registration::where('event_id', $request->event_id)
+            ->where('part_email', $request->part_email)
+            ->exists();
+
+        if ($existingRegistration == "true") {
+         
+        Alert::html('Seems like you have been resgister for this event!', 'Email: (<b>' . e($request->part_email) . '</b>) is found in database.');
+
+        return redirect()->back();
+        }
 
         $registrations = new Registration();
         $registrations->event_id = $request->event_id;

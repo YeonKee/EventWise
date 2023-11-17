@@ -56,8 +56,8 @@
         }
 
         .logo {
-            margin-left: -20px;
-
+            margin-left: -200px;
+            margin-right: 50;
             width: 250px;
             height: 250px;
         }
@@ -219,8 +219,10 @@
 
     <!-- Chat bubble -->
     <div class="language-buttons">
-        <button class="language-button" onclick="setLanguage('en')" title="Speak with the Bot in English!">EN</button>
-        <button class="language-button selected-lang" onclick="setLanguage('zh')" title="Speak with the Bot in Chinese!">CH</button>
+        <button class="language-button" onclick="setLanguage('en')"
+            title="Speak with the Bot in English!">EN</button>
+        <button class="language-button selected-lang" onclick="setLanguage('zh')"
+            title="Speak with the Bot in Chinese!">CH</button>
     </div>
 
     <script>

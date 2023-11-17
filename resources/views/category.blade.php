@@ -16,43 +16,38 @@
     <style type="text/css">
 
         /* normal css */
-        img#picture_preview {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
+        .col-md-4:hover img {
+            transform: scale(0.95);
+            transition: all 0.6s;
+            opacity: 0.5;
+            margin-right: 90px;
         }
 
-        img#picture_preview:hover {
-            background-color: white;
-            border: 3px dashed #87CEFA;
-            cursor: pointer;
+        .align-items-center {
+            -ms-flex-align: center !important;
+            align-items: center !important;
+            margin-left: 130px;
         }
 
-        img#picture_preview2 {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
+        .py-5 {
+            padding-bottom: 3rem !important;
+            margin-left: 300px;
+            margin-right: 300px;
         }
 
-        img#picture_preview2:hover {
-            background-color: white;
-            border: 3px dashed #87CEFA;
-            cursor: pointer;
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+            border-radius: 30px;
         }
 
-        h2 {
+        .eventName {
+            font-size: 20px;
             text-align: center;
+            font-weight: bold;
+            color: black;
+            font-family: 'Poppins', sans-serif;
         }
 
-        h5 {
-            text-align: center;
-            font-style: italic;
-        }
-
-        input[type=date],
-        input[type=time] {
-            width: 200px;
-        }
 
         .ml-2 {
             margin-left: 2.0rem !important;
@@ -64,73 +59,23 @@
             margin-bottom: 1650px;
         }
 
-        .underline-input {
-            position: relative;
-        }
-
-        .underline-input input {
-            border: none;
-            border-bottom: 1px solid #000;
-            background-color: transparent;
-            width: 100%;
-            padding: 5px 0;
-        }
-
-        /* Add focus styles if needed */
-        .underline-input input:focus {
-            border-bottom: 1px solid #00F;
-
-            outline: none;
-        }
-
-        label {
-            position: relative;
-            margin-bottom: 40px;
-            top: 20%;
-        }
-
-        input[type=text] {
-            margin-top: -20px;
-        }
-
-        .event_venuearr {
-            margin-top: -80px;
-        }
-
-        input[type=checkbox] {
-            display: block !important;
-            margin-top: 10px !important;
-        }
-
-        form#form1 label {
-            transform: translateY(0%);
-            -webkit-transform: translateY(0%);
-        }
-
-        #event_remark {
-            margin-top: -28px;
-        }
 
         .input-group-append {
             margin-left: -1px;
             margin-top: -28px;
         }
 
-        textarea {
-            resize: none;
-            overflow-y: scroll;
+        .card-text{
+            color: black;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .remark_label {
-            margin-top: -300px;
-            margin-bottom: -30px;
-        }
     </style>
 @endsection
 @section('body')
 
 <div class="album py-5 bg-light">
-    <div class="container">
+    
 
         <div class="row">
 
@@ -145,18 +90,18 @@
                                 xmlns="http://www.w3.org/2000/svg" role="img"
                                 aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
                                 focusable="false">
-                            <title>Placeholder</title>
                             <rect width="100%" height="100%" fill="#55595c" /><text x="50%"
                                 y="50%" fill="#eceeef" dy=".3em"></text>
 
                             <div class="card-body">
-                                <p class="card-text"><b>{{ $event->name }}</b></p>
+                                <p class="eventName">{{ $event->name }}</p>
                                 <p class="card-text">{{ $event->description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                                            <a
-                                             href="/event/viewById/{{$event->event_id}}">View</a></button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        style="padding: 7px;width:60px;">
+                                        <a href="/event/viewById/{{ $event->event_id }}"
+                                            style="font-size: 15px;color:black">View</a></button>
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +116,7 @@
                 </div>
             @endif
         </div>
-    </div>
+
 </div>
 
     @endsection

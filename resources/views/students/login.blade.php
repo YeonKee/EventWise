@@ -22,7 +22,7 @@
     <section class="signin">
         <div class="container" style="width: 700px">
 
-      {{--       <div class="message text-center
+            <div class="message text-center
 
             @php
                 $tried = Cookie::get('try_password') ?? 0;
@@ -43,7 +43,7 @@
                 text-dark">
                 Welcome Back!
             @endif
-        </div> --}}
+        </div>
 
             <form method="POST" class="register-form" id="register-form" action="/students/login">
                 @csrf

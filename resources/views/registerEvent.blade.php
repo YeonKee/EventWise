@@ -14,13 +14,13 @@
 
     <style type="text/css">
         /* normal css */
-        img#picture_preview {
+        img#picture_preview1 {
             width: 130px;
             height: 130px;
             object-fit: cover;
         }
 
-        img#picture_preview:hover {
+        img#picture_preview1:hover {
             background-color: white;
             border: 3px dashed #87CEFA;
             cursor: pointer;
@@ -49,7 +49,7 @@
 
         .mt-4 {
             margin-top: 1.5rem !important;
-            margin-bottom: 400px;
+            margin-bottom: 1000px;
         }
 
         .underline-input {
@@ -121,13 +121,61 @@
     </style>
 @endsection
 @section('body')
+    <script>
+        $(document).ready(function() {
+
+            // new profile upload
+            $("#wizard-picture1").change(function() {
+                // clear error message
+                $("#profile_err1").text("");
+                // check profile
+                var inputLen = this.value.length;
+                var file = this.files[0];
+                var URL = window.URL || window.webkitURL;
+                var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+                // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+                if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                    readURL(this);
+                } else if (inputLen) {
+
+                    // file format problem
+                    if (!picture_regex.test(file.type)) {
+                        $("#profile_err1").text(
+                            "Please select image in GIF, JPG, JPEG, and PNG format only.");
+                    } else if (file.size > (1 * 1024 * 1024)) {
+                        $("#profile_err1").text("Please make sure the image size is not more than 1MB.");
+                    }
+
+                    $(this).val("");
+                    $('[id$=wizardPicturePreview1]').attr('src', $('[id$=wizardPicturePreview1]').attr(
+                        "alt"));
+                }
+
+            });
+
+
+            function isEmpty(str) {
+                return !$.trim(str);
+            }
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('[id$=wizardPicturePreview1]').attr('src', e.target.result).fadeIn('slow');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+
     <h2><i class="fa fa-pencil mr-2"></i>Event Registration</h2>
     <h5>Come and have fun together!</h5><br>
 
     <h4 class="box-title mt-5">Register for event:{{ $event->name }}</h4>
 
-<form id="form1"
-        class="mt-4 h-100" method="POST" action="/event/register" enctype="multipart/form-data">
+    <form id="form1" class="mt-4 h-100" method="POST" action="/event/register" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
@@ -168,7 +216,8 @@
                         @enderror
                     </span>
                 </label>
-                <input type="text" class="form-control" id="part_email" name="part_email" value="{{ old('part_email') }}">
+                <input type="text" class="form-control" id="part_email" name="part_email"
+                    value="{{ old('part_email') }}">
             </div>
         </div>
 
@@ -238,6 +287,16 @@
             </div>
         </div>
 
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <div class="profile-group">
+                    <label for="payment_qr">QR Payment</label>
+                    <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1" />
+                </div>
+            </div>
+        </div>
+
+
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
@@ -279,8 +338,8 @@
 
             </div>
         </div>
-        </form>
-    @endsection
+    </form>
+@endsection
 
-    @section('foot')
-    @endsection
+@section('foot')
+@endsection

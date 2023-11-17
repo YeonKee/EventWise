@@ -48,7 +48,13 @@
     <!-- Form -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    </style>
+
+    <style>
+        
         .container1 {
             margin-left: auto;
             margin-right: auto;
@@ -56,15 +62,14 @@
         }
 
         .logo {
-            margin-left: -20px;
-
+            margin-left: -120px;
             width: 250px;
             height: 250px;
         }
 
         .nav-menu {
             font-size: 18px;
-
+            font-family: 'Poppins', sans-serif;
         }
 
         ul {
@@ -81,6 +86,7 @@
         input#txtSearch {
             width: 250px;
         }
+
     </style>
     @yield('head')
 </head>
@@ -99,7 +105,7 @@
                     <ul>
                         <li class="active"><a href="/homepage">Home</a></li>
                         <li><a href="/aboutus">About</a></li>
-                        <li><a href="./speaker.html">Events</a>
+                        <li><a href="/event/viewByCategory/Webinar_talk">Events</a>
                             <ul class="dropdown">
                                 <li><a href="/event/viewByCategory/Webinar_talk">Webinar/Talk</a></li>
                                 <li><a href="/event/viewByCategory/Exhibition">Exhibition</a></li>

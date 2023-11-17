@@ -15,42 +15,42 @@
 
     <style type="text/css">
         /* normal css */
-        img#picture_preview {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
+        .col-md-4:hover img {
+            transform: scale(0.95);
+            transition: all 0.6s;
+            opacity: 0.5;
+            margin-right: 90px;
         }
 
-        img#picture_preview:hover {
-            background-color: white;
-            border: 3px dashed #87CEFA;
-            cursor: pointer;
+        .align-items-center {
+            -ms-flex-align: center !important;
+            align-items: center !important;
+            margin-left: 130px;
         }
 
-        img#picture_preview2 {
-            width: 130px;
-            height: 130px;
-            object-fit: cover;
+        .py-5 {
+            padding-bottom: 3rem !important;
+            margin-left: 300px;
+            margin-right: 300px;
         }
 
-        img#picture_preview2:hover {
-            background-color: white;
-            border: 3px dashed #87CEFA;
-            cursor: pointer;
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+            border-radius: 30px;
         }
 
-        h2 {
-            text-align: center;
+
+        .card-text {
+            color: black;
+            font-family: 'Poppins', sans-serif;
         }
 
-        h5 {
-            text-align: center;
-            font-style: italic;
-        }
-
-        input[type=date],
-        input[type=time] {
-            width: 200px;
+        .card-title {
+            color: black;
+            font-family: 'Poppins', sans-serif;
+            font-size: 30px;
+            margin-left: 20px;
+            font-weight: bold;
         }
 
         .ml-2 {
@@ -63,144 +63,101 @@
             margin-bottom: 1650px;
         }
 
-        .underline-input {
-            position: relative;
+        .mt-5 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: black;
+            font-size: 20px;
         }
 
-        .underline-input input {
-            border: none;
-            border-bottom: 1px solid #000;
-            background-color: transparent;
-            width: 100%;
-            padding: 5px 0;
+        .card {
+            margin-left: 300px;
+            margin-right: 300px;
+            margin-bottom: 50px;
+            border-radius: 30px;
         }
 
-        /* Add focus styles if needed */
-        .underline-input input:focus {
-            border-bottom: 1px solid #00F;
-
-            outline: none;
-        }
-
-        label {
-            position: relative;
-            margin-bottom: 40px;
-            top: 20%;
-        }
-
-        input[type=text] {
-            margin-top: -20px;
-        }
-
-        .event_venuearr {
-            margin-top: -80px;
-        }
-
-        input[type=checkbox] {
-            display: block !important;
-            margin-top: 10px !important;
-        }
-
-        form#form1 label {
-            transform: translateY(0%);
-            -webkit-transform: translateY(0%);
-        }
-
-        #event_remark {
-            margin-top: -28px;
-        }
-
-        .input-group-append {
-            margin-left: -1px;
-            margin-top: -28px;
-        }
-
-        textarea {
-            resize: none;
-            overflow-y: scroll;
-        }
-
-        .remark_label {
-            margin-top: -300px;
-            margin-bottom: -30px;
+        p {
+            font-weight: 30px;
         }
     </style>
 @endsection
 @section('body')
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
+    <div class="card">
+        <div class="card-body">
 
-                <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
+            <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
 
-                <h3 class="card-title"> {{ $event->name }} </h3>
+            <h3 class="card-title"> {{ $event->name }} </h3>
 
-                <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-6">
-                        <div class="white-box text-center">
-                            <img src="{{ $event->event_picture }}" class="img-responsive" width="400" height="300"
-                                style="object-fit:scale-down;margin-top: 100px">
-                        </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center">
+                        <img src="{{ $event->event_picture }}" class="img-responsive" width="400" height="300"
+                            style="object-fit:scale-down;margin-top: 100px">
                     </div>
-                    <div class="col-lg-7 col-md-7 col-sm-6">
-                        <h4 class="box-title mt-5">Event description:</h4>
-                        <p>{{ $event->description }}</p>
-                        <h4 class="box-title mt-5">Ticket Price(RM):</h4>
-                        <p>{{ number_format($event->ticket_price, 2) }}</p>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">Event description:</h4>
+                    <p>{{ $event->description }}</p>
+                    <h4 class="box-title mt-5">Ticket Price(RM):</h4>
+                    <p>{{ number_format($event->ticket_price, 2) }}</p>
 
-                        <h4 class="box-title mt-5">Date:</h4>
-                        <p>{{ $event->date }}</p>
+                    <h4 class="box-title mt-5">Date:</h4>
+                    <p>{{ $event->date }}</p>
 
-                        <h4 class="box-title mt-5">Time:</h4>
-                        <p>{{ $event->start_time}} - {{ $event->end_time }}</p>
+                    <h4 class="box-title mt-5">Time:</h4>
+                    <p>{{ $event->start_time }} - {{ $event->end_time }}</p>
 
-                        <h4 class="box-title mt-5">Duration:</h4>
-                        <p>{{ $event->duration }}</p>
+                    <h4 class="box-title mt-5">Duration:</h4>
+                    <p>{{ $event->duration }} day(s)</p>
 
-                        <h4 class="box-title mt-5">Capacity:</h4>
-                        <p>{{ $event->capacity }}</p>
-                        <h4 class="box-title mt-5">Capacity Available:</h4>
-                        <p>{{ $event->capacity - $event->participated_count }}</p>
+                    <h4 class="box-title mt-5">Capacity:</h4>
+                    @if ($event->participated_count > $event->capacity)
+                        {{ $event->capacity }}/{{ $event->capacity }} (Capacity reached)
+                    @else
+                        {{ $event->participated_count }}/{{ $event->capacity }}
+                    @endif
 
 
 
-                        <br><br>
-                        {{-- Check if remaining capacity is greater than 0 --}}
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="joinEvent()">
-                                Join the event!
-                            </button>
-                        </div>
+                    <br><br>
+                    {{-- Check if remaining capacity is greater than 0 --}}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary"  style="padding: 5px;width:200px; font-size:20px;color:black;margin-top: 20px"onclick="joinEvent()">
+                            Join the event!
+                        </button>
+                    </div>
 
-                        <script>
-                            function joinEvent() {
-                                var remainingCapacity = {{ $event->capacity - $event->participated_count }};
+                    <script>
+                        function joinEvent() {
+                            var remainingCapacity = {{ $event->capacity - $event->participated_count }};
 
-                                // Check if remaining capacity is 0 or less
-                                if (remainingCapacity <= 0) {
-                                    // Show alert message
-                                    alert('Sorry, the capacity for the event is full.');
-                                } else {
-                                    // Redirect the user to the registration page
-                                    window.location.href = "/event/registerEvent/{{ $event->event_id }}";
-                                }
+                            // Check if remaining capacity is 0 or less
+                            if (remainingCapacity <= 0) {
+                                // Show alert message
+                                alert('Sorry, the capacity for the event is full.');
+                            } else {
+                                // Redirect the user to the registration page
+                                window.location.href = "/event/registerEvent/{{ $event->event_id }}";
                             }
-                        </script>
+                        }
+                    </script>
 
 
-                        {{--                 
+                    {{--                 
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <a
                                  href="/event/registerEvent/{{$event->event_id}}">Join the event!</a></button>
                         </div> --}}
-                        {{-- <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br> --}}
-                    </div>
+                    {{-- <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br> --}}
                 </div>
-
             </div>
+
         </div>
     </div>
+
 
     {{-- <script>
     $('.btn-plus, .btn-minus').on('click', function(e) {

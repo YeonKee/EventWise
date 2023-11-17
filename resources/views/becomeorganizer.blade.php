@@ -40,6 +40,19 @@
             cursor: pointer;
         }
 
+        
+        img#picture_preview3 {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        img#picture_preview3:hover {
+            background-color: white;
+            border: 3px dashed #87CEFA;
+            cursor: pointer;
+        }
+
         h2 {
             text-align: center;
         }
@@ -321,6 +334,23 @@
                 </div>
                 <input type="text" class="form-control" id="pic_accNo" name="pic_accNo"
                     value="{{ old('pic_accNo') }}" style="margin-top: 10px">
+            </div>
+        </div>
+
+        <div class="form-row mb-4">
+            <div class="col-5 mx-auto">
+                <div class="form-group input-group">
+                    <label for="payment_qr">QR Payment (Please upload your QR code):
+                        <span class="text-danger"><b>*</b>
+                            @error('payment_qr')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                        <img id="picture_preview3" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <input type="file" class="d-none" name="payment_qr" accept=".jpg, .jpeg, .png" capture>
+                    </label>
+                </div>
+                 
             </div>
         </div>
 

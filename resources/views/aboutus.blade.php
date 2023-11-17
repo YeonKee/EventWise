@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="box-shadow: none">
                     <div class="story-left">
                         <div class="story-item">
                             <h2>2008</h2>

@@ -128,14 +128,14 @@ Route::group(['middleware' => ['role:student']], function () {
 
 });
 
-//Route::get('/students/login', [StudentController::class, 'loginPage']);
+// Route::get('/students/login', [StudentController::class, 'loginPage']);
 
-// Route::get('/students/login', function () {
-//     return SessionManager::showLogin();
-// });
-// Route::post('/students/login', function (Request $request) {
-//     return SessionManager::doLogin($request);
-// });
+Route::get('/students/login', function () {
+    return SessionManager::showLogin();
+});
+Route::post('/students/login', function (Request $request) {
+    return SessionManager::doLogin($request);
+});
 
 /*
 |--------------------------------------------------------------------------
