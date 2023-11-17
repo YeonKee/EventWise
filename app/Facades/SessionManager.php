@@ -13,6 +13,7 @@ class SessionManager
 {
     protected $maxAttempts = 5;
 
+    /*
     public function showLogin()
     {
         return view('students.login')->with('maxAttempts', $this->maxAttempts);
@@ -127,4 +128,5 @@ class SessionManager
             return redirect('/homepage');
         }
     }
+    */
 }

@@ -82,6 +82,4 @@
             </form>
         </div>
     </section>
-
-    <script src="/js/account.js"></script>
 @endsection

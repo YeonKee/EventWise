@@ -637,7 +637,7 @@ img#profile_preview {
 
 img#profile_preview:hover {
     background-color: white;
-    border: 3px dashed orange;
+    border: 3px dashed #2B38A1;
     cursor: pointer;
 }
 
@@ -1032,4 +1032,16 @@ img#profile_preview:hover {
 .chat .messages .right p{
     background-color: #4452BC !important;
     color: white !important;
+}
+
+.form-submit{
+    background-color: #4452BC;
+}
+
+.form-submit:hover{
+    background-color: #2B38A1;
+}
+
+a:hover {
+    color: #4452bc !important;
 }

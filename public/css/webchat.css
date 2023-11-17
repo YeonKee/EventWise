@@ -83,3 +83,13 @@
     border: 1px solid white;
     background-color: #2B38A1;
 }
+
+/* Chat icon */
+.rw-open-launcher{
+    display: inline !important;
+}
+
+/* List */
+.rw-response .rw-message-text ul li{
+    margin-left: 20px !important;
+}

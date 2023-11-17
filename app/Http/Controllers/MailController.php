@@ -56,8 +56,8 @@ class MailController extends Controller
 
     public static function cancelAppEmail($to, $title)
     {
-        Mail::send(['html' => 'emailTemplate.pendingApp'], ['title' => $title], function ($message) use ($to) {
-            $message->to($to)->subject('Further Discussion on Appointment');
+        Mail::send(['html' => 'emailTemplate.cancelApp'], ['title' => $title], function ($message) use ($to) {
+            $message->to($to)->subject('Cancellation on Appointment');
             $message->from(config('mail.mailers.smtp.username'), 'EventWise');
         });
     }

@@ -105,7 +105,7 @@ class StaffController extends Controller
         $newStaff->account_type = 2;
         $newStaff->save();
 
-        Alert::html('Registered Successfully!', 'Staff <b>' . e($request->name) . ' (ID: ' . $request->id . '</b>) has been registered.');
+        Alert::success('Registered Successfully!', 'Staff ' . e($request->name) . ' (ID: ' . $request->id . ') has been registered.');
 
         return redirect()->back();
     }

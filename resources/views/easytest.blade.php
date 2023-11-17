@@ -13,6 +13,7 @@
         <a href="students/loginPage">Login</a><br/>
         <a href="/students/logout">Logout</a><br/>
         <a href="/chat">Live chat</a><br/>
+        <a href="students/profile">Profile</a><br/>
 
         <hr/>
 
