@@ -5,22 +5,21 @@
 @extends($selectedLayout);
 
 <style>
-    body {
-        overflow: hidden;
-        /* Hide scrollbars */
-    }
 
-    .signin {
+   .signin-content {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
     }
+
+    
+  
 </style>
 
 @section('body')
     <section class="signin">
-        <div class="container" style="width: 700px">
+        {{-- <div class="container" style="width: 700px">
 
             <div class="message text-center
 
@@ -43,13 +42,13 @@
                 text-dark">
                 Welcome Back!
             @endif
-        </div>
+        </div> --}}
 
             <form method="POST" class="register-form" id="register-form" action="/students/login">
                 @csrf
-                <div class="signin-content" style="width: 1600px">
-                    <div class="signin-form">
-                        <h2 class="form-title d-flex justify-content-center">Welcome Back!</h2>
+                <div class="signin-content" style="width: 1600px;margin-bottom: -300px;">
+                    <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;;width:500px;margin-top:-300px;margin-bottom:-500px;">
+                        <h2 class="form-title d-flex justify-content-center" style="font-family: 'Poppins'">Welcome Back!</h2>
                         <div class="form-group">
                             <label for="id"><i class="fa-solid fa-id-card"></i></label>
                             <input type="text" name="id" id="id" placeholder="Student ID"
@@ -87,6 +86,7 @@
             </form>
         </div>
     </section>
+
 
     <script src="/js/account.js"></script>
 @endsection

@@ -14,7 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 110vh;
         }
 
         .container{
@@ -23,7 +23,7 @@
     </style>
 
     <section class="profile">
-        <div class="container">
+        <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:40px;;width:1000px;margin-top:-70px;margin-bottom:-300px;">
             <form method="POST" class="profile-form" id="profile-form" action="/students/update"
                 enctype="multipart/form-data">
                 @csrf
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="signup-form">
-                        <h2 class="form-title mt-3">Profile Information</h2>
+                        <h2 class="form-title mt-3" style="font-family: 'Poppins';">Profile Information</h2>
                         <input type="hidden" name="actionTaken" value="changeProfile">
                         <div class="form-group">
                             <label for="id"><i class="fa-solid fa-id-card"></i></label>
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="signup-form">
-                        <h2 class="form-title mt-3">Change Password</h2>
+                        <h2 class="form-title mt-3" style="font-family: 'Poppins';">Change Password</h2>
                         <input type="hidden" name="actionTaken" value="changePassword">
 
                         <div class="form-group">

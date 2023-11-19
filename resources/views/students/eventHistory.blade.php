@@ -4,8 +4,8 @@
 @endsection
 
 @section('body')
-    <div class="container">
-        <h3 class="my-4">Event(s) History</h3>
+<div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;;width:1300px;margin-top:0px;margin-bottom:-500px;">
+        <h3 class="my-4" style="font-family:'Poppins';text-align:center; ">Event(s) History</h3>
         @if ($registrations->isEmpty())
             <p>No events registered.</p>
         @else
@@ -50,4 +50,5 @@
             {{ $registrations->links('pagination::bootstrap-4') }}
         </div> --}}
     </div>
+    @yield('foot')
 @endsection

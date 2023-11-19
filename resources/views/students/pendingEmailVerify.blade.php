@@ -20,14 +20,14 @@
 
 @section('body')
 <section class="verifyEmail">
-    <div class="container">
+    <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:80px;;width:1000px;">
         {{-- <img src="https://i.ibb.co/qjSrdf6/logo.png" width=250 height=250 style="margin-bottom: 13px"> --}}
               
-        <h2 style="margin-bottom: 15px">Please verify your email</h2>
-        <img src="/img/verifyEmail.png" width=250 height=250 style="margin-bottom: 13px">
-        <p style="padding: 0 50px; margin-bottom: 35px;">You're almost there! We had sent an email to <br/><span style="font-weight: bold">{{ $email }}</span></p>
-        <p style="padding: 0 50px; margin-bottom: 35px;">Just click on the link in the email to complete your signup. If you don't see it, you may need to <b>check your spam</b> folder.</p>
-        <p style="padding: 0 50px">Can't find the email?</p>
+        <h2 style="margin-bottom: 15px;font-family:'Poppins';text-align:center;">Please verify your email</h2>
+        <img src="/img/verifyEmail.png" width=250 height=250 style="margin-bottom: 13px;margin-left:330px;">
+        <p style="padding: 0 50px; margin-bottom: 35px;text-align:center;">You're almost there! We had sent an email to <br/><span style="font-weight: bold">{{ $email }}</span></p>
+        <p style="padding: 0 50px; margin-bottom: 35px;text-align:center;">Just click on the link in the email to complete your signup. If you don't see it, you may need to <b>check your spam</b> folder.</p>
+        <p style="padding: 0 50px;text-align:center;">Can't find the email?</p>
         <a href="#" style="margin: 7 0;" class="form-submit btn btn-primary" onclick="sendVerificationEmail(event, '{{ $email }}', '{{ $studID }}')">Resend Email</a>
         <p id="successMessage" style="padding: 0 50px; display: none;">Email sent successfully!</p>
     </div>

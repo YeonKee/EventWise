@@ -9,12 +9,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-    }
-
-    .container {
-        text-align: center;
-        padding: 20px;
+        height: 60vh;
     }
 
     /* Success icon animation */
@@ -186,10 +181,10 @@
 
 @section('body')
     <section class="verifyEmail">
-        <div class="container">
+        <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:50px;;width:600px;margin-top:-50px;margin-bottom:-300px;">
             {{-- <img src="https://i.ibb.co/qjSrdf6/logo.png" width=250 height=250 style="margin-bottom: 13px"> --}}
 
-            <h2 style="margin-bottom: 15px">Successfully Changed!</h2>
+            <h2 style="margin-bottom: 15px;font-family:'Poppins';text-align:center;">Successfully Changed!</h2>
             {{-- <img src="/img/successVerify.png" width=120 height=120 style="margin-bottom: 13px"> --}}
             <div class="success-checkmark">
                 <div class="check-icon">
@@ -199,8 +194,8 @@
                     <div class="icon-fix"></div>
                 </div>
             </div>
-            <p style="padding: 0 50px; margin-bottom: 25px;">You had successfully changed your password!</p>
-            <p style="padding: 0 50px; margin-bottom: 15px;">Click the button below to go login page.</p>
+            <p style="padding: 0 50px; margin-bottom: 25px;text-align:center;">You had successfully changed your password!</p>
+            <p style="padding: 0 50px; margin-bottom: 15px;text-align:center;">Click the button below to go login page.</p>
             <a href="/students/loginPage" style="margin-bottom: 5px;" class="form-submit btn btn-primary">Continue</a>
         </div>
     </section>

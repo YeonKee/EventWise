@@ -55,11 +55,13 @@
 
         h2 {
             text-align: center;
+            font-family: 'Poppins';"
         }
 
         h5 {
             text-align: center;
             font-style: italic;
+            font-family: 'Poppins';"
         }
 
         input[type=date],
