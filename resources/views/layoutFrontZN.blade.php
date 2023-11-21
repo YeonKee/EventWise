@@ -56,16 +56,18 @@
         }
 
         .logo {
-            margin-left: -200px;
-            margin-right: 50;
+            margin-left: -150px;
             width: 250px;
             height: 250px;
+            margin-right: 100px;
         }
 
         .nav-menu {
             font-size: 18px;
-
+            font-family: 'Poppins', sans-serif;
+            margin-left: 80px;
         }
+
 
         ul {
             margin-bottom: -10px;
@@ -80,6 +82,15 @@
 
         input#txtSearch {
             width: 250px;
+        }
+
+        .login_icon i{
+            width: 70px; 
+            height:70px;
+        }
+
+        .login_icon{
+            margin-right: -200px;
         }
     </style>
     @yield('head')
@@ -111,7 +122,6 @@
                                 <li><a href="/event/viewByCategory/Others">Others</a></li>
                             </ul>
                         </li>
-                        <li><a href="./schedule.html">Schedule</a></li>
                         <li><a href="/contact">Contacts</a></li>
                         <li>
                             <form action="/event/search" method="GET">
@@ -128,6 +138,23 @@
                         </button> --}}
                         <button type="button" class="primary-btn top-btn" onclick="location.href = '/becomeorganizer'"
                             style="padding:15px"> Become an organizer</button>
+
+                            <div class="dynamic_btn" style="margin-left:1100px;margin-top:-73px;">
+                                @if (Session::get('role') != null && Session::get('role') == 'student')
+                                    {{-- <a href="/customers/orders/viewCart" class="ml-4" title="Cart"><i
+                                                class="fa fa-shopping-cart"></i></a> --}}
+                                    <div class="login_icon">
+                                        <a href="/students/eventHistory" title="Event History"><i class="fa fa-history fa-2x" ></i></a>
+                                        <a href="/students/profile" title="Profile"><i class="fa fa-user-circle-o fa-2x"></i></a>
+                                        <a href="/homepage" title="Logout"><i class="fa fa-sign-out fa-2x"></i></a>
+                                    </div>
+                                @else
+                                    <a class="ml-5 btn-lg btn-warning text-dark text-decoration-none" href="/students/login"
+                                        style="font-family:'Poppins'; font-size:18pt;">
+                                        Login <i class="fa fa-sign-in"></i>
+                                    </a>
+                                @endif
+                            </div>
 
                     </ul>
                 </nav>
