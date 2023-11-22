@@ -38,6 +38,7 @@ body {
 	font-family: "Work Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	overflow-x: hidden;
 }
 
 h1,
@@ -98,7 +99,7 @@ textarea:focus {
 
 a:hover,
 a:focus {
-	text-decoration: none;
+	text-decoration: none !important;
 	outline: none;
 	color: #fff;
 }
@@ -160,7 +161,7 @@ ol {
 	color: #fff;
 }
 
-.bm-gradient,
+.bg-gradient,
 .bd-text .bd-tag-share .s-share a:hover,
 .bh-text .play-btn,
 .schedule-table-tab .nav-tabs .nav-item .nav-link.active,
@@ -171,8 +172,8 @@ ol {
 .price-item .tr-tag,
 .schedule-tab .nav-tabs .nav-item .nav-link.active,
 .site-btn {
-	background-image: -o-linear-gradient(330deg, #ee8425 0%, #f9488b 100%), -o-linear-gradient(330deg, #ee8425 0%, #f9488b 100%) !important;
-	background-image: linear-gradient(120deg, #ee8425 0%, #f9488b 100%), linear-gradient(120deg, #ee8425 0%, #f9488b 100%) !important ;
+	background-image: -o-linear-gradient(330deg, #4452bc 0%, #2B38A1 100%), -o-linear-gradient(330deg, #4452bc 0%, #2B38A1 100%);
+	background-image: linear-gradient(120deg, #4452bc 0%, #2B38A1 100%), linear-gradient(120deg, #4452bc 0%, #2B38A1 100%);
 }
 
 /* buttons */
@@ -333,7 +334,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li .dropdown li a:hover {
-	color: #f44949;
+	color: #2B38A1;
 }
 
 .nav-menu .mainmenu ul li .dropdown li a:after {
@@ -355,7 +356,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li a {
-	font-size: 20px;
+	font-size: 16px;
 	color: #171822;
 	text-transform: uppercase;
 	font-weight: 600;
@@ -370,7 +371,7 @@ ol {
 	bottom: 36px;
 	height: 2px;
 	width: 100%;
-	background: #F44949;
+	background: #2B38A1;
 	content: "";
 	opacity: 0;
 	-webkit-transition: all 0.3s;

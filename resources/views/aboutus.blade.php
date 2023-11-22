@@ -183,6 +183,9 @@
     </section> --}}
     <!-- Testimonial Section End -->
 
+    <script>
+        document.getElementById('about').classList.add('active');
+    </script>
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>

@@ -55,6 +55,8 @@
     </body>
 
     <script>
+        document.getElementById('chat').classList.add('active');
+
         const messagesContainer = $('.messages');
 
         // Function to scroll messages container to the bottom

@@ -41,7 +41,7 @@
 
             <h6 class="text-white">Sorry, you are not allowed to access this page.</h6>
 
-            <img class="d-block mx-auto my-4 w-100" src="img/denied.png" alt="success">
+            <img class="d-block mx-auto my-4 w-100" src="{{ asset('img/denied.png') }}" alt="success">
 
             <a href="/">
                 <button class="btn btn-warning">Back to Home</button>

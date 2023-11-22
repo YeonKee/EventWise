@@ -5,12 +5,11 @@
 @extends($selectedLayout);
 
 <style>
-
-    .signin {
+    .signin-content {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 50vh;
+        height: 100vh;
     }
 </style>
 
@@ -19,8 +18,8 @@
       
             <form method="POST" class="register-form" id="register-form" action="/students/getCode">
                 @csrf
-                <div class="signin-content" style="width: 1000px;margin-left:400px;margin-top:10px">
-                    <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;;width:500px;">
+                <div class="signin-content">
+                    <div class="card mb-4 shadow-sm reset-password-form-email">
                         <h2 class="form-title d-flex justify-content-center" style="font-family: 'Poppins'">Reset Password</h2>
                         <div class="form-group">
                             <label for="email"><i class="fa-solid fa-envelope"></i></label>
@@ -39,7 +38,5 @@
                     </div>
                 </div>
             </form>
-       
     </section>
-    @yield('foot')
 @endsection

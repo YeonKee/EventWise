@@ -5,11 +5,15 @@
 @extends($selectedLayout);
 
 <style>
+    .body{
+        overflow: hidden;
+    }
+
     .verifyEmail {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 60vh;
+        height: 100vh;
     }
 
     /* Success icon animation */
@@ -181,7 +185,7 @@
 
 @section('body')
     <section class="verifyEmail">
-        <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:50px;;width:600px;margin-top:-50px;margin-bottom:-300px;">
+        <div class="card mb-4 shadow-sm password-change">
             {{-- <img src="https://i.ibb.co/qjSrdf6/logo.png" width=250 height=250 style="margin-bottom: 13px"> --}}
 
             <h2 style="margin-bottom: 15px;font-family:'Poppins';text-align:center;">Successfully Changed!</h2>

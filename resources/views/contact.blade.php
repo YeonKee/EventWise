@@ -17,26 +17,26 @@
                             <div class="col-lg-8 offset-lg-4">
                                 <div class="section-title">
                                     <h2>Location</h2>
-                                    <p>Get directions to our event center</p>
+                                    <p>Get directions to the college!</p>
                                 </div>
                                 <div class="cs-text">
                                     <div class="ct-address">
                                         <span>Address:</span>
-                                        <p>01 Pascale Springs Apt. 339, NY City <br />United State</p>
+                                        <p>Jalan Genting Kelang, Setapak, 53300 <br />Kuala Lumpur</p>
                                     </div>
                                     <ul>
                                         <li>
                                             <span>Phone:</span>
-                                            (+12)-345-67-8910
+                                            (6)03-41450123
                                         </li>
                                         <li>
                                             <span>Email:</span>
-                                            info.colorlib@gmail.com
+                                            info@tarc.edu.my
                                         </li>
                                     </ul>
                                     <div class="ct-links">
                                         <span>Website:</span>
-                                        <p>https://conference.colorlib.com</p>
+                                        <p>https://www.tarc.edu.my/</p>
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +97,10 @@
         </div>
     </section>
     <!-- Contact Form Section End -->
+
+    <script>
+        document.getElementById('contact').classList.add('active');
+    </script>
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>

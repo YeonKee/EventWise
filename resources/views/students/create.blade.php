@@ -5,9 +5,21 @@
 @extends($selectedLayout)
 
 @section('body')
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .signin-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+
     <section class="signup">
-        <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:50px;;width:1000px;margin-top:-50px;margin-bottom:-500px;">
-         
+        <div class="card mb-4 shadow-sm register-form-class">
             <form method="POST" class="register-form" id="register-form" action="/students/register"
                 enctype="multipart/form-data">
                 @csrf
@@ -32,7 +44,7 @@
                     </div>
 
                     <div class="signup-form">
-                        <h2 class="form-title"  style="font-family: 'Poppins'">Register Account</h2>
+                        <h2 class="form-title" style="font-family: 'Poppins'">Register Account</h2>
                         <div class="form-group">
                             <label for="name"><i class="fa-solid fa-user"></i></label>
                             <input type="text" name="name" id="name" placeholder="Name"

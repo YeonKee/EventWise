@@ -8,9 +8,6 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-    </style>
-
-    <style>
 
         .col-md-4:hover img {
             transform: scale(0.95);
@@ -45,8 +42,6 @@
         }
     </style>
 
-
-
     <section class="hero-section set-bg" data-setbg="/img/hero.jpg">
         <div class="container">
             <div class="row">
@@ -64,40 +59,6 @@
         </div>
     </section>
     <!-- Hero Section End -->
-    <!-- Counter Section Begin -->
-    <section class="counter-section bm-gradient">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="counter-text">
-                        <span>Conference Date</span>
-                        <h3>Count Every Second <br />Until the Event</h3>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="cd-timer" id="countdown">
-                        <div class="cd-item">
-                            <span>40</span>
-                            <p>Days</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>18</span>
-                            <p>Hours</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>46</span>
-                            <p>Minutes</p>
-                        </div>
-                        <div class="cd-item">
-                            <span>32</span>
-                            <p>Seconds</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Counter Section End -->
 
     <!-- Home About Section Begin -->
     <section class="home-about-section spad">
@@ -140,12 +101,9 @@
             </div>
         </div>
 
-
         <div class="album py-5 bg-light">
 
-
             <div class="row">
-
                 @if ($events->count() > 0)
                     @foreach ($events as $event)
                         <div class="col-md-4">
@@ -181,9 +139,7 @@
                     </div>
                 @endif
             </div>
-
         </div>
-
 
     </section>
 
@@ -199,9 +155,7 @@
         </div>
         <div class="album py-5 bg-light">
 
-
             <div class="row">
-
                 @if ($upcoming->count() > 0)
                     @foreach ($upcoming as $uc)
                         <div class="col-md-4">
@@ -236,63 +190,11 @@
                     </div>
                 @endif
             </div>
-
         </div>
 
-
-
-        @yield('foot')
-        <!-- Contact Section Begin -->
-        {{-- <section class="contact-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-title">
-                        <h2>Location</h2>
-                        <p>Get directions to our event center</p>
-                    </div>
-                    <div class="cs-text">
-                        <div class="ct-address">
-                            <span>Address:</span>
-                            <p>01 Pascale Springs Apt. 339, NY City <br />United State</p>
-                        </div>
-                        <ul>
-                            <li>
-                                <span>Phone:</span>
-                                (+12)-345-67-8910
-                            </li>
-                            <li>
-                                <span>Email:</span>
-                                info.colorlib@gmail.com
-                            </li>
-                        </ul>
-                        <div class="ct-links">
-                            <span>Website:</span>
-                            <p>https://conference.colorlib.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="cs-map">
-                        <iframe
-                            src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=TARUMT&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                            height="400" style="border:0;" allowfullscreen=""></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-        <!-- Contact Section End -->
-
-
-        {{-- <script>
-        $(document).ready(function(){
-            $(".buttonoverlapmulti").hide();
-            $(".buttonoverlapmulti").hover(function(){
-                $(this).show();
-            });
-        });
-        </script> --}}
+        <script>
+            document.getElementById('homepage').classList.add('active');
+        </script>
 
         <!-- Js Plugins -->
         <script src="/js/jquery-3.3.1.min.js"></script>

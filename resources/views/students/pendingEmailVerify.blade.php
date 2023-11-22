@@ -5,6 +5,10 @@
 @extends($selectedLayout);
 
 <style>
+    body{
+        overflow: hidden !important;
+    }
+
     .verifyEmail {
         display: flex;
         justify-content: center;
@@ -20,11 +24,11 @@
 
 @section('body')
 <section class="verifyEmail">
-    <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:80px;;width:1000px;">
+    <div class="card mb-4 shadow-sm verify-email-pending">
         {{-- <img src="https://i.ibb.co/qjSrdf6/logo.png" width=250 height=250 style="margin-bottom: 13px"> --}}
               
         <h2 style="margin-bottom: 15px;font-family:'Poppins';text-align:center;">Please verify your email</h2>
-        <img src="/img/verifyEmail.png" width=250 height=250 style="margin-bottom: 13px;margin-left:330px;">
+        <img src="/img/verifyEmail.png" width=250 height=250 style="margin-bottom: 13px;margin-left:310px;">
         <p style="padding: 0 50px; margin-bottom: 35px;text-align:center;">You're almost there! We had sent an email to <br/><span style="font-weight: bold">{{ $email }}</span></p>
         <p style="padding: 0 50px; margin-bottom: 35px;text-align:center;">Just click on the link in the email to complete your signup. If you don't see it, you may need to <b>check your spam</b> folder.</p>
         <p style="padding: 0 50px;text-align:center;">Can't find the email?</p>

@@ -125,23 +125,6 @@ body {
     font-size: 16px;
 }
 
-.container {
-    width: 1200px;
-    background: #fff;
-    margin: 0 auto;
-    box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    -moz-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    -webkit-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    -o-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    -ms-box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -o-border-radius: 20px;
-    -ms-border-radius: 20px;
-    box-shadow: 10px 10px 5px rgb(203, 203, 203);
-}
-
 .display-flex {
     justify-content: space-between;
     -moz-justify-content: space-between;
@@ -183,7 +166,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
 }
 
 .signup-content {
@@ -233,10 +215,6 @@ figure {
     -ms-border-radius: 5px;
     margin-top: 25px;
     cursor: pointer;
-}
-
-.form-submit:hover {
-    background: #4292dc;
 }
 
 #signin {
@@ -1029,19 +1007,145 @@ img#profile_preview:hover {
     float: right;
 }
 
-.chat .messages .right p{
+.chat .messages .right p {
     background-color: #4452BC !important;
     color: white !important;
 }
 
-.form-submit{
+.form-submit {
     background-color: #4452BC;
 }
 
-.form-submit:hover{
+.form-submit:hover {
     background-color: #2B38A1;
+    color: white !important;
 }
 
 a:hover {
     color: #4452bc !important;
+}
+
+.container1 {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -100px;
+}
+
+.logo {
+    margin-left: -150px;
+    width: 250px;
+    height: 250px;
+}
+
+.nav-menu {
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    margin-left: 80px;
+}
+
+ul {
+    margin-bottom: -10px;
+    margin-left: 30px;
+}
+
+#btnSearch {
+    background-color: #4452bc;
+    border-color: #4452bc;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+#btnSearch:hover {
+    background-color: #2B38A1;
+    border-color: #2B38A1;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+input#txtSearch {
+    width: 250px;
+}
+
+.login_icon i {
+    width: 70px;
+    height: 70px;
+}
+
+.login_icon {
+    margin-right: -200px;
+}
+
+.login_icon a {
+    color: #4452bc;
+}
+
+.login_icon a:hover {
+    color: #2B38A1 !important;
+}
+
+.login-form{
+    border-radius: 30px;
+    padding-top: 30px;
+    padding: 50px 70px;
+    border-radius: 15px !important; 
+    margin-left: 300px;
+    width: 700px;
+    margin-top: -300px;
+    margin-bottom: -500px;
+}
+
+.reset-password-form-email {
+    border-radius: 30px;
+    padding-top: 30px;
+    padding: 50px 70px;
+    border-radius: 15px !important; 
+    width: 700px;
+    margin-top: -300px;
+    margin-bottom: -500px;
+}
+
+.reset-password-form {
+    border-radius: 30px;
+    padding-top: 30px;
+    padding: 50px 70px;
+    border-radius: 15px !important; 
+    margin-left: 600px;
+    width: 700px;
+    margin-top: -300px;
+    margin-bottom: -500px;
+}
+
+.password-change, .verify-email-success{
+    border-radius: 30px;
+    padding-top: 30px;
+    padding: 50px 70px;
+    border-radius: 15px !important; 
+    width: 700px;
+    margin-top: -300px;
+    margin-bottom: -500px;
+}
+
+.verify-email-pending{
+    border-radius: 30px;
+    padding: 30px 70px;
+    border-radius: 15px !important; 
+    width: 1000px;
+    margin-top: -240px;
+    margin-bottom: -500px;
+}
+
+.signup-content{
+    padding: 30px;
+}
+
+.register-form-class{
+    border-radius: 30px;
+    border-radius: 15px !important; 
+    width: 1200px;
+    height: auto;
+    margin-bottom: -500px;
+}
+
+.signup{
+    margin-top: 45px;
 }

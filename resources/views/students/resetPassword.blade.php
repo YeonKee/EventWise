@@ -5,12 +5,11 @@
 @extends($selectedLayout);
 
 <style>
-
     .signin {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 70vh;
+        height: 75vh;
     }
 
     .form-title {
@@ -31,8 +30,8 @@
 
         <form method="POST" class="register-form" id="register-form" action="/students/resetPassword">
             @csrf
-            <div class="signin-content" style="width: 1600px;margin-bottom: -300px;">
-                <div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:650px;;width:600px;margin-top:-300px;margin-bottom:-300px;">
+            <div class="signin-content" style="width: 1600px; margin-bottom: -300px;">
+                <div class="card mb-4 shadow-sm reset-password-form">
                     <h2 class="form-title d-flex justify-content-center" style="font-family:'Poppins'">Reset Password</h2>
 
                     <p class="msg">

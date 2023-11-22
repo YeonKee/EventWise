@@ -42,13 +42,13 @@ Route::get('/chatTesting', function () {
 
 // All links (easy testing)
 Route::get('/easytest', function () {
-    return view('easytest');
+    return view('students.successEmailVerify', ['email' => 'email', 'studID' => 'studID']);
 });
 
+
 // Route to homepage
-Route::get('/', function () {
-    return view('homepage');
-});
+Route::get('/', [EventController::class, 'homepage']);
+Route::get('/homepage', [EventController::class, 'homepage']);
 
 // Unauthorized Access
 Route::get('/unauthorizedAccess', function () {
@@ -216,11 +216,6 @@ Route::group(['middleware' => ['role:admin']], function () {
 //--------------HOMEPAGE ROUTE----------
 // Main page
 
-Route::get('/homepage', [EventController::class, 'homepage']);
-// Route::get('/homepage', function () {
-//     return view('homepage');
-// });
-
 Route::get('/index', function () {
     return view('index');
 });
@@ -247,7 +242,6 @@ Route::post('/event/register', [EventController::class, 'registration']);
 Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);
 Route::get('/registerEvent?success={id}', [EventController::class, 'registration']);
 
-
 Route::get('/becomeorganizer', function () {
     $title = '';
     $content = '';
@@ -261,11 +255,6 @@ Route::get('/venueArr', function () {
 // Route::get('/staffs/events/index', function () {
 //     return view('staffs.events.index');
 // });
-
-Route::get('/staffs/students/viewAllStud', function () {
-    return view('staffs.students.viewAllStud');
-});
-
 
 Route::get('/success', function () {
     return view('success');
