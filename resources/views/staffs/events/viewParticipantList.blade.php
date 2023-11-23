@@ -71,6 +71,8 @@
     <script>
         $(document).ready(function() {
             $('#eventNav').removeClass('collapsed');
+            $('#participantList').addClass('active');
+            $('#event-nav').addClass('show');
 
             $('#eventTable').DataTable({
                 paging: false, // Disable pagination

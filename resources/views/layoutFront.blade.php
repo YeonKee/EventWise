@@ -7,7 +7,7 @@
     <title>@yield('title', 'EventWise')</title>
 
     <!-- Stylesheet -->
-    <link rel="icon" type="image/x-icon" href="http://127.0.0.1:8000/mini_logo.ico">
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/small_logo.png') }}">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
