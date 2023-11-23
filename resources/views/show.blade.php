@@ -83,12 +83,12 @@
     </style>
 @endsection
 @section('body')
-    <div class="card">
+    <div class="card" style="border-radius:10px;margin-left:200px;margin-right:200px;">
         <div class="card-body">
 
             <input type="hidden" name="event_id" value="{{ $event->event_id }}" />
 
-            <h3 class="card-title"> {{ $event->name }} </h3>
+            <h3 class="card-title" style="  font-family: 'Poppins';"> {{ $event->name }} </h3>
 
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
@@ -97,7 +97,7 @@
                             style="object-fit:scale-down;margin-top: 100px">
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7 col-sm-6">
+                <div class="col-lg-7 col-md-7 col-sm-6"  style="  font-family: 'Poppins';">
                     <h4 class="box-title mt-5">Event description:</h4>
                     <p>{{ $event->description }}</p>
                     <h4 class="box-title mt-5">Ticket Price(RM):</h4>
