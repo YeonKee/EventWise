@@ -53,10 +53,12 @@ class StaffController extends Controller
         $participationCounts = $topEvents->pluck('participated_count')->toArray();
         $combinedCountsString = implode(', ', $participationCounts);
 
-        $eventNames = $topEvents->pluck('name')->map(function ($name) {
-            return "'" . $name . "'";
-        })->toArray();
-        $combinedNamesString = implode(', ', $eventNames);
+        $eventNames = $topEvents->pluck('name')->toArray();
+        $quotedEventNames = array_map(function ($name) {
+            return "'" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "'";
+        }, $eventNames);
+
+        $combinedNamesString = implode(', ', $quotedEventNames);
 
         return view('staffs.dashboard', compact('totalStudents', 'totalEvents', 'combinedCountsString', 'combinedNamesString'));
     }

@@ -368,6 +368,18 @@ label {
     color: #222;
 }
 
+.organizer-label{
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    -moz-transform: none;
+    -webkit-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    color: inherit; /* or any other color value */
+}
+
 .label-has-error {
     top: 22%;
 }

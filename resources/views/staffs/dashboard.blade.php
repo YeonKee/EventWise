@@ -101,7 +101,7 @@
                                                 },
                                                 xaxis: {
                                                     // X-axis label
-                                                    categories: [{{ html_entity_decode($combinedNamesString) }}],
+                                                    categories: [<?= $combinedNamesString ?>],
                                                 }
                                             }).render();
                                         });
