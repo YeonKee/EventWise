@@ -53,7 +53,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>1244</h6>
+                                            <h6>{{ $totalEvents }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                                                 series: [{
                                                     // Hover box of graph + Value of point
                                                     name: "Registered",
-                                                    data: [10, 41, 35, 51, 49, 62, 69, 91, 448]
+                                                    data: [{{ $combinedCountsString }}]
                                                 }],
                                                 chart: {
                                                     // Height of graph
@@ -101,7 +101,7 @@
                                                 },
                                                 xaxis: {
                                                     // X-axis label
-                                                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                                                    categories: [{{ html_entity_decode($combinedNamesString) }}],
                                                 }
                                             }).render();
                                         });

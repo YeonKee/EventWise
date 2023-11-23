@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Staff;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -45,8 +46,19 @@ class StaffController extends Controller
     public function dashboard()
     {
         $totalStudents = Student::count();
+        $totalEvents = Event::count();
 
-        return view('staffs.dashboard')->with('totalStudents', $totalStudents);
+        // Get Participated Count & Event Name
+        $topEvents = Event::orderByDesc('participated_count')->take(6)->get();
+        $participationCounts = $topEvents->pluck('participated_count')->toArray();
+        $combinedCountsString = implode(', ', $participationCounts);
+
+        $eventNames = $topEvents->pluck('name')->map(function ($name) {
+            return "'" . $name . "'";
+        })->toArray();
+        $combinedNamesString = implode(', ', $eventNames);
+
+        return view('staffs.dashboard', compact('totalStudents', 'totalEvents', 'combinedCountsString', 'combinedNamesString'));
     }
 
     public function profile(Request $request)
