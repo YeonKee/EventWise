@@ -39,7 +39,7 @@
 
         <!-- Footer -->
         <div class="bottom">
-            <form>
+            <form class="chat-form">
                 <input type="text" id="message" name="message" placeholder="Enter message..." autocomplete="off">
                 <button type="submit">
                     <i class="fas fa-paper-plane"></i>
@@ -103,7 +103,7 @@
         });
 
         // Submit the form to broadcast messages
-        $("form").submit(function(event) {
+        $(".chat-form").submit(function(event) {
             event.preventDefault();
 
             // Get the message from the form

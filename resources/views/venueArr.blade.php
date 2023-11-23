@@ -4,15 +4,7 @@
 
 @extends($selectedLayout)
 @section('head')
-    <link rel="stylesheet" href="venue.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/venue.js" defer></script>
-    <script src="/js/register_event.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <style type="text/css">
         /* drag and drop */
         .container {
@@ -306,7 +298,7 @@
 @section('body')
     <div class="form-row mb-4">
         <div class="col-5 mx-auto">
-            <label for="event_venuearr" class="event_venuearr">Venue Arrangement
+            <label for="event_venuearr" class="event_venuearr draw-label">Venue Arrangement
                 <span class="text-danger"><b>*</b>
                     @error('event_venuearr')
                         {{ $message }}
@@ -317,29 +309,35 @@
             <div class="container">
                 <section class="tools-board">
                     <div class="row">
-                        <label class="titleShapes">Shapes</label>
-                        <ul class="options shapes">
-                            <li class="option tool" id="rectangle">
-                                <img src="img/venue/rectangle.svg" alt="">
-                                <span>Rectangle</span>
-                            </li>
-                            <li class="option tool" id="circle">
-                                <img src="img/venue/circle.svg" alt="">
-                                <span>Circle</span>
-                            </li>
-                            <li class="option tool" id="triangle">
-                                <img src="img/venue/triangle.svg" alt="">
-                                <span>Triangle</span>
-                            </li>
-                            <li class="option">
-                                <input type="checkbox" id="fill-color">
-                                <label for="fill-color">Fill color</label>
-                            </li>
-                        </ul>
+                        <div class="rowOptions">
+                            <label class="titleShapes draw-label">Shapes</label>
+                            <ul class="options shapes">
+                                <li class="option tool" id="rectangle">
+                                    <img src="img/venue/rectangle.svg" alt="">
+                                    <span>Rectangle</span>
+                                </li>
+                                <li class="option tool" id="circle">
+                                    <img src="img/venue/circle.svg" alt="">
+                                    <span>Circle</span>
+                                </li>
+                                <li class="option tool" id="triangle">
+                                    <img src="img/venue/triangle.svg" alt="">
+                                    <span>Triangle</span>
+                                </li>
+                                <li class="option tool">
+                                    <label for="color-checkbox" class="draw-label">
+                                        <input type="checkbox" id="fill-color"
+                                            style="background-color: black; display: block">
+                                    </label>
+                                    <label for="fill-color" class="draw-label">Fill color</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="rowOptions">
-                            <label class="titleOptions">Options</label>
+                            <label class="titleOptions draw-label">Options</label>
                             <ul class="options">
                                 <li class="option active tool" id="brush">
                                     <img src="img/venue/brush.svg" alt="">
@@ -355,14 +353,15 @@
                             </ul>
                         </div>
                     </div>
+
                     <div class="row colors">
-                        <label class="titleColors">Colors</label>
+                        <label class="titleColors draw-label">Colors</label>
                         <ul class="options colors">
-                            <li class="option"></li>
-                            <li class="option selected"></li>
-                            <li class="option"></li>
-                            <li class="option"></li>
-                            <li class="option">
+                            <li class="color-selection option"></li>
+                            <li class="color-selection option selected"></li>
+                            <li class="color-selection option"></li>
+                            <li class="color-selection option"></li>
+                            <li class="color-selection option">
                                 <input type="color" id="color-picker" value="#4A98F7">
                             </li>
                         </ul>
@@ -380,12 +379,17 @@
         </div>
     </div>
 
-
-
     <div class="form-row mb-5">
         <div class="col-5 mx-auto recaptcha_box">
             <a href="#" onclick="javascript:window.history.back(-1);return false;">Back</a>
             {{-- <button type="submit" id="submit_form" class="btn btn-warning">Submit</button> --}}
         </div>
     </div>
+
+    <script src="/js/venue.js" defer></script>
+    <script src="/js/register_event.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 @endsection

@@ -50,6 +50,7 @@
     <link href="{{ asset('css/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet">
     <link href="{{ asset('css/slicknav.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/venue.css') }}" rel="stylesheet" >
 
     <!-- Form -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

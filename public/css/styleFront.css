@@ -368,6 +368,35 @@ label {
     color: #222;
 }
 
+.o-label {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    -moz-transform: none;
+    -webkit-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    color: inherit;
+    /* or any other color value */
+}
+
+.draw-label {
+    position: static;
+    left: auto;
+    top: auto;
+    transform: none;
+    -moz-transform: none;
+    -webkit-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    color: inherit;
+}
+
+.color-selection {
+    margin: 0 3px;
+}
+
 .label-has-error {
     top: 22%;
 }
@@ -1083,11 +1112,11 @@ input#txtSearch {
     color: #2B38A1 !important;
 }
 
-.login-form{
+.login-form {
     border-radius: 30px;
     padding-top: 30px;
     padding: 50px 70px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     margin-left: 300px;
     width: 700px;
     margin-top: -300px;
@@ -1098,7 +1127,7 @@ input#txtSearch {
     border-radius: 30px;
     padding-top: 30px;
     padding: 50px 70px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     width: 700px;
     margin-top: -300px;
     margin-bottom: -500px;
@@ -1108,44 +1137,91 @@ input#txtSearch {
     border-radius: 30px;
     padding-top: 30px;
     padding: 50px 70px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     margin-left: 600px;
     width: 700px;
     margin-top: -300px;
     margin-bottom: -500px;
 }
 
-.password-change, .verify-email-success{
+.password-change,
+.verify-email-success {
     border-radius: 30px;
     padding-top: 30px;
     padding: 50px 70px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     width: 700px;
     margin-top: -300px;
     margin-bottom: -500px;
 }
 
-.verify-email-pending{
+.verify-email-pending {
     border-radius: 30px;
     padding: 30px 70px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     width: 1000px;
     margin-top: -240px;
     margin-bottom: -500px;
 }
 
-.signup-content{
+.signup-content {
     padding: 30px;
 }
 
-.register-form-class{
+.register-form-class {
     border-radius: 30px;
-    border-radius: 15px !important; 
+    border-radius: 15px !important;
     width: 1200px;
     height: auto;
     margin-bottom: -500px;
 }
 
-.signup{
+.organizer-form {
+    background-color: transparent !important;
+}
+
+.o-class {
+    margin-bottom: 1.5rem !important;
+    border-radius: 15px !important;
+    background-color: transparent !important;
+}
+
+.signup {
     margin-top: 45px;
+}
+
+.btn-draw{
+    background-color: #4452bc;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+.clear-event-form{
+    background-color: gray !important;
+    color: white;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+}
+
+.submit-event-form{
+    background-color: #4452bc !important;
+    color: white;
+    padding: 5px 10px;
+    margin-bottom: 20px;
+}
+
+.btn-draw:hover{
+    background-color: #2B38A1;
+    color: white !important;
+}
+
+.clear-event-form:hover{
+    background-color: rgb(83, 83, 83) !important;
+    color: white;
+}
+
+.submit-event-form:hover{
+    background-color: #2B38A1 !important;
+    color: white;
 }

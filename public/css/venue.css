@@ -21,7 +21,7 @@ body{
   max-width: 1050px;
 }
 section{
-  background: #fff;
+  /* background: #fff; */
   border-radius: 7px;
 }
 .tools-board{
