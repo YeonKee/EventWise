@@ -107,7 +107,8 @@
                                             class="fa fa-user-circle-o fa-2x"></i></a>
                                     <a href="/students/logout" title="Logout"><i
                                             class="fa fa-sign-out fa-2x"></i></a>
-                                </div>
+                                         
+                                        </div>
                             @else
                                 <a class="" style="color: #4452bc; font-size:24px;" href="/students/loginPage"
                                     style="font-family:'Poppins'; ">

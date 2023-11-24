@@ -115,13 +115,18 @@ Route::get('/set-layout', function () {
 | STUDENT ROUTE
 |--------------------------------------------------------------------------
 */
-Route::get('/students/eventHistory', [EventController::class, 'eventHistory']);
+
 Route::group(['middleware' => ['role:student']], function () {
 
     // Profile
     Route::get('/students/profile', [StudentController::class, 'profile']);
     Route::post('/students/update', [StudentController::class, 'update']);
 
+    //event history
+    Route::get('/students/eventHistory', [EventController::class, 'eventHistory']);
+
+    //near by suggestion
+    Route::get('/event/suggestNearBy/{id}', [EventController::class, 'suggestNearBy']);
     // Logout
     Route::get('/students/logout', [StudentController::class, 'logout']);
  
@@ -273,7 +278,7 @@ Route::get('/event/search', [EventController::class, 'searchEvents']);
 Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent']);
 Route::post('/event/generate', [TextGeneratorController::class, 'index']);
 Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
-Route::get('/event/suggestNearBy/{id}', [EventController::class, 'suggestNearBy']);
 
+Route::post('/contactByEmail', [EventController::class, 'contactByEmail']);
 
 

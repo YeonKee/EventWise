@@ -177,7 +177,7 @@
                                     @enderror
                                 </span></label>
                             <input type="text" class="form-control" id="event_picContactNo" name="event_picContactNo"
-                                autocomplete="off" value="{{ old('event_picContactNo') }}">
+                               value="{{ old('event_picContactNo') }}">
                         </div>
                     </div>
 
@@ -203,7 +203,7 @@
                                         {{ $message }}
                                     @enderror
                                 </span></label>
-                            <input type="text" class="form-control" id="event_name" name="event_name" autocomplete="off"
+                            <input type="text" class="form-control" id="event_name" name="event_name"
                                 value="{{ old('event_name') }}">
                         </div>
                     </div>
@@ -372,7 +372,7 @@
                                     @enderror
                                 </span></label>
                             <input type="date" class="form-control" id="event_date" name="event_date"
-                                autocomplete="off" value="{{ old('event_date') }}">
+                                 value="{{ old('event_date') }}">
                         </div>
                     </div>
 

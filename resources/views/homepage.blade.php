@@ -42,22 +42,23 @@
         }
     </style>
 
-    <section class="hero-section set-bg" data-setbg="/img/hero.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="hero-text">
-                        <span>5 to 9 may 2019, mardavall hotel, New York</span>
-                        <h2>Change Your Mind<br /> To Become Sucess</h2>
-                        <a href="#" class="primary-btn">Buy Ticket</a>
+    @if (isset($closestEvent))
+        <section class="hero-section set-bg" data-setbg={{ $closestEvent->event_picture }}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="hero-text" style=" width: 500px;  margin-left: 300px;">
+                            <h1 style="font-family:'Poppins'; text-align:center">It's about to happen!</h1>
+                            <h2 style="font-family:'Poppins'; text-align:center">{{ $closestEvent->event_name }}</h2>
+                            <h4 style="text-align:center">{{ $closestEvent->date->format('j F Y') }}</h4>
+                            <h4 style="color: black;text-align:center">Time:{{ $closestEvent->start_time }} to {{ $closestEvent->end_time }}</h4>
+                            <a href="/event/viewById/{{ $closestEvent->event_id }}" class="primary-btn" style=" margin-left: 170px; margin-top: 20px ">Buy Ticket</a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <img src="/img/hero-right.png" alt="">
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
     <!-- Hero Section End -->
 
     <!-- Home About Section Begin -->
@@ -66,24 +67,28 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="ha-pic">
-                        <img src="/img/h-about.jpg" alt="">
+                        <!-- Display an image related to the highest participation event if available -->
+                        @if(isset($highestParticipationEvent))
+                            <img src="{{ $highestParticipationEvent->event_picture }}" alt="Highest Participation Event Image">
+                        @else
+                            <!-- Provide a default image or handle the case where no highest participation event is found -->
+                            <img src="/img/default-image.jpg" alt="Default Image">
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="ha-text">
-                        <h2>About Conference</h2>
-                        <p>When I first got into the online advertising business, I was looking for the magical
-                            combination that would put my website into the top search engine rankings, catapult me to
-                            the forefront of the minds or individuals looking to buy my product, and generally make me
-                            rich beyond my wildest dreams! After succeeding in the business for this long, I’m able to
-                            look back on my old self with this kind of thinking and shake my head.</p>
-                        <ul>
-                            <li><span class="icon_check"></span> Write On Your Business Card</li>
-                            <li><span class="icon_check"></span> Advertising Outdoors</li>
-                            <li><span class="icon_check"></span> Effective Advertising Pointers</li>
-                            <li><span class="icon_check"></span> Kook 2 Directory Add Url Free</li>
-                        </ul>
-                        <a href="#" class="ha-btn">Discover Now</a>
+                        <h2>Grab the chance to join!</h2>
+                        <p>
+                            <!-- Display information about the highest participation event -->
+                            @if(isset($highestParticipationEvent))
+                                {{ $highestParticipationEvent->description }}
+                            @else
+                                <!-- Provide a default text or handle the case where no highest participation event is found -->
+                                No information available.
+                            @endif
+                        </p>
+                        {{-- <a href="/event/viewById/{{ $highestParticipationEvent->event_id }}" class="ha-btn">Discover Now</a> --}}
                     </div>
                 </div>
             </div>
@@ -134,7 +139,7 @@
                 @else
                     <div class="container">
                         <div class="comment-alt" style="height:200px;margin-top:100px">
-                            <p class="text-center">Opps, no relevant event found. Stay tune for new updates!</p>
+                            <p class="text-center">Opps, no relevant event found. Stay tune for new event updates!</p>
                         </div>
                     </div>
                 @endif

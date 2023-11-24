@@ -67,6 +67,15 @@
         .card-text {
             color: black;
             font-family: 'Poppins', sans-serif;
+            white-space: nowrap;
+            /* Prevent text from wrapping to the next line */
+            overflow: hidden;
+            /* Hide any content that overflows the container */
+            text-overflow: ellipsis;
+            /* Display ellipsis for overflow content */
+            border: 1px solid #ccc;
+            /* Optional: Add a border for better visualization */
+            padding: 5px;
         }
     </style>
 @endsection
@@ -80,7 +89,8 @@
             @if ($events->count() > 0)
                 @foreach ($events as $event)
                     <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm" style=" display: flex;padding: 5px 30px 10px 30px; border-radius:10px;margin-left:50px;">
+                        <div class="card mb-4 shadow-sm"
+                            style=" display: flex;padding: 5px 30px 10px 30px; border-radius:10px;margin-left:50px;">
 
                             <img src="{{ $event->event_picture }}" class="bd-placeholder-img card-img-top" width="100%"
                                 height="225" style="object-fit:scale-down;padding-top: 15px"
@@ -89,9 +99,11 @@
                             <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
                                 dy=".3em"></text>
 
-                            <div class="card-body" >
-                                <p class="eventName"  style=" font-family: 'Poppins';">{{ $event->name }}</p>
-                                <p class="card-text"  style=" font-family: 'Poppins';">{{ $event->description }}</p>
+                            <div class="card-body">
+                                <p class="eventName" style=" font-family: 'Poppins'; color: black;">
+                                    <b>{{ $event->name }}</b></p>
+                                <p class="card-text" style="font-family:'Poppins'; color: black; white-space: nowrap;overflow: hidden;   text-overflow: ellipsis;">
+                                    {{ $event->description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary"

@@ -62,4 +62,15 @@ class MailController extends Controller
         });
     }
 
+    public static function contactByEmail($name, $email, $phone, $messages)
+    {
+        // Send email
+        Mail::send(['html' => 'emailTemplate.contactByEmail'], ['name' => $name, 'email' => $email, 'phone' => $phone, 'messages' => $messages], function ($message) use ($email) {
+            $message->from(config('mail.mailers.smtp.username'), 'EventWise');
+            $message->to('eventwiseofficial@gmail.com')->subject('Contact By Email');
+        });
+
+    }
+
+
 }

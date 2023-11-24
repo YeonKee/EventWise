@@ -27,6 +27,7 @@ section{
 .tools-board{
   width: 210px;
   padding: 15px 22px 0;
+  background-color: white;
 }
 .tools-board .row{
   margin-bottom: 20px;

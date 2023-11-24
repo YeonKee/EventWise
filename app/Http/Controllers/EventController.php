@@ -11,6 +11,8 @@ use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -39,9 +41,35 @@ class EventController extends Controller
             $events = $events->where('openFor', 'Public');
         }
 
+        // Get the current date and time
+        $currentDateTime = Carbon::now();
+
+
+        // Get the closest upcoming event
+        $closestEvent = $events
+            ->where('event_status', 'Upcoming')
+            ->where('date', '>=', $currentDateTime)
+            ->orderBy('date')
+            ->first();
+
+        // Convert the 'date' field to a Carbon instance
+        if ($closestEvent) {
+            $closestEvent->date = Carbon::parse($closestEvent->date);
+        }
+
+
+        // Convert the 'date' field to a Carbon instance for each upcoming event
+        foreach ($upcoming as $event) {
+            $event->date = Carbon::parse($event->date);
+        }
+
+        $highestParticipationEvent = Event::orderBy('participated_count', 'desc')->first();
+
+
+
         $events = $events->get();
         $upcoming = $upcoming->get();
-        return view('homepage', ['events' => $events,'upcoming'=>$upcoming]);
+        return view('homepage', ['events' => $events, 'upcoming' => $upcoming, 'closestEvent' => $closestEvent, 'highestParticipationEvent'=>$highestParticipationEvent]);
 
     }
 
@@ -220,17 +248,17 @@ class EventController extends Controller
 
     public function registration(Request $request)
     {
-       
+
         // Check if the email is already registered for the event
         $existingRegistration = Registration::where('event_id', $request->event_id)
             ->where('part_email', $request->part_email)
             ->exists();
 
         if ($existingRegistration == "true") {
-         
-        Alert::html('Seems like you have been resgister for this event!', 'Email: (<b>' . e($request->part_email) . '</b>) is found in database.');
 
-        return redirect()->back();
+            Alert::html('Seems like you have been resgister for this event!', 'Email: (<b>' . e($request->part_email) . '</b>) is found in database.');
+
+            return redirect()->back();
         }
 
         $registrations = new Registration();
@@ -423,6 +451,36 @@ class EventController extends Controller
 
         return redirect()->back();
     }
+
+    public function contactByEmail(Request $request)
+    {
+        $validators = [
+            'name' => 'required|max:100',
+            'email' => 'required|max:50|regex:/^[A-Za-z0-9._%+-]+@gmail\.com$/',
+            'phone' => 'required|max:12|regex:/^[0-9]*$/',
+            'messages' => 'required|max:300'
+        ];
+
+        $errMsgs = [
+            'name.required' => 'Name should not be empty.',
+            'name.max' => 'Name should only be 100 characters long.',
+            'email.required' => 'Email should not be empty.',
+            'email.max' => 'Email should only be 50 characters long.',
+            'email.regex' => 'Email should follow the pattern: [...@gmail.com].',
+            'phone.required' => 'Phone should not be empty.',
+            'phone.max' => 'Phone should only be 12 characters long.',
+            'phone.regex' => 'Phone should follow the pattern: [0133506462].',
+            'messages.required' => 'Message should not be empty.',
+            'messages.max' => 'Message should only be 300 characters long.',
+        ];
+
+        $request->validate($validators, $errMsgs);
+        MailController::contactByEmail($request->name, $request->email, $request->phone, $request->messages);
+        Alert::html('The message has been sent to EventWise. Stay tuned for the updates.');
+        return redirect()->back();
+    }
+
+
 
 
     /**

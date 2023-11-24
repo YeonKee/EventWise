@@ -381,14 +381,14 @@
 
     <div class="form-row mb-5">
         <div class="col-5 mx-auto recaptcha_box">
-            <a href="#" onclick="javascript:window.history.back(-1);return false;">Back</a>
+            <a href="#" onclick="javascript:window.history.back(-1);return false;" class="submit-event-form btn btn-submit-event"  style="margin-left:10px; ">Back</a>
             {{-- <button type="submit" id="submit_form" class="btn btn-warning">Submit</button> --}}
         </div>
     </div>
 
     <script src="/js/venue.js" defer></script>
     <script src="/js/register_event.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

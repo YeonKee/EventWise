@@ -20,6 +20,7 @@
                         <th scope="col">Event Status</th>
                         <th scope="col">Receipt</th>
                         <th scope="col">Event Details</th>
+                        <th scope="col">Nearby Participants Suggestion</th>
                         <!-- Add more columns as needed -->
                     </tr>
                 </thead>
@@ -37,6 +38,9 @@
                             <td>  <a href="{{ asset($registration->receipt) }}" download>View Receipt</a></td>
                             <td>
                                 <a href="/event/viewById/{{$registration->event->event_id}}" title="View">View Event Details</a>
+                            </td>
+                            <td>
+                                <a href="/event/suggestNearBy/{{$registration->reg_id}}" title="View">People Nearby Joining</a>
                             </td>
                         </tr>
                         @php

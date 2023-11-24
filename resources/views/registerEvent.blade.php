@@ -4,14 +4,9 @@
 
 @extends($selectedLayout)
 @section('head')
-    <link rel="stylesheet" href="venue.css">
+   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/js/registration.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+  
     <style type="text/css">
         /* normal css */
         img#picture_preview1 {
@@ -170,11 +165,12 @@
         });
     </script>
 
-    <h2><i class="fa fa-pencil mr-2"></i>Event Registration</h2>
-    <h5>Come and have fun together!</h5><br>
+    <h2 style="text-align: center;font-family:'Poppins';"><i class="fa fa-pencil mr-2"></i>Event Registration</h2>
+    <h5 style="text-align: center;font-family:'Poppins';font-style: italic;">Come and have fun together!</h5><br>
 
-    <h4 class="box-title mt-5">Register for event:{{ $event->name }}</h4>
+    <h4 class="box-title mt-5" style="text-align: center;font-family:'Poppins';" >Register for event: {{ $event->name }}</h4>
 
+    <div class="organizer-form">
     <form id="form1" class="mt-4 h-100" method="POST" action="/event/register" enctype="multipart/form-data">
         @csrf
 
@@ -183,7 +179,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_name">Name
+                <label for="part_name" class="o-label">Name
                     <span class="text-danger"><b>*</b>
                         @error('part_name')
                             {{ $message }}
@@ -196,7 +192,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_ContactNo">Contact number
+                <label for="part_ContactNo" class="o-label">Contact number
                     <span class="text-danger"><b>*</b>
                         @error('part_ContactNo')
                             {{ $message }}
@@ -209,7 +205,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_email">Email
+                <label for="part_email" class="o-label">Email
                     <span class="text-danger"><b>*</b>
                         @error('part_email')
                             {{ $message }}
@@ -223,7 +219,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_add">Address
+                <label for="part_add" class="o-label">Address
                     <span class="text-danger"><b>*</b>
                         @error('part_add')
                             {{ $message }}
@@ -236,7 +232,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_city">City
+                <label for="part_city" class="o-label">City
                     <span class="text-danger"><b>*</b>
                         @error('part_city')
                             {{ $message }}
@@ -251,7 +247,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="part_States">States
+                <label for="part_States" class="o-label">States
                     <span class="text-danger"><b>*</b>
                         @error('open_For')
                             {{ $message }}
@@ -281,7 +277,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="acc_No">Beneficiary Account</label>
+                <label for="acc_No" class="o-label">Beneficiary Account</label>
                 <input type="text" class="form-control" id="event_name" name="event_name" autocomplete="off"
                     value="{{ $event->bank_Name }}: {{ $event->acc_number }}" style="border: none" readonly>
             </div>
@@ -290,7 +286,7 @@
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <div class="profile-group">
-                    <label for="payment_qr">QR Payment</label>
+                    <label for="payment_qr" class="o-label">QR Payment</label>
                     <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1" />
                 </div>
             </div>
@@ -300,7 +296,7 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="ticket_price">Ticket Price (RM):</label>
+                <label for="ticket_price" class="o-label">Ticket Price (RM):</label>
                 <input type="text" class="form-control" id="ticket_price" name="ticket_price" autocomplete="off"
                     value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
             </div>
@@ -310,7 +306,7 @@
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <div class="form-group input-group">
-                    <label for="part_receipt">Receipt:
+                    <label for="part_receipt" class="o-label">Receipt:
                         <span class="text-danger"><b>*</b>
                             @error('part_receipt')
                                 {{ $message }}
@@ -325,21 +321,25 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <input type="checkbox" id="suggest" name="suggest" value="suggest" checked>
+                <input type="checkbox" id="suggest" name="suggest" value="suggest" checked style="display:block;margin-left:-50px;margin-top:-10px;">
                 <label for="suggestNB" id="suggestNB"> I agree that my personal information (Name, contact number and
                     email) can be exposed for Nearby Suggestion feature purposes.</label>
             </div>
         </div>
 
-        <div class="form-row mb-5">
-            <div class="col-5 mx-auto recaptcha_box">
-                <button type="button" class="btn btn-secondary mr-2" onClick="window.location.reload()">Clear</button>
-                <button type="submit" id="submit_regForm" class="btn btn-warning">Submit</button>
+        <div class="form-row mb-5" >
+            <div class="col-5 mx-auto recaptcha_box" style="margin-top:40px;">
+                <button type="button" class=" clear-event-form btn btn-secondary mr-2" onClick="window.location.reload()">Clear</button>
+                <button type="submit" id="submit_regForm" class="submit-event-form btn btn-submit-event">Submit</button>
 
             </div>
         </div>
     </form>
-@endsection
+    </div>
+    <script src="/js/registration.js"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-@section('foot')
 @endsection
