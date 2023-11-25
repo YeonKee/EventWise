@@ -343,7 +343,7 @@
                                         @enderror
                                     </span>
                                     <img id="picture_preview3" src="/img/default_eventpic.png" />
-                                    <input type="file" class="d-none" name="payment_qr" id="payment_qr" accept=".jpg, .jpeg, .png"
+                                    <input type="file" class="d-none" name="payment_qr" accept=".jpg, .jpeg, .png"
                                         capture>
                                 </label>
                             </div>
