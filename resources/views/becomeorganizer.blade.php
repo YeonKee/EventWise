@@ -7,40 +7,43 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    
+
     <style type="text/css">
         /* normal css */
-        img#picture_preview {
-            width: 130px;
-            height: 130px;
+
+        #picture_preview {
+            width: 400px !important;
+            height: 400px  !important;
             object-fit: cover;
         }
 
-        img#picture_preview:hover {
+        #picture_preview:hover {
             background-color: white;
             border: 3px dashed #87CEFA;
             cursor: pointer;
         }
 
-        img#picture_preview2 {
-            width: 130px;
-            height: 130px;
+        #picture_preview2 {
+            width: 400px  !important;
+            height: 400px  !important;
             object-fit: cover;
         }
 
-        img#picture_preview2:hover {
+        #picture_preview2:hover {
             background-color: white;
             border: 3px dashed #87CEFA;
             cursor: pointer;
         }
 
 
-        img#picture_preview3 {
-            width: 130px;
-            height: 130px;
+        #picture_preview3 {
+            width: 400px  !important;
+            height: 400px  !important;
             object-fit: cover;
         }
 
-        img#picture_preview3:hover {
+        #picture_preview3:hover {
             background-color: white;
             border: 3px dashed #87CEFA;
             cursor: pointer;
@@ -275,13 +278,12 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview2" class="mx-auto rounded-circle"
-                                        src="/img/default_eventpic.png" />
+                                    <img id="picture_preview2" src="/img/default_eventpic.png"/>
                                     <input type="file" class="d-none" name="event_venueArr"
                                         accept=".jpg, .jpeg, .png" capture>
                                 </label>
                             </div>
-                            <a href="http://127.0.0.1:8000/venueArr" class="btn-draw">Draw Now!</a>
+                            <a href="http://127.0.0.1:8000/venueArr" class="btn-draw">Draw Now !</a>
 
                         </div>
                     </div>
@@ -340,14 +342,14 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview3" class="mx-auto rounded-circle"
-                                        src="/img/default_eventpic.png" />
-                                    <input type="file" class="d-none" name="payment_qr" accept=".jpg, .jpeg, .png"
+                                    <img id="picture_preview3" src="/img/default_eventpic.png" />
+                                    <input type="file" class="d-none" name="payment_qr" id="payment_qr" accept=".jpg, .jpeg, .png"
                                         capture>
                                 </label>
                             </div>
                         </div>
                     </div>
+                    
 
                     <div class="form-row mb-4">
                         <div class="col-5 mx-auto">
@@ -419,8 +421,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview" class="mx-auto rounded-circle"
-                                        src="/img/default_eventpic.png" />
+                                    <img id="picture_preview" src="/img/default_eventpic.png" />
                                     <input type="file" class="d-none" name="event_pic" accept=".jpg, .jpeg, .png"
                                         capture>
                                 </label>

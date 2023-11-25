@@ -7,8 +7,7 @@
 
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="/js/textGenerator.js"></script>
+       
 
         <style type="text/css">
             h2 {
@@ -94,10 +93,10 @@
     </head>
 
 
-    <h2><i class="fa fa-pencil mr-2"></i>Become an Organizer</h2>
-    <h5>Creative, Innovative and Unity</h5><br>
+    <h2 style="text-align: center;font-family:'Poppins';"><i class="fa fa-pencil mr-2"></i>Become an Organizer</h2>
+    <h5 style="text-align: center;font-family:'Poppins';font-style: italic;">Creative, Innovative and Unity</h5><br>
 
-    <h6 class="message font-weight-bold my-3 text-center
+    {{-- <h6 class="message font-weight-bold my-3 text-center
     @if (request()->has('success')) text-success">
     New event submitted successfully. Stay tuned for the updates!(Event ID: {{ request()->get('success') }})
     @elseif (request()->has('error'))
@@ -105,7 +104,7 @@
     Opps, error encountered. Please try again.
     @else
     "> @endif
-</h6>
+</h6> --}}
       
 
 
@@ -117,7 +116,7 @@
 
 
         <div class="remark_label">
-            <label for="event_remark">Remarks
+            <label for="event_remark" style="margin-top:30px;">Remarks
                 <span class="text-danger"><b>*</b>
                     @error('event_remark')
                         {{ $message }}
@@ -129,7 +128,7 @@
 
         <input type="text" class="form-control" id="event_remark" name="title" value="{{ $title }}">
 
-        <button class="btn btn-primary" type="submit" id="generate">Generate</button>
+        <button class="submit-event-form btn btn-submit-event" type="submit" id="generate">Generate</button>
 
 
         </form>
@@ -145,17 +144,14 @@
                 @endif
             </div>
 
-            <div class="form-row mb-5">
+            <div class="form-row mb-5" style="margin-left:-80px;">
                 <div class="col-5 mx-auto recaptcha_box">
-                    <button type="button" class="btn btn-secondary mr-2"
+                    <button type="button" class="clear-event-form btn btn-secondary mr-2"
                         onclick="location.href = '/textGenerator'">Clear</button>
-                    <button type="submit" class="btn btn-warning" id="submit_mainform">Submit</button>
+                    <button type="submit" class="submit-event-form btn btn-submit-event" id="submit_mainform">Submit</button>
                 </div>
             </div>
         </form>
-    @endsection
-
-
-    @section('foot')
-        <script src="/js/textGenerator.js"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="/js/textGenerator.js"></script>
     @endsection

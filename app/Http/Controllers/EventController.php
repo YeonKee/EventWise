@@ -226,7 +226,7 @@ class EventController extends Controller
 
         $events->save();
         return redirect('/textGenerator?success=' . $events->event_id);
-
+        
     }
 
     public function updateRemark(Request $request, $eventId)
@@ -235,12 +235,12 @@ class EventController extends Controller
         $event = Event::find($eventId);
 
         if ($event) {
-            // Update the 'status' column
+            // Update the 'remark' column
             $event->update(['remark' => $request->remark]);
+        } 
 
-        } else {
-            // Handle the case when the event is not found
-        }
+
+
 
         // You can return a response or redirect to another page
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TextGeneratorController extends Controller
 {
@@ -44,7 +45,9 @@ class TextGeneratorController extends Controller
             $event->save();
             $request->session()->forget('event_id');
 
-            return redirect('/textGenerator?success=' . $event->event_id);
+        
+            Alert::html('Thank you for proposing the event. Stay tuned for the updates.');
+            return redirect('/homepage');
 
     
             // Return a response, redirect, or do other actions as needed

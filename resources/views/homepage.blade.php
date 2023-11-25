@@ -48,11 +48,11 @@
                 <div class="row">
                     <div class="col-lg-7">
                         <div class="hero-text" style=" width: 500px;  margin-left: 300px;">
-                            <h1 style="font-family:'Poppins'; text-align:center">It's about to happen!</h1>
+                            <h1 style="font-family:'Poppins'; text-align:center;margin-top: -140px;">It's about to happen!</h1>
                             <h2 style="font-family:'Poppins'; text-align:center">{{ $closestEvent->event_name }}</h2>
                             <h4 style="text-align:center">{{ $closestEvent->date->format('j F Y') }}</h4>
                             <h4 style="color: black;text-align:center">Time:{{ $closestEvent->start_time }} to {{ $closestEvent->end_time }}</h4>
-                            <a href="/event/viewById/{{ $closestEvent->event_id }}" class="primary-btn" style=" margin-left: 170px; margin-top: 20px ">Buy Ticket</a>
+                            <a href="/event/viewById/{{ $closestEvent->event_id }}" class="primary-btn" style=" margin-left: 170px; margin-top: 20px;margin-bottom:30px; ">Buy Ticket</a>
                         </div>
                     </div>
                 </div>
@@ -78,17 +78,17 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="ha-text">
-                        <h2>Grab the chance to join!</h2>
+                        <h2 style="font-family:'Poppins'; text-align:center;width: 500px;">Our Most Popular Event!</h2>
                         <p>
                             <!-- Display information about the highest participation event -->
                             @if(isset($highestParticipationEvent))
-                                {{ $highestParticipationEvent->description }}
+                              <p style="white-space: nowrap;overflow: hidden;   text-overflow: ellipsis;">  {{ $highestParticipationEvent->description }}</p>
                             @else
                                 <!-- Provide a default text or handle the case where no highest participation event is found -->
                                 No information available.
                             @endif
                         </p>
-                        {{-- <a href="/event/viewById/{{ $highestParticipationEvent->event_id }}" class="ha-btn">Discover Now</a> --}}
+                        <a href="/event/viewById/{{ $highestParticipationEvent->event_id }}" class="ha-btn">Discover Now</a>
                     </div>
                 </div>
             </div>

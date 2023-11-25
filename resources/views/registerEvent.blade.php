@@ -312,7 +312,7 @@
                                 {{ $message }}
                             @enderror
                         </span>
-                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <img id="picture_preview" src="/img/default_eventpic.png" />
                         <input type="file" class="d-none" name="part_receipt" accept=".jpg, .jpeg, .png" capture>
                     </label>
                 </div>
