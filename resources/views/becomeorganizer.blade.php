@@ -7,8 +7,6 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
-
     <style type="text/css">
         /* normal css */
 
@@ -25,8 +23,8 @@
         }
 
         #picture_preview2 {
-            width: 400px  !important;
-            height: 400px  !important;
+            width: 100px  !important;
+            height: 100px  !important;
             object-fit: cover;
         }
 
@@ -278,7 +276,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview2" src="/img/default_eventpic.png"/>
+                                    <img id="picture_preview2" class="picturePreview" src="/img/default_eventpic.png" />
                                     <input type="file" class="d-none" name="event_venueArr"
                                         accept=".jpg, .jpeg, .png" capture>
                                 </label>
@@ -342,7 +340,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview3" src="/img/default_eventpic.png" />
+                                    <img id="picture_preview3" class="picturePreview" src="/img/default_eventpic.png" />
                                     <input type="file" class="d-none" name="payment_qr" accept=".jpg, .jpeg, .png"
                                         capture>
                                 </label>
@@ -421,7 +419,7 @@
                                             {{ $message }}
                                         @enderror
                                     </span>
-                                    <img id="picture_preview" src="/img/default_eventpic.png" />
+                                    <img id="picture_preview" class="picturePreview" src="/img/default_eventpic.png" />
                                     <input type="file" class="d-none" name="event_pic" accept=".jpg, .jpeg, .png"
                                         capture>
                                 </label>

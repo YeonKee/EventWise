@@ -536,6 +536,11 @@ class EventController extends Controller
             $this->saveVenue($request->event_venueArr, $event->event_id);
         }
 
+        if ($request->hasFile('payment_qr')) {
+            $this->saveQR($request->payment_qr, $event->event_id);
+        }
+
+
         $event->save();
 
         Alert::success('Updated Successfully!', 'The event information has been updated.');
