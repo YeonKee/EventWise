@@ -11,9 +11,10 @@
 
     <style type="text/css">
         /* normal css */
+
         img#picture_preview {
-            width: 130px;
-            height: 130px;
+            width: 400px;
+            height: 400px;
             object-fit: cover;
         }
 
@@ -24,8 +25,8 @@
         }
 
         img#picture_preview2 {
-            width: 130px;
-            height: 130px;
+            width: 400px;
+            height: 400px;
             object-fit: cover;
         }
 
@@ -80,8 +81,8 @@
 
         label {
             /* position: relative;
-                margin-bottom: 40px;
-                top: 20%; */
+                    margin-bottom: 40px;
+                    top: 20%; */
             display: inline-block;
             width: 300px;
         }
@@ -130,104 +131,150 @@
     </style>
 @endsection
 @section('body')
+    <script>
+        $(document).ready(function() {
 
-<script>
-    $(document).ready(function () {
+            // new profile upload
+            $("#wizard-picture1").change(function() {
+                // clear error message
+                $("#profile_err1").text("");
+                // check profile
+                var inputLen = this.value.length;
+                var file = this.files[0];
+                var URL = window.URL || window.webkitURL;
+                var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+                // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+                if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                    readURL(this);
+                } else if (inputLen) {
 
-        // new profile upload
-        $("#wizard-picture1").change(function () {
-            // clear error message
-            $("#profile_err1").text("");
-            // check profile
-            var inputLen = this.value.length;
-            var file = this.files[0];
-            var URL = window.URL || window.webkitURL;
-            var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
-            // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
-            if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-                readURL(this);
-            } else if (inputLen) {
-
-                // file format problem
-                if (!picture_regex.test(file.type)) {
-                    $("#profile_err1").text(
+                    // file format problem
+                    if (!picture_regex.test(file.type)) {
+                        $("#profile_err1").text(
                             "Please select image in GIF, JPG, JPEG, and PNG format only.");
-                } else if (file.size > (1 * 1024 * 1024)) {
-                    $("#profile_err1").text("Please make sure the image size is not more than 1MB.");
-                }
+                    } else if (file.size > (1 * 1024 * 1024)) {
+                        $("#profile_err1").text("Please make sure the image size is not more than 1MB.");
+                    }
 
-                $(this).val("");
-                $('[id$=wizardPicturePreview1]').attr('src', $('[id$=wizardPicturePreview1]').attr(
+                    $(this).val("");
+                    $('[id$=wizardPicturePreview1]').attr('src', $('[id$=wizardPicturePreview1]').attr(
                         "alt"));
-            }
-
-        });
-
-       
-        function isEmpty(str) {
-            return !$.trim(str);
-        }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('[id$=wizardPicturePreview1]').attr('src', e.target.result).fadeIn('slow');
                 }
-                reader.readAsDataURL(input.files[0]);
+
+            });
+
+
+            function isEmpty(str) {
+                return !$.trim(str);
             }
-        }
-    }
-    );
-</script>
-<script>
-    $(document).ready(function () {
 
-        $("#wizard-picture2").change(function () {
-            // clear error message
-            $("#profile_err2").text("");
-            // check profile
-            var inputLen = this.value.length;
-            var file = this.files[0];
-            var URL = window.URL || window.webkitURL;
-            var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
-            // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
-            if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-                readURL(this);
-            } else if (inputLen) {
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('[id$=wizardPicturePreview1]').attr('src', e.target.result).fadeIn('slow');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
 
-                // file format problem
-                if (!picture_regex.test(file.type)) {
-                    $("#profile_err2").text(
+            $("#wizard-picture2").change(function() {
+                // clear error message
+                $("#profile_err2").text("");
+                // check profile
+                var inputLen = this.value.length;
+                var file = this.files[0];
+                var URL = window.URL || window.webkitURL;
+                var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+                // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+                if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                    readURL(this);
+                } else if (inputLen) {
+
+                    // file format problem
+                    if (!picture_regex.test(file.type)) {
+                        $("#profile_err2").text(
                             "Please select image in GIF, JPG, JPEG, and PNG format only.");
-                } else if (file.size > (1 * 1024 * 1024)) {
-                    $("#profile_err2").text("Please make sure the image size is not more than 1MB.");
-                }
+                    } else if (file.size > (1 * 1024 * 1024)) {
+                        $("#profile_err2").text("Please make sure the image size is not more than 1MB.");
+                    }
 
-                $(this).val("");
-                $('[id$=wizardPicturePreview2]').attr('src', $('[id$=wizardPicturePreview2]').attr(
+                    $(this).val("");
+                    $('[id$=wizardPicturePreview2]').attr('src', $('[id$=wizardPicturePreview2]').attr(
                         "alt"));
-            }
-
-        });
-
-        function isEmpty(str) {
-            return !$.trim(str);
-        }
-
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('[id$=wizardPicturePreview2]').attr('src', e.target.result).fadeIn('slow');
                 }
-                reader.readAsDataURL(input.files[0]);
+
+            });
+
+            function isEmpty(str) {
+                return !$.trim(str);
             }
-        }
-    }
-    );
-</script>
+
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('[id$=wizardPicturePreview2]').attr('src', e.target.result).fadeIn('slow');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $("#wizard-picture3").change(function() {
+                // clear error message
+                $("#profile_err3").text("");
+                // check profile
+                var inputLen = this.value.length;
+                var file = this.files[0];
+                var URL = window.URL || window.webkitURL;
+                var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+                // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+                if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
+                    readURL(this);
+                } else if (inputLen) {
+
+                    // file format problem
+                    if (!picture_regex.test(file.type)) {
+                        $("#profile_err3").text(
+                            "Please select image in GIF, JPG, JPEG, and PNG format only.");
+                    } else if (file.size > (1 * 1024 * 1024)) {
+                        $("#profile_err3").text("Please make sure the image size is not more than 1MB.");
+                    }
+
+                    $(this).val("");
+                    $('[id$=wizardPicturePreview3]').attr('src', $('[id$=wizardPicturePreview3]').attr(
+                        "alt"));
+                }
+
+            });
+
+            function isEmpty(str) {
+                return !$.trim(str);
+            }
+
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('[id$=wizardPicturePreview3]').attr('src', e.target.result).fadeIn('slow');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        });
+    </script>
+
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Event</h1>
@@ -347,14 +394,28 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="event_cat_dropdown" name="event_cat_dropdown">
-                        <option value="Webinar_talk" {{ old('event_cat_dropdown', $event->category) == 'Webinar_talk' ? 'selected' : '' }}>Webinar/Talk</option>
-                        <option value="Exhibitions" {{ old('event_cat_dropdown', $event->category) == 'Exhibitions' ? 'selected' : '' }}>Exhibitions</option>
-                        <option value="Sports" {{ old('event_cat_dropdown', $event->category) == 'Sports' ? 'selected' : '' }}>Sports</option>
-                        <option value="Entertainment" {{ old('event_cat_dropdown', $event->category) == 'Entertainment' ? 'selected' : '' }}>Entertainment</option>
-                        <option value="Workshop" {{ old('event_cat_dropdown', $event->category) == 'Workshop' ? 'selected' : '' }}>Workshop</option>
-                        <option value="Charity" {{ old('event_cat_dropdown', $event->category) == 'Charity' ? 'selected' : '' }}>Charity</option>
-                        <option value="Competition" {{ old('event_cat_dropdown', $event->category) == 'Competition' ? 'selected' : '' }}>Competition</option>
-                        <option value="Others" {{ old('event_cat_dropdown', $event->category) == 'Others' ? 'selected' : '' }}>Others</option>
+                        <option value="Webinar_talk"
+                            {{ old('event_cat_dropdown', $event->category) == 'Webinar_talk' ? 'selected' : '' }}>
+                            Webinar/Talk</option>
+                        <option value="Exhibitions"
+                            {{ old('event_cat_dropdown', $event->category) == 'Exhibitions' ? 'selected' : '' }}>
+                            Exhibitions</option>
+                        <option value="Sports"
+                            {{ old('event_cat_dropdown', $event->category) == 'Sports' ? 'selected' : '' }}>Sports</option>
+                        <option value="Entertainment"
+                            {{ old('event_cat_dropdown', $event->category) == 'Entertainment' ? 'selected' : '' }}>
+                            Entertainment</option>
+                        <option value="Workshop"
+                            {{ old('event_cat_dropdown', $event->category) == 'Workshop' ? 'selected' : '' }}>Workshop
+                        </option>
+                        <option value="Charity"
+                            {{ old('event_cat_dropdown', $event->category) == 'Charity' ? 'selected' : '' }}>Charity
+                        </option>
+                        <option value="Competition"
+                            {{ old('event_cat_dropdown', $event->category) == 'Competition' ? 'selected' : '' }}>
+                            Competition</option>
+                        <option value="Others"
+                            {{ old('event_cat_dropdown', $event->category) == 'Others' ? 'selected' : '' }}>Others</option>
                     </select>
             </div>
             </td>
@@ -374,10 +435,13 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="open_For_dropdown" name="open_For_dropdown">
-                        <option value="Public" {{ old('open_For_dropdown', $event->openFor) == 'Public' ? 'selected' : '' }}>Public</option>
-                        <option value="Students" {{ old('open_For_dropdown', $event->openFor) == 'Students' ? 'selected' : '' }}>Students</option>
+                        <option value="Public"
+                            {{ old('open_For_dropdown', $event->openFor) == 'Public' ? 'selected' : '' }}>Public</option>
+                        <option value="Students"
+                            {{ old('open_For_dropdown', $event->openFor) == 'Students' ? 'selected' : '' }}>Students
+                        </option>
                     </select>
-                </div>
+            </div>
             </td>
             </div>
         </tr>
@@ -415,7 +479,7 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1" />
+                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1" style="width: 539px;height:489px"/>
                         <input type="file" id="wizard-picture1" name="event_venueArr"
                             accept=".gif, .jpg, .jpeg, .png" />
                     </div>
@@ -430,7 +494,7 @@
             </div>
         </tr>
 
-        
+
 
 
         <tr>
@@ -466,18 +530,42 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
-                        <option value="Maybank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Maybank' ? 'selected' : '' }}>Maybank</option>
-                        <option value="Public Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Public Bank' ? 'selected' : '' }}>Public Bank</option>
-                        <option value="RHB Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'RHB Bank' ? 'selected' : '' }}>RHB Bank</option>
-                        <option value="Hong Leong Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Hong Leong Bank' ? 'selected' : '' }}>Hong Leong Bank</option>
-                        <option value="AmBank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'AmBank' ? 'selected' : '' }}>AmBank</option>
-                        <option value="Bank Rakyat" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Rakyat' ? 'selected' : '' }}>Bank Rakyat</option>
-                        <option value="OCBC Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'OCBC Bank' ? 'selected' : '' }}>OCBC Bank</option>
-                        <option value="HSBC Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'HSBC Bank' ? 'selected' : '' }}>HSBC Bank</option>
-                        <option value="Bank Islam Malaysia" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Islam Malaysia' ? 'selected' : '' }}>Bank Islam Malaysia</option>
-                        <option value="Affin Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Affin Bank' ? 'selected' : '' }}>Affin Bank</option>
-                        <option value="Alliance Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'Alliance Bank' ? 'selected' : '' }}>Alliance Bank</option>
-                        <option value="CIMB Bank" {{ old('bank_Name_dropdown', $event->bank_Name) == 'CIMB Bank' ? 'selected' : '' }}>CIMB Bank</option>
+                        <option value="Maybank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Maybank' ? 'selected' : '' }}>Maybank
+                        </option>
+                        <option value="Public Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Public Bank' ? 'selected' : '' }}>Public
+                            Bank</option>
+                        <option value="RHB Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'RHB Bank' ? 'selected' : '' }}>RHB Bank
+                        </option>
+                        <option value="Hong Leong Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Hong Leong Bank' ? 'selected' : '' }}>Hong
+                            Leong Bank</option>
+                        <option value="AmBank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'AmBank' ? 'selected' : '' }}>AmBank
+                        </option>
+                        <option value="Bank Rakyat"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Rakyat' ? 'selected' : '' }}>Bank
+                            Rakyat</option>
+                        <option value="OCBC Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'OCBC Bank' ? 'selected' : '' }}>OCBC Bank
+                        </option>
+                        <option value="HSBC Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'HSBC Bank' ? 'selected' : '' }}>HSBC Bank
+                        </option>
+                        <option value="Bank Islam Malaysia"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Islam Malaysia' ? 'selected' : '' }}>
+                            Bank Islam Malaysia</option>
+                        <option value="Affin Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Affin Bank' ? 'selected' : '' }}>Affin Bank
+                        </option>
+                        <option value="Alliance Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Alliance Bank' ? 'selected' : '' }}>
+                            Alliance Bank</option>
+                        <option value="CIMB Bank"
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'CIMB Bank' ? 'selected' : '' }}>CIMB Bank
+                        </option>
                     </select>
 
             </div>
@@ -485,6 +573,34 @@
                 value="{{ old('pic_accNo', $event->acc_number) }}">
             </div>
         </tr>
+
+        <tr>
+            <div class="form-row mb-4">
+                <td style="width: 70%">
+                    <div class="col-5 mx-auto">
+                        <label for="payment_qr">QR Payment:
+                            <span class="text-danger"><b>*</b>
+                                @error('payment_qr')
+                                    {{ $message }}
+                                @enderror
+                            </span></label>
+                </td>
+                <td style="width: 75%">
+                    <div class="profile-group">
+                        <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview3" style="width: 539px;height:489px"/>
+                        <input type="file" id="wizard-picture3" name="payment_qr" accept=".gif, .jpg, .jpeg, .png" />
+                    </div>
+                    <span class="d-block mt-2 mb-4 text-danger" id="profile_err3">
+                        @error('payment_qr')
+                            <label class="text-danger mt-2">{{ $message }}</label><br>
+                        @enderror
+                    </span>
+
+            </div>
+            </td>
+            </div>
+        </tr>
+
 
         <tr>
             <div class="form-row mb-4">
@@ -498,11 +614,14 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <input type="text" class="form-control" style="width: 100px" value="{{ $event->participated_count }}" readonly> </td>
-                    <td style="width: 75%" ><span style="margin-left: -400px">/</span></td>
-                    <td style="width: 75%">
-                    <input type="text" class="form-control" id="event_capacity" name="event_capacity" style="width: 150px;margin-left:-390px"
-                        autocomplete="off" value="{{ old('event_capacity', $event->capacity) }}">
+                    <input type="text" class="form-control" style="width: 100px"
+                        value="{{ $event->participated_count }}" readonly>
+                </td>
+                <td style="width: 75%"><span style="margin-left: -400px">/</span></td>
+                <td style="width: 75%">
+                    <input type="text" class="form-control" id="event_capacity" name="event_capacity"
+                        style="width: 150px;margin-left:-390px" autocomplete="off"
+                        value="{{ old('event_capacity', $event->capacity) }}">
 
             </div>
             </td>
@@ -589,7 +708,7 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2" />
+                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2" style="width: 539px;height:489px"/>
                         <input type="file" id="wizard-picture2" name="event_pic" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
                     <span class="d-block mt-2 mb-4 text-danger" id="profile_err2">
@@ -615,8 +734,7 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <textarea rows="4" cols="50" class="form-control" id="remark" name="remark"
-                        style="resize: none">{{ old('remark', $event->remark) }}</textarea>
+                    <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">{{ old('remark', $event->remark) }}</textarea>
 
             </div>
             </td>
@@ -637,8 +755,12 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="approval_status_dropdown" name="approval_status_dropdown">
-                        <option value="Pending" {{ old('approval_status_dropdown', $event->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="Approved" {{ old('approval_status_dropdown', $event->status) == 'Approved' ? 'selected' : '' }}>Approved</option>
+                        <option value="Pending"
+                            {{ old('approval_status_dropdown', $event->status) == 'Pending' ? 'selected' : '' }}>Pending
+                        </option>
+                        <option value="Approved"
+                            {{ old('approval_status_dropdown', $event->status) == 'Approved' ? 'selected' : '' }}>Approved
+                        </option>
                     </select>
 
             </div>
@@ -659,8 +781,12 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="registration_status_dropdown" name="registration_status_dropdown">
-                        <option value="Closed" {{ old('registration_status_dropdown', $event->registration_status) == 'Closed' ? 'selected' : '' }}>Closed</option>
-                        <option value="Open" {{ old('registration_status_dropdown', $event->registration_status) == 'Open' ? 'selected' : '' }}>Open</option>
+                        <option value="Closed"
+                            {{ old('registration_status_dropdown', $event->registration_status) == 'Closed' ? 'selected' : '' }}>
+                            Closed</option>
+                        <option value="Open"
+                            {{ old('registration_status_dropdown', $event->registration_status) == 'Open' ? 'selected' : '' }}>
+                            Open</option>
                     </select>
             </div>
             </td>
@@ -680,9 +806,15 @@
                 </td>
                 <td style="width: 75%">
                     <select class="form-control" id="event_status_dropdown" name="event_status_dropdown">
-                        <option value="Upcoming" {{ old('event_status_dropdown', $event->event_status) == 'Upcoming' ? 'selected' : '' }}>Upcoming</option>
-                        <option value="On going" {{ old('event_status_dropdown', $event->event_status) == 'On going' ? 'selected' : '' }}>On going</option>
-                        <option value="Past" {{ old('event_status_dropdown', $event->event_status) == 'Past' ? 'selected' : '' }}>Past</option>
+                        <option value="Upcoming"
+                            {{ old('event_status_dropdown', $event->event_status) == 'Upcoming' ? 'selected' : '' }}>
+                            Upcoming</option>
+                        <option value="On going"
+                            {{ old('event_status_dropdown', $event->event_status) == 'On going' ? 'selected' : '' }}>On
+                            going</option>
+                        <option value="Past"
+                            {{ old('event_status_dropdown', $event->event_status) == 'Past' ? 'selected' : '' }}>Past
+                        </option>
                     </select>
             </div>
             </td>
@@ -693,7 +825,7 @@
         <tr>
             <th></th>
             <td>
-                <button type="submit" id="submit_form" class="btn btn-warning">Save</button>
+                <button type="submit" id="submit_form" class="btn btn-primary">Save</button>
             </td>
         </tr>
 
@@ -708,10 +840,10 @@
 @endsection
 
 @section('foot')
-<script>
-    $("[data-get]").on("click", function (e) {
-        const url = $(this).attr("data-get");
-        location = url || location;
-    });
-</script>
+    <script>
+        $("[data-get]").on("click", function(e) {
+            const url = $(this).attr("data-get");
+            location = url || location;
+        });
+    </script>
 @endsection

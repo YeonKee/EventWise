@@ -104,12 +104,12 @@
                                     <b>{{ $event->name }}</b></p>
                                 <p class="card-text" style="font-family:'Poppins'; color: black; white-space: nowrap;overflow: hidden;   text-overflow: ellipsis;">
                                     {{ $event->description }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center" style="margin-left:180px;">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary"
                                             style="padding: 7px;width:60px;font-family: 'Poppins';">
                                             <a href="/event/viewById/{{ $event->event_id }}"
-                                                style="font-size: 15px;color:black">View</a></button>
+                                                style="font-size: 15px;color:black;">View</a></button>
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
             @else
                 <div class="container">
                     <div class="comment-alt" style="height:200px;margin-top:100px">
-                        <p class="text-center">Opps, no relevant event found. Stay tune for new updates!</p>
+                        <p class="text-center" style="font-family:'Poppins';margin-left:250px;">Opps, no relevant event found. Stay tune for new updates!</p>
                     </div>
                 </div>
             @endif

@@ -1,15 +1,21 @@
 @extends('layoutFront')
 
 @section('head')
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        href::after {
+            color: black;
+        }
+    </style>
 @endsection
 
 @section('body')
-<div class="card mb-4 shadow-sm" style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;;width:1300px;margin-top:0px;margin-bottom:-500px;">
+    <div class="card mb-4 shadow-sm"
+        style="border-radius: 30px;padding-top:30px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;;width:1300px;margin-top:0px;margin-bottom:-500px;">
         <h3 class="my-4" style="font-family:'Poppins';text-align:center; ">Event(s) History</h3>
         @if ($registrations->isEmpty())
             <p>No events registered.</p>
         @else
-     
             <table class="table">
                 <thead>
                     <tr>
@@ -35,12 +41,14 @@
                             <td>{{ $registration->created_at }}</td>
                             <td>{{ $registration->event->date }}</td>
                             <td>{{ $registration->event->event_status }}</td>
-                            <td>  <a href="{{ asset($registration->receipt) }}" download>View Receipt</a></td>
+                            <td> <a href="{{ asset($registration->receipt) }}" download style="color: #007bff;">View Receipt</a></td>
                             <td>
-                                <a href="/event/viewById/{{$registration->event->event_id}}" title="View">View Event Details</a>
+                                <a href="/event/viewById/{{ $registration->event->event_id }}" title="View">View Event
+                                    Details</a>
                             </td>
                             <td>
-                                <a href="/event/suggestNearBy/{{$registration->reg_id}}" title="View">People Nearby Joining</a>
+                                <a href="/event/suggestNearBy/{{ $registration->reg_id }}" title="View">People Nearby
+                                    Joining</a>
                             </td>
                         </tr>
                         @php

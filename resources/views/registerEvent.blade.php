@@ -287,7 +287,7 @@
             <div class="col-5 mx-auto">
                 <div class="profile-group">
                     <label for="payment_qr" class="o-label">QR Payment</label>
-                    <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1" />
+                    <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1" style="width: 400px;height:400px" />
                 </div>
             </div>
         </div>
@@ -312,7 +312,7 @@
                                 {{ $message }}
                             @enderror
                         </span>
-                        <img id="picture_preview" class="mx-auto rounded-circle" src="/img/default_eventpic.png" />
+                        <img id="picture_preview" class="picturePreview" src="/img/default_eventpic.png" />
                         <input type="file" class="d-none" name="part_receipt" accept=".jpg, .jpeg, .png" capture>
                     </label>
                 </div>

@@ -2,106 +2,209 @@
     $selectedLayout = session('selected_layout', 'layoutFront'); // Get the selected layout from the session
 @endphp
 
-@extends($selectedLayout)
-@section('head')
-    <link rel="stylesheet" href="venue.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@extends($selectedLayout);
 
-    <style>
-        div.out {
-            height: 100%;
-            display: flex;
-            font-family: system-ui, sans-serif;
-            text-align: center;
-            margin-left: 700px;
+<style>
+    .verifyEmail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* Success icon animation */
+    .success-checkmark {
+        width: 80px;
+        height: 115px;
+        margin: 0 auto;
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            box-sizing: content-box;
+            border: 4px solid #4CAF50;
+
+            &::before {
+                top: 3px;
+                left: -2px;
+                width: 30px;
+                transform-origin: 100% 50%;
+                border-radius: 100px 0 0 100px;
+            }
+
+            &::after {
+                top: 0;
+                left: 30px;
+                width: 60px;
+                transform-origin: 0 50%;
+                border-radius: 0 100px 100px 0;
+                animation: rotate-circle 4.25s ease-in;
+            }
+
+            &::before,
+            &::after {
+                content: '';
+                height: 100px;
+                position: absolute;
+                background: #FFFFFF;
+                transform: rotate(-45deg);
+            }
+
+            .icon-line {
+                height: 5px;
+                background-color: #4CAF50;
+                display: block;
+                border-radius: 2px;
+                position: absolute;
+                z-index: 10;
+
+                &.line-tip {
+                    top: 46px;
+                    left: 14px;
+                    width: 25px;
+                    transform: rotate(45deg);
+                    animation: icon-line-tip 0.75s;
+                }
+
+                &.line-long {
+                    top: 38px;
+                    right: 8px;
+                    width: 47px;
+                    transform: rotate(-45deg);
+                    animation: icon-line-long 0.75s;
+                }
+            }
+
+            .icon-circle {
+                top: -4px;
+                left: -4px;
+                z-index: 10;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                position: absolute;
+                box-sizing: content-box;
+                border: 4px solid rgba(76, 175, 80, .5);
+            }
+
+            .icon-fix {
+                top: 8px;
+                width: 5px;
+                left: 26px;
+                z-index: 1;
+                height: 85px;
+                position: absolute;
+                transform: rotate(-45deg);
+                background-color: #FFFFFF;
+            }
+        }
+    }
+
+    @keyframes rotate-circle {
+        0% {
+            transform: rotate(-45deg);
         }
 
-        div.one {
-            margin-top: 50px;
-            margin-bottom: 50px;
+        5% {
+            transform: rotate(-45deg);
         }
 
-        div.two {
-            padding-top: 20px;
-            margin-bottom: 25px;
+        12% {
+            transform: rotate(-405deg);
         }
 
-        div.one h1 {
-            font-size: 30pt;
-            font-weight: bold;
-            color: #f29207;
-            margin-top: 25px;
-            margin-bottom: 20px;
+        100% {
+            transform: rotate(-405deg);
+        }
+    }
+
+    @keyframes icon-line-tip {
+        0% {
+            width: 0;
+            left: 1px;
+            top: 19px;
         }
 
-        div.one h4 {
-            font-size: 16pt;
+        54% {
+            width: 0;
+            left: 1px;
+            top: 19px;
         }
 
-        div.one img {
-            width: 35%;
-            margin: 0px auto;
-            display: flex;
+        70% {
+            width: 50px;
+            left: -8px;
+            top: 37px;
         }
 
-        div.one a {
-            text-decoration: none;
-            color: initial;
+        84% {
+            width: 17px;
+            left: 21px;
+            top: 48px;
         }
 
-        div.one a.alt {
-            margin-right: 10px;
+        100% {
+            width: 25px;
+            left: 14px;
+            top: 45px;
+        }
+    }
+
+    @keyframes icon-line-long {
+        0% {
+            width: 0;
+            right: 46px;
+            top: 54px;
         }
 
-        div.one a.def {
-            margin-left: 10px;
+        65% {
+            width: 0;
+            right: 46px;
+            top: 54px;
         }
 
-        div.one span {
-            font-family: inherit;
-            font-size: 13.5pt;
-            border-radius: 15px;
-            padding: 9px 10px;
-            cursor: pointer;
-            font-weight: 500;
+        84% {
+            width: 55px;
+            right: 0px;
+            top: 35px;
         }
 
-        div.one a.alt span {
-            background: #fce9a4;
+        100% {
+            width: 47px;
+            right: 8px;
+            top: 38px;
         }
-
-        div.one a.def span {
-            background: #ffbc3b;
-        }
-    </style>
-@endsection
+    }
+</style>
 
 @section('body')
-    <div class="out">
-        <div class="one">
-            <h6
-                class="message font-weight-bold my-3 text-center
-    @if (request()->has('success')) text-success">
-    Registered successfully. Stay tuned for the updates!(Registration ID: {{ request()->get('success') }})
-    @elseif (request()->has('error'))
-    text-danger">
-    Opps, error encountered. Please try again.
-    @else
-    "> @endif
-</h6>
-        <img src='/img/success_payment.png' alt='success'>
-        <div class="two">
-                <a class="alt" href='/homepage'>
-                    <span>Back to Home</span>
-                </a>
-                <a class="def" href='/event/suggestNearBy/{{ request()->get('success') }}'>
-                    <span>See Who is Joining!</span>
-                </a>
+    <section class="verifyEmail">
+        <div class="card mb-4 shadow-sm verify-email-success">
+            {{-- <img src="https://i.ibb.co/qjSrdf6/logo.png" width=250 height=250 style="margin-bottom: 13px"> --}}
+
+            <h2 style="margin-bottom: 15px;font-family:'Poppins';text-align:center;">Successfully Registered!</h2>
+            {{-- <img src="/img/successVerify.png" width=120 height=120 style="margin-bottom: 13px"> --}}
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <p style="padding: 0 50px; margin-bottom: 25px;text-align:center;">You had successfully registered for the event!</p>
+            <p style="padding: 0 50px; margin-bottom: 15px;text-align:center;">Click the button below to see who is joining.</p>
+            @if (session('role') === 'student')
+            <a href="/homepage" style="margin-bottom: 5px;" class="form-submit btn btn-primary">Back to Home</a>
+            <a href="/event/suggestNearBy/{{ request()->get('success') }}" style="margin-bottom: 5px;" class="form-submit btn btn-primary">See Who is Joining!</a>
+            @else
+            <a href="/homepage" style="margin-bottom: 5px;" class="form-submit btn btn-primary">Back to Home</a>
+            @endif
         </div>
-    </div>
-    </div>
+    </section>
 @endsection
+
+
+  
