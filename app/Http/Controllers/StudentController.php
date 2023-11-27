@@ -318,7 +318,12 @@ class StudentController extends Controller
         $student = Student::where('stud_id', $request->id)->first();
 
         // Check if ID exist in system
-        if ($student) {
+        if ($student->is_email_verified == "0") {   // Not yet verify
+            return view('students.pendingEmailVerify')->with([
+                'email' => $student->email,
+                'studID' => $request->id
+            ]);
+        } else if($student->is_email_verified == "1"){
             // Check if password correct
             if (Hash::check($request->pass, $student->password)) {
 
@@ -335,7 +340,8 @@ class StudentController extends Controller
             } else {
                 return redirect()->back()->withErrors(['pass' => 'Incorrect password.'])->withInput();
             }
-        } else {
+        }
+        else {
             return redirect()->back()->withErrors(['id' => 'Student ID does not exist in the system.'])->withInput();
         }
     }

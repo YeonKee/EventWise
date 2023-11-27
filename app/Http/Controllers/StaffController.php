@@ -404,6 +404,6 @@ class StaffController extends Controller
         $request->session()->invalidate();
 
         // back to home
-        return redirect('/');
+        return redirect('/staffs/loginPage');
     }
 }

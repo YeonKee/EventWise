@@ -165,7 +165,6 @@
             }),
             t.insertBefore(e, t.firstChild);
         })();
-        localStorage.clear();
     </script>
 
 </body>

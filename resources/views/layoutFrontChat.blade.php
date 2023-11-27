@@ -44,13 +44,14 @@
     <link href="{{ asset('css/styleFront.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/webchat.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> --}}
+    {{--
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/elegant-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet">
     <link href="{{ asset('css/slicknav.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/venue.css') }}" rel="stylesheet" >
+    <link href="{{ asset('css/venue.css') }}" rel="stylesheet">
 
     <!-- Form -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -107,12 +108,13 @@
                                             class="fa fa-history fa-2x"></i></a>
                                     <a href="/students/profile" title="Profile"><i
                                             class="fa fa-user-circle-o fa-2x"></i></a>
-                                    <a href="/students/logout" title="Logout"><i class="fa fa-sign-out fa-2x"></i></a>
-                                    
+                                    <a href="/students/logout" title="Logout"><i
+                                            class="fa fa-sign-out fa-2x"></i></a>
+
                                 </div>
                             @else
-                                <a class="" style="color: #4452bc; font-size:24px;"
-                                    href="/students/loginPage" style="font-family:'Poppins'; ">
+                                <a class="" style="color: #4452bc; font-size:24px;" href="/students/loginPage"
+                                    style="font-family:'Poppins'; ">
                                     Login <i class="fa fa-sign-in"></i>
                                 </a>
                             @endif
@@ -128,114 +130,132 @@
 
     @yield('body')
 
-    <!-- Chat bubble -->
-    <div class="language-buttons">
-        <button class="language-button selected-lang" onclick="setLanguage('en')"
-            title="Speak with the Bot in English!">EN</button>
-        <button class="language-button" onclick="setLanguage('zh')"
-            title="Speak with the Bot in Chiinese!">CH</button>
-    </div>
-
     <script>
-        function setLanguage(language) {
-            if (language === 'en') {
-                // Redirect to a route that dynamically sets the layout to layoutFrontEN
-                window.location.href = '/set-layout?layout=layoutFront'; // Replace with your route
-            } else if (language === 'zh') {
-                // Redirect to a route that dynamically sets the layout to layoutFrontZN
-                window.location.href = '/set-layout?layout=layoutFrontZN'; // Replace with your route
-            }
+        document.getElementById('chat').classList.add('active');
+
+        const messagesContainer = $('.messages');
+
+        // Function to scroll messages container to the bottom
+        function scrollMessagesToBottom() {
+            messagesContainer.scrollTop(messagesContainer[0].scrollHeight);
         }
 
-        let selectedSocketUrl = 'http://localhost:8090';
+        scrollMessagesToBottom();
 
-        !(function() {
-            let e = document.createElement("script"),
-                t = document.head || document.getElementsByTagName("head")[0];
-            (e.src = "https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.js"),
-            (e.async = !0),
-            (e.onload = () => {
-                window.WebChat.default({
-                        socketUrl: selectedSocketUrl,
-                        initPayload: '/greet{"user_id": "' + {!! json_encode(session('studID')) !!} + '"}',
-                        title: "EventWise Chat System",
-                        socketPath: "/socket.io/",
-                    },
-                    null
-                );
-            }),
-            t.insertBefore(e, t.firstChild);
-        })();
+        const pusher = new Pusher('{{ config('broadcasting.connections.pusher.key') }}', {
+            cluster: 'ap1',
+            debug: true // Enable Pusher debug mode
+        });
 
-        let firstClickChat = true;
+        const channel = pusher.subscribe('public');
 
-        // Voice input to text
-        const checkExist = setInterval(function() {
-            const form = document.querySelector('.rw-sender'); // Select form
-            const textarea = document.querySelector('.rw-new-message'); // Select textarea
+        // Use the student_id from Laravel session as the session_id, or generate a random string
+        const session_id = @json(session('studID', Str::random(8)));
 
-            if (form && textarea) {
-                clearInterval(checkExist);
-
-                const childContent = document.createElement('button');
-                childContent.setAttribute('id', 'click_to_record');
-
-                const icon = document.createElement('i');
-                icon.classList.add('fas', 'fa-microphone');
-                childContent.appendChild(icon);
-                childContent.style.backgroundColor = 'transparent';
-                childContent.style.border = 'none';
-
-                form.insertBefore(childContent, textarea.nextSibling);
-
-                let recognition; // declare the recognition variable outside the event listener
-
-                // Define a variable to store the transcript
-                let savedTranscript = '';
-
-                let isListening = false; // create a flag to check if the microphone is listening
-                let firstClick = true; // create a flag to check if the button is clicked for the first time
-
-                childContent.addEventListener('click', function() {
-                    if (!isListening) {
-                        isListening = true;
-                        window.SpeechRecognition = window.webkitSpeechRecognition;
-                        recognition = new SpeechRecognition();
-                        recognition.interimResults = true;
-
-                        recognition.addEventListener('result', e => {
-                            console.log("Inside");
-
-                            const transcript = Array.from(e.results)
-                                .map(result => result[0])
-                                .map(result => result.transcript)
-                                .join('');
-
-                            savedTranscript = transcript;
-
-                            console.log(savedTranscript);
-
-                            if (textarea) {
-                                textarea.value = savedTranscript;
-                                textarea.dispatchEvent(new Event('input', {
-                                    bubbles: true
-                                }));
-                                textarea.dispatchEvent(new Event('change', {
-                                    bubbles: true
-                                }));
-                                textarea.innerHTML = savedTranscript;
-                            }
-
-                            console.log(transcript);
-                        });
-
-                        recognition.start();
-                    } else {
-                        isListening = false;
-                    }
-                });
+        // Receive messages
+        channel.bind('chat', function(data) {
+            // Check if session_id is equal to 123
+            if (data.chat_session === session_id) {
+                // Update the UI with the received message
+                $(".messages > .message").last().after('<div class="left message"><p>' + data.message +
+                    '</p></div>');
+                scrollMessagesToBottom();
+            } else {
+                console.log('Ignoring chat event for session_id:', data.chat_session);
             }
-        }, 100); // Check every 100ms
+        });
+
+        // Receive messages
+        channel.bind('receive', function(data) {
+            // Check if session_id is equal to 123
+            if (data.chat_session === session_id) {
+                // Update the UI with the received message
+                $(".messages > .message").last().after('<div class="left message"><p>' + data.message +
+                    '</p></div>');
+                scrollMessagesToBottom();
+            } else {
+                console.log('Ignoring chat event for session_id:', data.chat_session);
+            }
+        });
+
+        // Submit the form to broadcast messages
+        $(".chat-form").submit(function(event) {
+            event.preventDefault();
+
+            // Get the message from the form
+            const message = $("form #message").val();
+
+            // Broadcast the 'staff' event to students with the session_id
+            $.ajax({
+                url: "/broadcast",
+                method: 'POST',
+                headers: {
+                    'X-Socket-Id': pusher.connection.socket_id
+                },
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    message: message,
+                    receiver_id: '0', // All is sent to staff side
+                    session_id: session_id, // Use the student_id as the session_id
+                }
+            }).done(function(res) {
+                // Handle the response if necessary
+                console.log('Message broadcasted successfully:', message);
+                $(".messages > .message").last().after(res);
+                $("form #message").val('');
+                scrollMessagesToBottom();
+            }).fail(function(xhr, status, error) {
+                console.error('Failed to broadcast message:', error);
+            });
+        });
+
+        // Microphone
+        const input = document.getElementById('message'); // Fix typo in getElementById
+        let recognition; // declare the recognition variable outside the event listener
+
+        // Define a variable to store the transcript
+        let savedTranscript = '';
+        let isListening = false; // create a flag to check if the microphone is listening
+
+        document.getElementById('click_to_record').addEventListener('click',
+        function() { // Add document in front of getElementById
+            if (!isListening) {
+                isListening = true;
+                window.SpeechRecognition = window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.interimResults = true;
+
+                recognition.addEventListener('result', e => {
+                    console.log("Inside2");
+
+                    const transcript = Array.from(e.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+
+                    savedTranscript = transcript;
+
+                    console.log(savedTranscript);
+
+                    if (input) {
+                        input.value = savedTranscript;
+                        input.dispatchEvent(new Event('input', {
+                            bubbles: true
+                        }));
+                        input.dispatchEvent(new Event('change', {
+                            bubbles: true
+                        }));
+                        input.value = savedTranscript;
+                    }
+
+                    console.log(transcript);
+                });
+
+                recognition.start();
+            } else {
+                isListening = false;
+            }
+        });
     </script>
 </body>
 

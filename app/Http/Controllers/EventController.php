@@ -69,7 +69,7 @@ class EventController extends Controller
 
         $events = $events->get();
         $upcoming = $upcoming->get();
-        return view('homepage', ['events' => $events, 'upcoming' => $upcoming, 'closestEvent' => $closestEvent, 'highestParticipationEvent'=>$highestParticipationEvent]);
+        return view('homepage', ['events' => $events, 'upcoming' => $upcoming, 'closestEvent' => $closestEvent, 'highestParticipationEvent' => $highestParticipationEvent]);
 
     }
 
@@ -226,7 +226,7 @@ class EventController extends Controller
 
         $events->save();
         return redirect('/textGenerator?success=' . $events->event_id);
-        
+
     }
 
     public function updateRemark(Request $request, $eventId)
@@ -237,7 +237,7 @@ class EventController extends Controller
         if ($event) {
             // Update the 'remark' column
             $event->update(['remark' => $request->remark]);
-        } 
+        }
 
 
 
@@ -263,7 +263,6 @@ class EventController extends Controller
 
         $registrations = new Registration();
         $registrations->event_id = $request->event_id;
-        $registrations->stud_id = 1;
         $registrations->payment_method = 1;
         $registrations->receipt = "";
         $registrations->amount = $request->ticket_price;
@@ -273,6 +272,12 @@ class EventController extends Controller
         $registrations->states = $request->part_States_dropdown;
         $registrations->city = $request->part_city;
         $registrations->address = $request->part_add;
+
+        if ($request->session()->has('studID')) {
+            $registrations->stud_id = $request->session()->get('studID');
+        } else {
+            $registrations->stud_id = 1;
+        }
 
         if ($request->suggest == null) {
             $registrations->suggest = 'No';
