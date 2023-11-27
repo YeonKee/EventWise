@@ -110,6 +110,9 @@ Route::get('/set-layout', function () {
     return redirect()->back();
 });
 
+// Suggest route
+Route::get('/event/suggestNearBy/{id}', [EventController::class, 'suggestNearBy']);
+
 /*
 |--------------------------------------------------------------------------
 | STUDENT ROUTE
@@ -125,8 +128,6 @@ Route::group(['middleware' => ['role:student']], function () {
     //event history
     Route::get('/students/eventHistory', [EventController::class, 'eventHistory']);
 
-    //near by suggestion
-    Route::get('/event/suggestNearBy/{id}', [EventController::class, 'suggestNearBy']);
     // Logout
     Route::get('/students/logout', [StudentController::class, 'logout']);
  

@@ -227,7 +227,6 @@
 
                             console.log(savedTranscript);
 
-
                             if (textarea) {
                                 textarea.value = savedTranscript;
                                 textarea.dispatchEvent(new Event('input', {
