@@ -245,7 +245,7 @@ Route::get('/contact', function () {
 Route::resource('/events', EventController::class);
 Route::post('/event', [EventController::class, 'store']);
 Route::post('/event/register', [EventController::class, 'registration']);
-Route::get('/textGenerator?success={id}', [EventController::class, 'updateRemark']);
+Route::get('/textGenerator?success={id}', [EventController::class, 'updateDescription']);
 Route::get('/registerEvent?success={id}', [EventController::class, 'registration']);
 
 Route::get('/becomeorganizer', function () {
@@ -278,7 +278,7 @@ Route::get('/event/viewById/{id}', [EventController::class, 'viewById']);
 Route::get('/event/search', [EventController::class, 'searchEvents']);
 Route::get('/event/registerEvent/{id}', [EventController::class, 'registerEvent']);
 Route::post('/event/generate', [TextGeneratorController::class, 'index']);
-Route::post('/event/generate/update', [TextGeneratorController::class, 'updateRemark']);
+Route::post('/event/generate/update', [TextGeneratorController::class, 'updateDescription']);
 
 Route::post('/contactByEmail', [EventController::class, 'contactByEmail']);
 

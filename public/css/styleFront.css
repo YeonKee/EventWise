@@ -378,6 +378,7 @@ label {
     -o-transform: none;
     -ms-transform: none;
     color: inherit;
+    font-weight: bold;
     /* or any other color value */
 }
 
@@ -1190,38 +1191,38 @@ input#txtSearch {
     margin-top: 45px;
 }
 
-.btn-draw{
+.btn-draw {
     background-color: #4452bc;
     color: white;
     padding: 8px 10px;
     border-radius: 10px;
 }
 
-.clear-event-form{
+.clear-event-form {
     background-color: gray !important;
     color: white;
     padding: 5px 10px;
     margin-bottom: 20px;
 }
 
-.submit-event-form{
+.submit-event-form {
     background-color: #4452bc !important;
     color: white;
     padding: 5px 10px;
     margin-bottom: 20px;
 }
 
-.btn-draw:hover{
+.btn-draw:hover {
     background-color: #2B38A1;
     color: white !important;
 }
 
-.clear-event-form:hover{
+.clear-event-form:hover {
     background-color: rgb(83, 83, 83) !important;
     color: white;
 }
 
-.submit-event-form:hover{
+.submit-event-form:hover {
     background-color: #2B38A1 !important;
     color: white;
 }

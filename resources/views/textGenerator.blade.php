@@ -10,6 +10,8 @@
        
 
         <style type="text/css">
+
+        
             h2 {
                 text-align: center;
             }
@@ -49,10 +51,10 @@
                 top: 20%;
                 margin-left: 500px;
             }
-
+/* 
             input[type=text] {
                 margin-top: -30px;
-            }
+            } */
 
             .event_venuearr {
                 margin-top: -80px;
@@ -115,18 +117,20 @@
         <input type="hidden" class="form-control" id="event_id" name="event_id" value="{{ request()->get('success') }}">
 
 
-        <div class="remark_label">
-            <label for="event_remark" style="margin-top:30px;">Remarks
+        <div class="desc_label">
+            <label for="event_description" style="margin-top:30px;">Event Description
                 <span class="text-danger"><b>*</b>
-                    @error('event_remark')
+                    @error('event_description')
                         {{ $message }}
                     @enderror
                 </span>
-                <br><i>You are required to input few keywords.</i>
+                <br><i>Dear organizer, we would like to know more about your event.</i>
+                <br><i>Therefore, you are required to input few keywords about your event in the text field below and click on the "Generate" button.</i>
             </label>
         </div>
 
-        <input type="text" class="form-control" id="event_remark" name="title" value="{{ $title }}">
+        <input type="text" class="form-control" id="event_description" name="title" placeholder="E.g: [Event Name],[Date],[Venue],and [Some information for your event]" 
+        style="width: 800px;margin-left:500px;margin-top:-30px" value="{{ $title }}">
 
         <button class="submit-event-form btn btn-submit-event" type="submit" id="generate">Generate</button>
 
@@ -140,7 +144,7 @@
 
             <div class="content_box">
                 @if ($content)
-                    <textarea name="remark" id="remark" cols="110" rows="4">{{ $content }}</textarea>
+                    <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
                 @endif
             </div>
 

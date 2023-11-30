@@ -208,10 +208,6 @@ $(document).ready(function () {
         validatePayment(input);
     });
 
-
-
-
-
     //validate form input
     $("#submit_form").on('click', function (e) {
         e.preventDefault();
@@ -226,7 +222,7 @@ $(document).ready(function () {
         var event_name_field = $("#event_name");
         // var event_category_field = $("#event_cat");
         // var event_otherCat_field = $("#other_category");
-        var event_desc_field = $("#event_desc");
+        var event_remark_field = $("#event_remark");
         var event_price_field = $("#event_price");
         var event_picAccNo_field = $("#pic_accNo");
         var event_capacity_field = $("#event_capacity");
@@ -252,7 +248,7 @@ $(document).ready(function () {
         } else {
             picName_span.html("<b>*</b>");
         }
-        console.log(submit);
+      
 
         //PIC contact number validation
         var event_picContact_maxLength = 12;
@@ -273,10 +269,10 @@ $(document).ready(function () {
         } else {
             picName_span.html("<b>*</b>");
         }
-        console.log(submit);
+      
 
         //PIC email validation
-        var picEmail_regex = new RegExp('^[A-Z0-9._%+-]+@([A-Z0-9-]+.){2,4}$', 'i');
+        var picEmail_regex = new RegExp('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
         var picEmail_span = event_picEmail_field.siblings("label").find("span");
 
         // always clear error displayed first
@@ -292,7 +288,7 @@ $(document).ready(function () {
         } else {
             picEmail_span.html("<b>*</b>");
         }
-        console.log(submit);
+   
 
         //event name validation
         var event_name_maxLength = 100;
@@ -307,7 +303,7 @@ $(document).ready(function () {
         } else {
             event_name_span.html("<b>*</b>");
         }
-        console.log(submit);
+     
 
         //event category validation
         // var event_cat_maxLength = 20;
@@ -350,23 +346,17 @@ $(document).ready(function () {
 
 
         //event description validation
-        var event_desc_maxLength = 300;
-        var event_desc_length = document.getElementById("event_desc").value.length;
-        var event_desc_span = event_desc_field.siblings("label").find("span");
+        var event_remark_maxLength = 300;
+        var event_remark_length = document.getElementById("event_remark").value.length;
+        var event_remark_span = event_remark_field.siblings("label").find("span");
 
-        if (!$.trim(event_desc_field.val())) {
+       if (event_remark_length > event_remark_maxLength) {
             submit = false;
-            event_desc_span.html("<b>*</b> Empty field");
-        } else if (event_desc_length > event_desc_maxLength) {
-            submit = false;
-            event_desc_span.html("<b>*</b> The maximum character length is 300 only.");
-        } else {
-            event_desc_span.html("<b>*</b>");
+            event_remark_span.html("<b>*</b> The maximum character length is 300 only.");
         }
-        console.log(submit);
-
+   
         //event price validation
-        var event_price_regex = new RegExp(/^(0(?!.00)|[1-9]\d{0,2}).\d{2}$/);
+        var event_price_regex = /^(0(?:\.\d{1,2})?|[1-9]\d{0,2}(?:\.\d{1,2})?)$/;
         var event_price_span = event_price_field.siblings("label").find("span");
         if (!$.trim(event_price_field.val())) {
             submit = false;
@@ -378,27 +368,28 @@ $(document).ready(function () {
             event_price_span.html("<b>*</b>");
         }
 
-        console.log(submit);
 
         //event PIC beneficiary account number validation
         var event_picAcc_maxLength = 15;
         var pic_accNo = document.getElementById("pic_accNo").value.length;
         var pic_accNo_regex = new RegExp(/^[0-9]*$/);
         var pic_accNo_span = event_picAccNo_field.siblings("label").find("span");
-        if (!$.trim(event_picAccNo_field.val())) {
-            submit = false;
-            pic_accNo_span.html("<b>*</b> Empty field");
-        } else if (!pic_accNo_regex.test(event_picAccNo_field.val())) {
-            submit = false;
-            pic_accNo_span.html("<b>*</b> The account number can be digits only.");
-        } else if (pic_accNo > event_picAcc_maxLength) {
-            submit = false;
-            pic_accNo_span.html("<b>*</b> The account number can be 15 digits only.");
-        } else {
-            pic_accNo_span.html("<b>*</b>");
+        if(event_remark_field.val()!=0.00){
+            if (!$.trim(event_picAccNo_field.val())) {
+                submit = false;
+                pic_accNo_span.html("<b>*</b> Empty field");
+            } else if (!pic_accNo_regex.test(event_picAccNo_field.val())) {
+                submit = false;
+                pic_accNo_span.html("<b>*</b> The account number can be digits only.");
+            } else if (pic_accNo > event_picAcc_maxLength) {
+                submit = false;
+                pic_accNo_span.html("<b>*</b> The account number can be 15 digits only.");
+            } else {
+                pic_accNo_span.html("<b>*</b>");
+            }
         }
+      
 
-        console.log(submit);
 
         //event capacity validation
         var event_capacity_regex = new RegExp(/[1-3000]/);
@@ -412,8 +403,6 @@ $(document).ready(function () {
         } else {
             event_capacity_span.html("<b>*</b>");
         }
-
-        console.log(submit);
 
         //event date validation
         var event_date_span = event_date_field.siblings("label").find("span");
@@ -437,7 +426,6 @@ $(document).ready(function () {
             }
         }
 
-        console.log(submit);
 
         //event duration validation
         var event_duration_max = 1;
@@ -457,7 +445,6 @@ $(document).ready(function () {
             event_duration_span.html("<b>*</b>");
         }
 
-        console.log(submit);
 
         //event time validation
         var startTime = event_start_time_field.val();
@@ -491,8 +478,6 @@ $(document).ready(function () {
         } else {
             event_time_span.html("<b>*</b>");
         }
-
-        console.log(submit);
 
 
         if (submit) {
