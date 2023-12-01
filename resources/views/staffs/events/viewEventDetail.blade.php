@@ -81,8 +81,8 @@
 
         label {
             /* position: relative;
-                    margin-bottom: 40px;
-                    top: 20%; */
+                                            margin-bottom: 40px;
+                                            top: 20%; */
             display: inline-block;
             width: 300px;
         }
@@ -130,6 +130,7 @@
         }
     </style>
 @endsection
+
 @section('body')
     <script>
         $(document).ready(function() {
@@ -266,7 +267,7 @@
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                         $('[id$=wizardPicturePreview3]').attr('src', e.target.result).fadeIn('slow');
                     }
                     reader.readAsDataURL(input.files[0]);
@@ -458,7 +459,7 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <textarea rows="4" cols="50" class="form-control" id="event_desc" name="event_desc"
+                    <textarea rows="8" cols="50" class="form-control" id="event_desc" name="event_desc"
                         style="resize: none">{{ old('event_desc', $event->description) }}</textarea>
 
             </div>
@@ -479,7 +480,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture1" name="event_venueArr"
                             accept=".gif, .jpg, .jpeg, .png" />
                     </div>
@@ -496,12 +498,11 @@
 
 
 
-
         <tr>
             <div class="form-row mb-4">
                 <td style="width: 70%">
                     <div class="col-5 mx-auto">
-                        <label for="event_price">Ticket Price(RM)
+                        <label for="event_price">Ticket Price (RM)
                             <span class="text-danger"><b>*</b>
                                 @error('event_price')
                                     {{ $message }}
@@ -510,13 +511,14 @@
                 </td>
                 <td style="width: 75%">
                     <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
-                        value="{{ old('event_price', $event->ticket_price) }}">
+                        value="{{ number_format($event->ticket_price, 2) }}">
 
             </div>
             </td>
             </div>
         </tr>
 
+  
         <tr>
             <div class="form-row mb-4">
                 <td style="width: 70%">
@@ -528,19 +530,38 @@
                                 @enderror
                             </span></label>
                 </td>
+
                 <td style="width: 75%">
+                    @if ($event->ticket_price == 0.0)
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var bankDropdown = document.getElementById('bank_Name_dropdown');
+                            var accNumberInput = document.getElementById('pic_accNo');
+                            var qrImage = document.getElementById('wizardPicturePreview3');
+        
+                            if (bankDropdown && accNumberInput) {
+                                bankDropdown.value = 'no_bank_selected';
+                                accNumberInput.value = '-';
+                                qrImage.src = '/img/default_eventpic.png';
+                            }
+                        });
+                    </script>
+                @endif
                     <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
+                        <option value="no_bank_selected">No Bank Selected</option>
                         <option value="Maybank"
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'Maybank' ? 'selected' : '' }}>Maybank
                         </option>
                         <option value="Public Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Public Bank' ? 'selected' : '' }}>Public
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Public Bank' ? 'selected' : '' }}>
+                            Public
                             Bank</option>
                         <option value="RHB Bank"
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'RHB Bank' ? 'selected' : '' }}>RHB Bank
                         </option>
                         <option value="Hong Leong Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Hong Leong Bank' ? 'selected' : '' }}>Hong
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Hong Leong Bank' ? 'selected' : '' }}>
+                            Hong
                             Leong Bank</option>
                         <option value="AmBank"
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'AmBank' ? 'selected' : '' }}>AmBank
@@ -549,22 +570,26 @@
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Rakyat' ? 'selected' : '' }}>Bank
                             Rakyat</option>
                         <option value="OCBC Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'OCBC Bank' ? 'selected' : '' }}>OCBC Bank
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'OCBC Bank' ? 'selected' : '' }}>OCBC
+                            Bank
                         </option>
                         <option value="HSBC Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'HSBC Bank' ? 'selected' : '' }}>HSBC Bank
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'HSBC Bank' ? 'selected' : '' }}>HSBC
+                            Bank
                         </option>
                         <option value="Bank Islam Malaysia"
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'Bank Islam Malaysia' ? 'selected' : '' }}>
                             Bank Islam Malaysia</option>
                         <option value="Affin Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Affin Bank' ? 'selected' : '' }}>Affin Bank
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'Affin Bank' ? 'selected' : '' }}>Affin
+                            Bank
                         </option>
                         <option value="Alliance Bank"
                             {{ old('bank_Name_dropdown', $event->bank_Name) == 'Alliance Bank' ? 'selected' : '' }}>
                             Alliance Bank</option>
                         <option value="CIMB Bank"
-                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'CIMB Bank' ? 'selected' : '' }}>CIMB Bank
+                            {{ old('bank_Name_dropdown', $event->bank_Name) == 'CIMB Bank' ? 'selected' : '' }}>CIMB
+                            Bank
                         </option>
                     </select>
 
@@ -573,6 +598,7 @@
                 value="{{ old('pic_accNo', $event->acc_number) }}">
             </div>
         </tr>
+
 
         <tr>
             <div class="form-row mb-4">
@@ -587,7 +613,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview3" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview3"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture3" name="payment_qr" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
                     <span class="d-block mt-2 mb-4 text-danger" id="profile_err3">
@@ -601,6 +628,29 @@
             </div>
         </tr>
 
+        <script>
+            var eventPriceInput = document.getElementById('event_price');
+            var bankDropdown = document.getElementById('bank_Name_dropdown');
+            var accNumberInput = document.getElementById('pic_accNo');
+            var qrImage = document.getElementById('wizardPicturePreview3');
+
+            function updatePaymentDetails() {
+                var ticketPrice = parseFloat(eventPriceInput.value);
+
+                if (ticketPrice !== 0.00) {
+
+                } else {
+                    // Ticket price is zero
+                    bankDropdown.value = 'no_bank_selected';
+                    accNumberInput.value = '-';
+                    qrImage.src = 'img/default_event.png';
+                }
+            }
+
+            // Attach the updatePaymentDetails function to the input and blur events
+            eventPriceInput.addEventListener('input', updatePaymentDetails);
+            eventPriceInput.addEventListener('blur', updatePaymentDetails);
+        </script>
 
         <tr>
             <div class="form-row mb-4">
@@ -708,7 +758,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture2" name="event_pic" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
                     <span class="d-block mt-2 mb-4 text-danger" id="profile_err2">
@@ -734,7 +785,12 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">{{ old('remark', $event->remark) }}</textarea>
+                    @if ($event->remark != null)
+                        <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">{{ old('remark', $event->remark) }}</textarea>
+                    @else
+                        <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">No remarks from organizer.</textarea>
+                    @endif
+                </td>
 
             </div>
             </td>
@@ -837,9 +893,10 @@
         </div>
         </div>
     </main>
-@endsection
 
-@section('foot')
+
+
+
     <script>
         $("[data-get]").on("click", function(e) {
             const url = $(this).attr("data-get");

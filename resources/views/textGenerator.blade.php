@@ -7,11 +7,9 @@
 
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
+
 
         <style type="text/css">
-
-        
             h2 {
                 text-align: center;
             }
@@ -51,10 +49,11 @@
                 top: 20%;
                 margin-left: 500px;
             }
-/* 
-            input[type=text] {
-                margin-top: -30px;
-            } */
+
+            /*
+                    input[type=text] {
+                        margin-top: -30px;
+                    } */
 
             .event_venuearr {
                 margin-top: -80px;
@@ -78,6 +77,7 @@
             }
 
             textarea {
+                margin-top: -40px;
                 margin-left: 500px;
                 resize: none;
                 overflow-y: scroll;
@@ -107,11 +107,10 @@
     @else
     "> @endif
 </h6> --}}
-      
 
 
-        <form action="/event/generate"
-        method="post" id="form2" enctype="multipart/form-data">
+
+    <form action="/event/generate" method="post" id="form2" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" class="form-control" id="event_id" name="event_id" value="{{ request()->get('success') }}">
@@ -125,37 +124,45 @@
                     @enderror
                 </span>
                 <br><i>Dear organizer, we would like to know more about your event.</i>
-                <br><i>Therefore, you are required to input few keywords about your event in the text field below and click on the "Generate" button.</i>
+                <br><i>Therefore, you are required to input few keywords about your event in the text field below and click
+                    on the "Generate" button.</i>
             </label>
         </div>
 
-        <input type="text" class="form-control" id="event_description" name="title" placeholder="E.g: [Event Name],[Date],[Venue],and [Some information for your event]" 
-        style="width: 800px;margin-left:500px;margin-top:-30px" value="{{ $title }}">
+        <input type="text" class="form-control" id="event_description" name="title"
+            placeholder="E.g: [Event Name],[Date],[Venue],and [Some information for your event]"
+            style="width: 800px;margin-left:500px;margin-top:-30px" value="{{ $title }}">
 
         <button class="submit-event-form btn btn-submit-event" type="submit" id="generate">Generate</button>
 
 
-        </form>
-        <form action="/event/generate/update" method="post" id="form3" enctype="multipart/form-data">
-            @csrf
+    </form>
+    <form action="/event/generate/update" method="post" id="form3" enctype="multipart/form-data">
+        @csrf
 
-            <input type="hidden" class="form-control" id="event_id" name="event_id"
-                value="{{ request()->get('success') }}">
+        <input type="hidden" class="form-control" id="event_id" name="event_id" value="{{ request()->get('success') }}">
 
-            <div class="content_box">
-                @if ($content)
-                    <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
-                @endif
+        <div class="content_box">
+
+            @if ($content)
+                <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
+
+                <span class="text-danger"><b>*</b>
+                    @error('description')
+                        {{ $message }}
+                    @enderror
+                </span>
+            @endif
+        </div>
+
+        <div class="form-row mb-5" style="margin-left:-80px;">
+            <div class="col-5 mx-auto recaptcha_box">
+                <button type="button" class="clear-event-form btn btn-secondary mr-2"
+                    onclick="location.href = '/textGenerator'">Clear</button>
+                <button type="submit" class="submit-event-form btn btn-submit-event" id="submit_mainform">Submit</button>
             </div>
-
-            <div class="form-row mb-5" style="margin-left:-80px;">
-                <div class="col-5 mx-auto recaptcha_box">
-                    <button type="button" class="clear-event-form btn btn-secondary mr-2"
-                        onclick="location.href = '/textGenerator'">Clear</button>
-                    <button type="submit" class="submit-event-form btn btn-submit-event" id="submit_mainform">Submit</button>
-                </div>
-            </div>
-        </form>
+        </div>
+    </form>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
     <script src="/js/textGenerator.js"></script>
-    @endsection
+@endsection

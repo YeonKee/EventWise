@@ -275,6 +275,7 @@
             </div>
         </div>
 
+        @if($event->ticket_price > 0.00)
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <label for="acc_No" class="o-label">Beneficiary Account</label>
@@ -296,8 +297,8 @@
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
-                <label for="ticket_price" class="o-label">Ticket Price (RM):</label>
-                <input type="text" class="form-control" id="ticket_price" name="ticket_price" autocomplete="off"
+                <label for="event_price" class="o-label">Ticket Price (RM):</label>
+                <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
                     value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
             </div>
         </div>
@@ -318,12 +319,12 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="form-row mb-4">
             <div class="col-5 mx-auto">
                 <input type="checkbox" id="suggest" name="suggest" value="suggest" checked style="display:block;margin-left:-50px;margin-top:-10px;">
-                <label for="suggestNB" id="suggestNB"> I agree that my personal information (Name, contact number and
-                    email) can be exposed for Nearby Suggestion feature purposes.</label>
+                <label for="suggestNB" id="suggestNB"> I agree that my personal information (Name and email) can be exposed for Nearby Suggestion feature purposes.</label>
             </div>
         </div>
 

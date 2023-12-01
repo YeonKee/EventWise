@@ -64,7 +64,7 @@
         }
 
         .mt-5 {
-            font-family:'Poppins';
+            font-family: 'Poppins';
             font-weight: bold;
             color: black;
             font-size: 20px;
@@ -79,6 +79,12 @@
 
         p {
             font-weight: 30px;
+        }
+
+        .btn-submit-event.disabled {
+            background-color: grey;
+            pointer-events: none;
+            color: white;
         }
     </style>
 @endsection
@@ -97,11 +103,15 @@
                             style="object-fit:scale-down;margin-top: 100px">
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7 col-sm-6" >
+                <div class="col-lg-7 col-md-7 col-sm-6">
                     <h4 class="box-title mt-5">Event description:</h4>
                     <p>{{ $event->description }}</p>
                     <h4 class="box-title mt-5">Ticket Price(RM):</h4>
-                    <p>{{ number_format($event->ticket_price, 2) }}</p>
+                    @if ($event->ticket_price == 0.0)
+                        <p>Free of Charge</p>
+                    @else
+                        <p>{{ number_format($event->ticket_price, 2) }}</p>
+                    @endif
 
                     <h4 class="box-title mt-5">Date:</h4>
                     <p>{{ $event->date }}</p>
@@ -113,8 +123,8 @@
                     <p>{{ $event->duration }} day(s)</p>
 
                     <h4 class="box-title mt-5">Capacity:</h4>
-                    @if ($event->participated_count > $event->capacity)
-                        {{ $event->capacity }}/{{ $event->capacity }} (Capacity reached)
+                    @if ($event->participated_count >= $event->capacity)
+                        {{ $event->capacity }}/{{ $event->capacity }} <b>(Capacity reached)</b>
                     @else
                         {{ $event->participated_count }}/{{ $event->capacity }}
                     @endif
@@ -124,62 +134,24 @@
                     <br><br>
                     {{-- Check if remaining capacity is greater than 0 --}}
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary"  style="padding: 5px;width:200px; font-size:20px;color:black;margin-top: 20px"onclick="joinEvent()">
+                        <button type="button" class="submit-event-form btn btn-submit-event"
+                            style="padding: 5px; width: 200px; font-size: 20px; color: {{ $event->capacity - $event->participated_count <= 0 ? 'white' : 'white' }}"
+                            onclick="{{ $event->capacity - $event->participated_count <= 0 ? 'alert(\'Sorry, the capacity for the event is full.\')' : 'joinEvent()' }}"
+                            {{ $event->capacity - $event->participated_count <= 0 ? 'disabled' : '' }}>
                             Join the event!
                         </button>
                     </div>
 
                     <script>
                         function joinEvent() {
-                            var remainingCapacity = {{ $event->capacity - $event->participated_count }};
-
-                            // Check if remaining capacity is 0 or less
-                            if (remainingCapacity <= 0) {
-                                // Show alert message
-                                alert('Sorry, the capacity for the event is full.');
-                            } else {
-                                // Redirect the user to the registration page
-                                window.location.href = "/event/registerEvent/{{ $event->event_id }}";
-                            }
+                            // Redirect the user to the registration page
+                            window.location.href = "/event/registerEvent/{{ $event->event_id }}";
                         }
                     </script>
 
 
-                    {{--                 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <a
-                                 href="/event/registerEvent/{{$event->event_id}}">Join the event!</a></button>
-                        </div> --}}
-                    {{-- <button type="submit" class="btn btn-primary btn-rounded">Join the event!</button><br> --}}
                 </div>
+
             </div>
-
         </div>
-    </div>
-
-
-    {{-- <script>
-    $('.btn-plus, .btn-minus').on('click', function(e) {
-        const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
-        const input = $(e.target).closest('.input-group').find('input');
-        if (input.is('input')) {
-            input[0][isNegative ? 'stepDown' : 'stepUp']()
-        }
-    });
-</script> --}}
-
-    @if (session()->has('successAddCart'))
-        <script>
-            $(function() {
-                $('.successAdd').modal('show');
-            });
-        </script>
-    @elseif (session()->has('failAddCart'))
-        <script>
-            $(function() {
-                $('.failAdd').modal('show');
-            });
-        </script>
-    @endif
-@endsection
+    @endsection
