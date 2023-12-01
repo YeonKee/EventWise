@@ -293,7 +293,8 @@ class EventController extends Controller
         }
         $registrations->save();
 
-        $this->saveReceipt($request->part_receipt, $registrations->reg_id);
+        if($request->event_price!=0.00){
+        $this->saveReceipt($request->part_receipt, $registrations->reg_id);}
 
         $registrations->receipt = "/img/receipt/receipt_$registrations->reg_id.png";
 

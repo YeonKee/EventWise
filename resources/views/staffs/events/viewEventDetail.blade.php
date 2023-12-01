@@ -81,8 +81,8 @@
 
         label {
             /* position: relative;
-                    margin-bottom: 40px;
-                    top: 20%; */
+                                margin-bottom: 40px;
+                                top: 20%; */
             display: inline-block;
             width: 300px;
         }
@@ -130,6 +130,7 @@
         }
     </style>
 @endsection
+
 @section('body')
     <script>
         $(document).ready(function() {
@@ -266,7 +267,7 @@
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                         $('[id$=wizardPicturePreview3]').attr('src', e.target.result).fadeIn('slow');
                     }
                     reader.readAsDataURL(input.files[0]);
@@ -479,7 +480,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->event_venuearr }}" class="picture-src" id="wizardPicturePreview1"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture1" name="event_venueArr"
                             accept=".gif, .jpg, .jpeg, .png" />
                     </div>
@@ -494,9 +496,6 @@
             </div>
         </tr>
 
-
-
-
         <tr>
             <div class="form-row mb-4">
                 <td style="width: 70%">
@@ -510,7 +509,7 @@
                 </td>
                 <td style="width: 75%">
                     <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
-                        value="{{ old('event_price', $event->ticket_price) }}">
+                        value="{{ number_format($event->ticket_price, 2) }}">
 
             </div>
             </td>
@@ -587,7 +586,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview3" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview3"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture3" name="payment_qr" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
                     <span class="d-block mt-2 mb-4 text-danger" id="profile_err3">
@@ -708,7 +708,8 @@
                 </td>
                 <td style="width: 75%">
                     <div class="profile-group">
-                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2" style="width: 539px;height:489px"/>
+                        <img src="{{ $event->event_picture }}" class="picture-src" id="wizardPicturePreview2"
+                            style="width: 539px;height:489px" />
                         <input type="file" id="wizard-picture2" name="event_pic" accept=".gif, .jpg, .jpeg, .png" />
                     </div>
                     <span class="d-block mt-2 mb-4 text-danger" id="profile_err2">
@@ -734,8 +735,13 @@
                             </span></label>
                 </td>
                 <td style="width: 75%">
-                    <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">{{ old('remark', $event->remark) }}</textarea>
-
+                    @if ($event->remark != null)
+                        <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">{{ old('remark', $event->remark) }}</textarea>
+                    @else
+                        <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">No remarks from organizer.</textarea>
+                    @endif
+                </td>
+                
             </div>
             </td>
             </div>
@@ -837,9 +843,7 @@
         </div>
         </div>
     </main>
-@endsection
 
-@section('foot')
     <script>
         $("[data-get]").on("click", function(e) {
             const url = $(this).attr("data-get");
