@@ -196,7 +196,14 @@ class EventController extends Controller
         $events->name = $request->event_name;
         $events->category = $request->event_cat_dropdown;
         $events->openFor = $request->open_For_dropdown;
-        $events->description = $request->event_desc;
+        $events->description = "";
+
+        if($request->event_price==0.00){
+            $events->acc_number = "";
+            $events->bank_Name = "";
+            $events->payment_qr = "";
+        }
+
         $events->acc_number = $request->pic_accNo;
         $events->bank_Name = $request->bank_Name_dropdown;
         $events->ticket_price = $request->event_price;
@@ -206,10 +213,9 @@ class EventController extends Controller
         $events->start_time = $request->event_startTime;
         $events->end_time = $request->event_endTime;
         $events->participated_count = 0;
-        $events->remark = "";
+        $events->remark = $request->event_remark;
         $events->event_picture = "";
         $events->event_venuearr = "";
-        $events->payment_qr = "";
         $events->status = "Pending";
         $events->registration_status = "Closed";
         $events->event_status = "Upcoming";
@@ -219,7 +225,8 @@ class EventController extends Controller
 
         $this->savePicture($request->event_pic, $events->event_id);
         $this->saveVenue($request->event_venueArr, $events->event_id);
-        $this->saveQR($request->payment_qr, $events->event_id);
+       if($request->event_price!=0.00){
+        $this->saveQR($request->payment_qr, $events->event_id);}
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
         $events->event_venuearr = "/img/venueArr/venueArr_$events->event_id.png";
         $events->payment_qr = "/img/paymentQR/paymentQR_$events->event_id.png";
@@ -229,14 +236,14 @@ class EventController extends Controller
 
     }
 
-    public function updateRemark(Request $request, $eventId)
+    public function updateDescription(Request $request, $eventId)
     {
         // Find the event by its ID
         $event = Event::find($eventId);
 
         if ($event) {
             // Update the 'remark' column
-            $event->update(['remark' => $request->remark]);
+            $event->update(['description' => $request->description]);
         }
 
 

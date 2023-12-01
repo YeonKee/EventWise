@@ -14,7 +14,10 @@ class TextGeneratorController extends Controller
        // $event = Event::find($eventId);
     
         $title = $request->title;
-    
+        
+        
+        if($title!=null){
+   
         $result = OpenAI::completions()->create([
             "model" => "text-davinci-003",
             "temperature" => 0.7,
@@ -22,15 +25,30 @@ class TextGeneratorController extends Controller
             "frequency_penalty" => 0,
             "presence_penalty" => 0,
             'max_tokens' => 600,
-            'prompt' => sprintf('Generate a full sentence for: %s', $title),
+            'prompt' => sprintf('Describe the event details and elaborate the details provided for: %s, and not more than 600 characters', $title),
         ]);
     
         $content = trim($result['choices'][0]['text']);
+    }else{
+        $validators = [
+            'event_description' => 'required|max:255',
+         
+        ];
+
+        $errMsgs = [
+            'event_description.required' => 'Description should not be empty.',
+            'event_description.max' => 'Description should only be 255 characters long.',
+        ];
+
+        $validated = $request->validate($validators, $errMsgs);
+
+    }
+
     
         return view('textGenerator', compact('title', 'content'));
     }
 
-    public function updateRemark(Request $request) {
+    public function updateDescription(Request $request) {
         // Find the event by its ID
 
 
@@ -41,7 +59,7 @@ class TextGeneratorController extends Controller
     
         if ($event) {
             // Update the 'status' column
-            $event->remark =$request->remark;
+            $event->description =$request->description;
             $event->save();
             $request->session()->forget('event_id');
 
