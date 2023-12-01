@@ -425,6 +425,10 @@
     width: 300px;
   }
   
+  .main .ratingForm {
+    width: 520px;
+  }
+
   .main .search-form input {
     border: 0;
     font-size: 14px;

@@ -40,6 +40,9 @@
                                     <th scope="col">Title</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">File At</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Updated By</th>
+                                    <th scope="col">Updated At</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -50,15 +53,25 @@
                                         <td>{{ $complaint->title }}</td>
                                         <td>{{ $complaint->description }}</td>
                                         <td>{{ $complaint->created_at }}</td>
+                                        <td>{{ $complaint->status }}</td>
+                                        <td>{{ $complaint->updated_by }}</td>
+                                        <td>{{ $complaint->updated_at }}</td>
                                         <td>
-                                            <form method="post"
-                                                action="/staffs/chats/complaint/deleteComp/{{ $complaint->comp_id }}"
+                                            <form method="post" action="/staffs/chats/complaint/solved"
                                                 class="d-inline">
                                                 @csrf
-                                                @method('delete')
-                                                <button id="delBtn" class="action" title="Delete"
-                                                    value="{{ $complaint->title }}">
-                                                    <i class="fa fa-trash fa-lg"></i>
+                                                <input type="hidden" name="comp_id" value="{{ $complaint->comp_id }}">
+                                                <button id="approvedBtn" class="action" title="Solved">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </button>
+                                            </form>
+
+                                            <form method="post" action="/staffs/chats/complaint/invalid"
+                                                class="d-inline">
+                                                @csrf
+                                                <input type="hidden" name="comp_id" value="{{ $complaint->comp_id }}">
+                                                <button id="delBtn" class="action" title="Invalid">
+                                                    <i class="fa-solid fa-ban"></i>
                                                 </button>
                                             </form>
                                         </td>
@@ -98,40 +111,6 @@
             },
             buttonsStyling: false
         })
-
-        $("form").submit(function(e) {
-            var delBtn = $(this).find('#delBtn'); // Assuming the delete button has the id 'delBtn'
-
-            if (delBtn.length > 0) {
-                e.preventDefault();
-
-                var name = $(this).find('#delBtn').val();
-                var form = this;
-
-                Swal.fire({
-                    icon: "warning",
-                    title: "Are you sure to delete complaint <b>" + name + "</b>?",
-                    html: "The complaint is not recoverable once deleted. <br/><small><i>(Please only delete complaint that are irrelevant or solved.)</i></small>",
-                    showCancelButton: true,
-                    confirmButtonText: `Yes`,
-                    reverseButtons: false,
-                    buttonsStyling: false,
-                    customClass: {
-                        cancelButton: 'btn btn-secondary ml-2',
-                        confirmButton: 'btn btn-danger mr-2',
-                    },
-                }).then((respond) => {
-                    if (respond.isConfirmed) {
-                        SwalStyledButtons.fire({
-                            icon: 'success',
-                            html: "Complaint <b>" + name + "</b> is deleted.",
-                        }).then(function() {
-                            form.submit();
-                        });
-                    }
-                });
-            }
-        });
 
         function redirectToPage(button) {
             const url = button.getAttribute('data-get');

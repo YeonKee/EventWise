@@ -66,7 +66,7 @@
     overflow-y: auto;
 }
 
-.card-title{
+.card-title {
     max-height: 460px;
     overflow-y: auto;
 }
@@ -274,10 +274,29 @@
     color: white !important;
 }
 
-#solveBtn{
+#solveBtn {
     margin-top: 30px;
     background-color: transparent;
     border: transparent;
     color: #36b807;
     font-size: 20px;
+}
+
+.form-select {
+    width: auto;
+}
+
+.btn-rating {
+    display: block;
+    background-color: #4452bc;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 10px;
+    width: 170px !important;
+    text-align: center;
+}
+
+.btn-rating:hover {
+    background-color: #2B38A1;
+    color: white !important;
 }

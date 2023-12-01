@@ -182,12 +182,15 @@ Route::group(['middleware' => ['role:staff']], function () {
     // Compliant
     Route::get('/staffs/chats/complaint/viewComplaint', [ComplaintController::class, 'index']);
     Route::get('/staffs/chats/complaint/viewComplaintSearch', [ComplaintController::class, 'searchComplaint']);
-    Route::delete('/staffs/chats/complaint/deleteComp/{id}', [ComplaintController::class, 'destroy']);
+    Route::post('/staffs/chats/complaint/solved', [ComplaintController::class, 'solved']);
+    Route::post('/staffs/chats/complaint/invalid', [ComplaintController::class, 'invalid']);
 
     // Rating
     Route::get('/staffs/chats/rating/viewRating', [ChatRatingController::class, 'index']);
     Route::get('/staffs/chats/rating/viewRatingSearch', [ChatRatingController::class, 'searchRating']);
     Route::delete('/staffs/chats/rating/deleteRating/{id}', [ChatRatingController::class, 'destroy']);
+    Route::get('/staffs/chats/rating/ratingScoreMonthly', [ChatRatingController::class, 'ratingScoreMonthly']);
+    Route::get('/staffs/chats/rating/ratingScoreYearly', [ChatRatingController::class, 'ratingScoreYearly']);
 
     // Live Chat
     Route::get('/staffs/livechat/{id}', [ChatMessageController::class, 'getChat']);

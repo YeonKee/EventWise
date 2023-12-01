@@ -15,10 +15,15 @@
 
         <div class="search-bar col-lg-2 mb-3 d-flex">
             <div class="ml-auto">
-                <form class="search-form d-flex align-items-center" method="GET"
+                <form class="search-form ratingForm d-flex align-items-center" method="GET"
                     action="/staffs/chats/rating/viewRatingSearch">
                     @csrf
-                    <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                    <div class="ml-3">
+                        <a href="/staffs/chats/rating/ratingScoreMonthly?year=<?php echo date('Y'); ?>" class="btn-rating">View Average Score</a>
+                    </div>
+
+                    <input type="text" name="query" placeholder="Search" title="Enter search keyword"
+                        style="margin-left: 10px;">
                     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
                 </form>
             </div>
@@ -28,7 +33,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Rating <span>(Result count: {{ $chaRatingsCounts }}) Total Score:
+                        <h5 class="card-title">Rating <span>(Result count: {{ $chaRatingsCounts }}) Total Score (Overall):
                                 {{ $averageRatings }}%</span></h5>
                         @php
                             $count = $chatRatings->firstItem();

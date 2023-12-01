@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Complaint;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ComplaintController extends Controller
 {
@@ -66,6 +68,36 @@ class ComplaintController extends Controller
         $complaint->delete();
 
         return redirect()->back()->with('query', '');
+    }
+
+    public function invalid(Request $request)
+    {
+        $complaint = Complaint::find($request->comp_id);
+        $currentStaff = $request->session()->get("staffName");
+
+        $complaint->status = "Invalid";
+        $complaint->updated_by = $currentStaff;
+
+        $complaint->save();
+
+        Alert::success('Success!', 'This complaint has been marked as invalid.');
+
+        return redirect()->back();
+    }
+
+    public function solved(Request $request)
+    {
+        $complaint = Complaint::find($request->comp_id);
+        $currentStaff = $request->session()->get("staffName");
+
+        $complaint->status = "Solved";
+        $complaint->updated_by = $currentStaff;
+
+        $complaint->save();
+
+        Alert::success('Success!', 'This complaint has been marked as solved.');
+
+        return redirect()->back();
     }
 
     public function searchComplaint(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat_Rating;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChatRatingController extends Controller
 {
@@ -95,6 +96,54 @@ class ChatRatingController extends Controller
 
         $chaRatingsCounts = $chatRatings->total();
         return view('staffs.chats.rating.index', compact('chatRatings', 'chaRatingsCounts', 'averageRatings'));
+    }
 
+    public function ratingScoreMonthly(Request $request)
+    {
+        // $allMonths = [
+        //     'January' => 'N/A',
+        //     'February' => 'N/A',
+        //     'March' => 'N/A',
+        //     'April' => 'N/A',
+        //     'May' => 'N/A',
+        //     'June' => 'N/A',
+        //     'July' => 'N/A',
+        //     'August' => 'N/A',
+        //     'September' => 'N/A',
+        //     'October' => 'N/A',
+        //     'November' => 'N/A',
+        //     'December' => 'N/A',
+        // ];
+
+        $averageRatings = Chat_Rating::selectRaw('MONTH(created_at) as month, SUM(ratings) as sum_rating, COUNT(*) as total_count')
+            ->whereYear('created_at', $request->year)
+            ->groupBy(DB::raw('YEAR(created_at)'), DB::raw('MONTH(created_at)'))
+            ->get();
+
+        $totalRating = Chat_Rating::whereYear('created_at', $request->year)->count();
+
+        // foreach ($averageRatingsByMonth as $avg) {
+        //     $monthNumber = $avg->month;
+        //     $monthName = date('F', mktime(0, 0, 0, $monthNumber, 1)); 
+
+        //     if ($avg->sum_rating > 0) {
+        //         $allMonths[$monthName] = number_format(($avg->sum_rating / ($avg->total_count * 5)) * 100, 2);
+        //     } else {
+        //         $allMonths[$monthName] = 'N/A';
+        //     }
+        // }
+
+        return view('staffs.chats.rating.ratingScore', compact('totalRating', 'averageRatings'));
+    }
+
+    public function ratingScoreYearly(Request $request)
+    {
+        $averageRatings = Chat_Rating::selectRaw('YEAR(created_at) as year, SUM(ratings) as sum_rating, COUNT(*) as total_count')
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->get();
+
+        $totalRating = Chat_Rating::get()->count();
+
+        return view('staffs.chats.rating.ratingScore', compact('totalRating', 'averageRatings'));
     }
 }
