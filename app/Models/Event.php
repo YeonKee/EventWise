@@ -11,6 +11,10 @@ class Event extends Model
 
     protected $primaryKey = 'event_id';
 
+    protected $fillable = [
+        'description',
+    ];
+
     public function registrations()
     {
         return $this->hasMany(Registration::class, 'reg_id');
