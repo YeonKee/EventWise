@@ -129,9 +129,9 @@
 
     <!-- Chat bubble -->
     <div class="language-buttons">
-        <button class="language-button selected-lang" onclick="setLanguage('en')"
+        <button class="language-button" onclick="setLanguage('en')"
             title="Speak with the Bot in English!">EN</button>
-        <button class="language-button" onclick="setLanguage('zh')"
+        <button class="language-button selected-lang" onclick="setLanguage('zh')"
             title="Speak with the Bot in Chiinese!">CH</button>
     </div>
 
@@ -165,6 +165,8 @@
             }),
             t.insertBefore(e, t.firstChild);
         })();
+        localStorage.clear()
+
     </script>
 
 </body>

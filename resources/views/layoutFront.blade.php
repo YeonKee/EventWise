@@ -166,6 +166,7 @@
             }),
             t.insertBefore(e, t.firstChild);
         })();
+        localStorage.clear()
 
         let firstClickChat = true;
 
