@@ -6,6 +6,7 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use OpenAI\Laravel\Facades\OpenAI;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Validation\Rule;
 
 class TextGeneratorController extends Controller
 {
@@ -25,7 +26,8 @@ class TextGeneratorController extends Controller
                 "frequency_penalty" => 0,
                 "presence_penalty" => 0,
                 'max_tokens' => 600,
-                'prompt' => sprintf('Describe the event details and elaborate the details provided for: %s, and not more than 600 characters', $title),
+                 'prompt' => sprintf('Describe the event details and elaborate the details provided for: %s, and not more than 600 characters', $title),
+                //'prompt' => sprintf('Generate longitude and latitude for this address with most accurate answer: %s', $title),
             ]);
 
             $content = trim($result['choices'][0]['text']);
@@ -50,20 +52,28 @@ class TextGeneratorController extends Controller
 
     public function updateDescription(Request $request)
     {
+
+        // Validate the request
+        $validator = $request->validate([
+            'description' => ['required', 'string', 'max:600'],
+        ], [
+            'description.required' => 'The description is required.',
+            'description.max' => 'The description must not exceed 600 characters.',
+        ]);
+
+        // If validation fails, redirect back with errors
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
+
         // Find the event by its ID
         $event = Event::where('event_id', $request->session()->get('event_id'))->first();
 
-        // Validate the form data
-        $validatedData = $request->validate([
-            'description' => 'required|max:600',
-        ], [
-            'description.required' => 'Description should not be empty.',
-            'description.max' => 'Description should only be 600 characters long.',
-        ]);
-
-        // If validation passes, update the event description
         if ($event) {
-            $event->description = $validatedData['description'];
+            // Update the 'description' column
+            $event->description = $request->description;
             $event->save();
             $request->session()->forget('event_id');
 
@@ -71,13 +81,15 @@ class TextGeneratorController extends Controller
             return redirect('/homepage');
         } else {
             // Handle the case when the event is not found
-            return back()->withErrors(['error' => 'Event not found.']);
+            // You might want to redirect back with an error message or handle it accordingly
         }
 
 
-        //dd($event);
+        // // Find the event by its ID
+        // $event = Event::where('event_id', $request->session()->get('event_id'))->first();
 
-        //dd($request->remark);
+
+        // // dd($event);
 
         // if ($event) {
         //     // Update the 'status' column
@@ -95,9 +107,6 @@ class TextGeneratorController extends Controller
         //     // Handle the case when the event is not found
         // }
 
-
-
-        // You can return a response or redirect to another page
     }
 
 }

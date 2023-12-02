@@ -5,7 +5,6 @@
     <div class="card mb-4 shadow-sm"
         style="border-radius: 30px;padding-top:60px;padding-bottom:30px;padding-left:50px;padding-right:50px;margin-left:300px;width:1300px;margin-top:0px;margin-bottom:-500px;">
 
-
         <h3 class="card-title" style="font-family:'Poppins';text-align:center; padding-bottom: 25px;">Suggested Nearby
             Participant(s) </h3>
         @php
@@ -18,7 +17,6 @@
                     <tr>
                         <th scope="col">No.</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Contact Number</th>
                         <th scope="col">Email</th>
                     </tr>
                 </thead>
@@ -27,18 +25,28 @@
                         <tr>
                             <td>{{ $count }}</td>
                             <td>{{ $reg->part_name }}</td>
+
                             <td>
-                                <a href="https://wa.me/{{ $reg->part_contactNo }}?text=I%20am%20{{ $reg->part_name }},%20and%20we%20are%20joining%20the%20same%20event%20{{ $event->name }}.%20Do%20you%20mind%20if%20we%20carpool%20to%20the%20event%20destination?"
-                                    target="_blank" title="Contact via WhatsApp"  style="color: #007bff;">{{ $reg->part_contactNo }} </a>
-                            </td>
-                            {{-- @foreach ($suggestedParticipants as $suggestedParticipant) --}}
-                            <td>
-                                <a href="mailto:{{ $reg->part_email }}?subject=Joining%20the%20Same%20Event%20{{ $event->name }}&body=Hi%20{{ $reg->part_name }},%0D%0A%0D%0AI%20am%20{{ $reg->part_name }}%20and%20we%20are%20joining%20the%20same%20event%20{{ $event->name }}.%20Do%20you%20mind%20if%20we%20carpool%20to%20the%20event%20destination?"
-                                    target="_blank" title="Contact via Email"  style="color: #007bff;">
-                                    {{ $reg->part_email }}
+                                <a href="javascript:void(0);"
+                                    onclick="sendEmail('{{ $reg->part_email }}', '{{ $reg->part_name }}', '{{ $event->name }}','{{ $senderName->name }}')"
+                                    title="Contact via Email" style="color: #007bff;">
+                                    Send an email
                                 </a>
                             </td>
-                            {{-- @endforeach --}}
+                          
+                            <script>
+                                function sendEmail(email, name, eventName,senderName) {
+                                    var subject = encodeURIComponent("Joining the Same Event - " + eventName);
+                                    var body = encodeURIComponent(
+                                        "Hi " + name + "\n" +
+                                        "I am " + senderName + " and we are joining the same event " + eventName +
+                                        ". Do you mind if we carpool to the event destination?"
+                                    );
+
+                                    window.location.href = "mailto:" + email + "?subject=" + subject + "&body=" + body;
+                                }
+                            </script>
+
                         </tr>
                         @php
                             $count++;

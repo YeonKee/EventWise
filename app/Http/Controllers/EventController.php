@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Location;
+
 
 class EventController extends Controller
 {
@@ -198,7 +202,7 @@ class EventController extends Controller
         $events->openFor = $request->open_For_dropdown;
         $events->description = "";
 
-        if($request->event_price==0.00){
+        if ($request->event_price == 0.00) {
             $events->acc_number = "";
             $events->bank_Name = "";
             $events->payment_qr = "";
@@ -225,8 +229,9 @@ class EventController extends Controller
 
         $this->savePicture($request->event_pic, $events->event_id);
         $this->saveVenue($request->event_venueArr, $events->event_id);
-       if($request->event_price!=0.00){
-        $this->saveQR($request->payment_qr, $events->event_id);}
+        if ($request->event_price != 0.00) {
+            $this->saveQR($request->payment_qr, $events->event_id);
+        }
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
         $events->event_venuearr = "/img/venueArr/venueArr_$events->event_id.png";
         $events->payment_qr = "/img/paymentQR/paymentQR_$events->event_id.png";
@@ -252,9 +257,76 @@ class EventController extends Controller
         // You can return a response or redirect to another page
     }
 
+    // public function generateLocation(Request $request)
+    // {
+    //     $address = $request->part_add;
+
+    //     if ($address) {
+    //         $result = OpenAI::completions()->create([
+    //             "model" => "text-davinci-003",
+    //             "temperature" => 0.7,
+    //             "top_p" => 1,
+    //             "frequency_penalty" => 0,
+    //             "presence_penalty" => 0,
+    //             'max_tokens' => 600,
+    //             'prompt' => sprintf('Generate longitude and latitude for this address with the most accurate answer: %s', $address),
+    //         ]);
+
+    //         // Check if the response contains the expected data
+    //         if (isset($result['choices'][0]['text']) && isset($result['choices'][1]['text'])) {
+    //             $content1 = trim($result['choices'][0]['text']);
+    //             $content2 = trim($result['choices'][1]['text']);
+
+    //             // Debugging: dd to see which one is longitude and which one is latitude
+    //             dd("This is longitude: %s", $content1, "This is latitude: %s", $content2);
+
+    //             // Use a View::share to make variables available to all views
+    //             View::share('generatedLocation', [
+    //                 'longitude' => $content1,
+    //                 'latitude' => $content2,
+    //             ]);
+
+    //             return redirect('/event/registerEvent');
+    //         } else {
+    //             // Handle the case when the response does not contain the expected data
+    //             return redirect()->route('your.route.name')->withErrors(['address' => 'Unable to generate location.']);
+    //         }
+    //     } else {
+    //         // If address is null, redirect back with an error
+    //         return redirect()->route('your.route.name')->withErrors(['address' => 'Address is required.']);
+    //     }
+    // }
+
 
     public function registration(Request $request)
     {
+
+
+        $add = $request->part_add;
+
+        if ($add != null) {
+            $result = OpenAI::completions()->create([
+                "model" => "text-davinci-003",
+                "temperature" => 0.7,
+                "top_p" => 1,
+                "frequency_penalty" => 0,
+                "presence_penalty" => 0,
+                'max_tokens' => 600,
+                'prompt' => sprintf('Generate longitude and latitude for this address with the most accurate answer from google maps: %s', $add),
+            ]);
+
+            $content1 = $result['choices'][0]['text'] ?? null;
+
+            list($latitude, $longitude) = explode(',', $content1);
+
+            //dd($latitude);
+            //dd($longitude);
+            // Use a View::share to make variables available to all views
+            // View::share('generatedLocation', [
+            //     'latitude' => $latitude,
+            //     'longitude' => $longitude,
+            // ]);
+        }
 
         // Check if the email is already registered for the event
         $existingRegistration = Registration::where('event_id', $request->event_id)
@@ -276,9 +348,11 @@ class EventController extends Controller
         $registrations->part_name = $request->part_name;
         $registrations->part_contactNo = $request->part_ContactNo;
         $registrations->part_email = $request->part_email;
-        $registrations->states = $request->part_States_dropdown;
-        $registrations->city = $request->part_city;
+        // $registrations->states = $request->part_States_dropdown;
+        // $registrations->city = $request->part_city;
         $registrations->address = $request->part_add;
+        $registrations->longitude = $longitude;
+        $registrations->latitude = $latitude;
 
         if ($request->session()->has('studID')) {
             $registrations->stud_id = $request->session()->get('studID');
@@ -293,8 +367,9 @@ class EventController extends Controller
         }
         $registrations->save();
 
-        if($request->event_price!=0.00){
-        $this->saveReceipt($request->part_receipt, $registrations->reg_id);}
+        if ($request->event_price != 0.00) {
+            $this->saveReceipt($request->part_receipt, $registrations->reg_id);
+        }
 
         $registrations->receipt = "/img/receipt/receipt_$registrations->reg_id.png";
 
@@ -346,19 +421,42 @@ class EventController extends Controller
         return view('staffs.events.participantList')->with(['participantList' => $participantList, 'totalParticipants' => $totalParticipants, 'event' => $event]);
     }
 
-    private function suggestNearParticipants($referenceParticipant, $participants)
+    public function suggestNearParticipants($referenceParticipant, $participants)
     {
-
         $suggestedParticipants = $participants->filter(function ($participant) use ($referenceParticipant) {
-            // Compare states, cities, and check agreement to display info
-            return (
-                $participant->state == $referenceParticipant->state &&
-                $participant->city == $referenceParticipant->city &&
-                $participant->suggest == 'Yes'
+            // Check if the participant agreed to display info
+            if ($participant->suggest !== 'Yes') {
+                return false;
+            }
+
+            // Calculate distance between participants using their latitude and longitude
+            $distance = $this->calculateDistance(
+                $referenceParticipant->latitude,
+                $referenceParticipant->longitude,
+                $participant->latitude,
+                $participant->longitude
             );
+
+            // Check if the distance is within 10 km
+            return $distance <= 10;
         });
 
         return $suggestedParticipants;
+    }
+
+    public function calculateDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $earthRadius = 6371; // Earth radius in kilometers
+
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $earthRadius * $c;
+
+        return $distance;
     }
 
     public function suggestNearBy($id)
@@ -366,25 +464,31 @@ class EventController extends Controller
         // Find the participant by its ID
         $participant = Registration::find($id);
 
+        $stud_id = session('studID');
+        $student = Student::find($stud_id);
+       
+
         // Get the event for the participant
         $event = Event::find($participant->event_id);
 
         // Get all participants for the given event_id excluding the current participant
         $participantList = Registration::where('event_id', $event->event_id)
             ->where('reg_id', '!=', $id)
-            ->where('suggest', '=', 'Yes') // Assuming 'display_info' is the column indicating agreement
+            ->where('suggest', '=', 'Yes')
+            ->whereNotNull('latitude') // Assuming you have latitude and longitude columns
+            ->whereNotNull('longitude')
             ->paginate(9);
 
         // Suggest nearby participants based on address, city, state, and agreement to display info
         $suggestedParticipants = $this->suggestNearParticipants($participant, $participantList);
 
-        return view('/suggestNearBy')->with([
+        return view('suggestNearBy')->with([
             'participantList' => $participantList,
             'event' => $event,
             'suggestedParticipants' => $suggestedParticipants,
+            'senderName' => $student,
         ]);
     }
-
 
     public function staffSearchEvents(Request $request)
     {

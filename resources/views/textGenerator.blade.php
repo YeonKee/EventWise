@@ -145,13 +145,18 @@
         <div class="content_box">
 
             @if ($content)
+            <div class="desc_label">
+                <label for="description" style="margin-top:30px;">Here's the generated event description for you. You may make changes accordingly.
+                    <span class="text-danger"><b>*</b> <br>
+                        @error('description')
+                            {{ $message }}
+                        @enderror
+                    </span>
+                </label>
+            </div>
+    
                 <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
 
-                <span class="text-danger"><b>*</b>
-                    @error('description')
-                        {{ $message }}
-                    @enderror
-                </span>
             @endif
         </div>
 
@@ -164,5 +169,5 @@
         </div>
     </form>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    <script src="/js/textGenerator.js"></script>
+    {{-- <script src="/js/textGenerator.js"></script> --}}
 @endsection

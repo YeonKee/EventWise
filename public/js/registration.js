@@ -84,7 +84,7 @@ $(document).ready(function () {
         var contactNo_field = $("#part_ContactNo");
         var email_field = $("#part_email");
         var address_field = $("#part_add");
-        var city_field = $("#part_city");
+        // var city_field = $("#part_city");
  
 
         //participant name validation
@@ -156,19 +156,19 @@ $(document).ready(function () {
         console.log(submit);
 
             //participant city validation
-            var city_maxLength = 50;
-            var city_length = document.getElementById("part_city").value.length;
-            var city_span = city_field.siblings("label").find("span");
-            if (!$.trim(city_field.val())) {
-                submit = false;
-                city_span.html("<b>*</b> Empty field");
-            } else if (city_length > city_maxLength) {
-                submit = false;
-                city_span.html("<b>*</b> The maximum character length is 50 only.");
-            } else {
-                city_span.html("<b>*</b>");
-            }
-            console.log(submit);
+            // var city_maxLength = 50;
+            // var city_length = document.getElementById("part_city").value.length;
+            // var city_span = city_field.siblings("label").find("span");
+            // if (!$.trim(city_field.val())) {
+            //     submit = false;
+            //     city_span.html("<b>*</b> Empty field");
+            // } else if (city_length > city_maxLength) {
+            //     submit = false;
+            //     city_span.html("<b>*</b> The maximum character length is 50 only.");
+            // } else {
+            //     city_span.html("<b>*</b>");
+            // }
+            // console.log(submit);
 
 
         if (submit) {
