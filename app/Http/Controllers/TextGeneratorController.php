@@ -53,21 +53,6 @@ class TextGeneratorController extends Controller
     public function updateDescription(Request $request)
     {
 
-        // Validate the request
-        $validator = $request->validate([
-            'description' => ['required', 'string', 'max:600'],
-        ], [
-            'description.required' => 'The description is required.',
-            'description.max' => 'The description must not exceed 600 characters.',
-        ]);
-
-        // If validation fails, redirect back with errors
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-
-
         // Find the event by its ID
         $event = Event::where('event_id', $request->session()->get('event_id'))->first();
 
@@ -85,27 +70,6 @@ class TextGeneratorController extends Controller
         }
 
 
-        // // Find the event by its ID
-        // $event = Event::where('event_id', $request->session()->get('event_id'))->first();
-
-
-        // // dd($event);
-
-        // if ($event) {
-        //     // Update the 'status' column
-        //     $event->description =$request->description;
-        //     $event->save();
-        //     $request->session()->forget('event_id');
-
-
-        //     Alert::html('Thank you for proposing the event. Stay tuned for the updates.');
-        //     return redirect('/homepage');
-
-
-        //     // Return a response, redirect, or do other actions as needed
-        // } else {
-        //     // Handle the case when the event is not found
-        // }
 
     }
 
