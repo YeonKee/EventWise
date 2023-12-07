@@ -112,7 +112,7 @@
                 <h4 style="color: black; text-align: center;">Time: {{ $closestEvent->start_time }} to
                     {{ $closestEvent->end_time }}</h4>
                 <a href="/event/viewById/{{ $closestEvent->event_id }}" class="primary-btn"
-                    style="text-align: center; margin-top: 20px; margin-bottom: 30px;">Buy Ticket</a>
+                    style="text-align: center; margin-top: 20px; margin-bottom: 30px;">View More Details</a>
             </div>
         </div>
 
