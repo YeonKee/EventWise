@@ -18,31 +18,35 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Location;
 
 
-class EventController extends Controller
-{
+class EventController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         return view("staffs.events.index");
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
-    public function homepage(Request $request)
-    {
-        $events = Event::where('status', 'Approved');
-        $upcoming = Event::where('event_status', 'Upcoming');
+    public function homepage(Request $request) {
+        $events = Event::where('status', 'Approved')
+            ->where('registration_status', 'Closed')
+            ->where('event_status', 'Past');
 
-        if (!$request->session()->has('studID')) {
-            $events = $events->where('openFor', 'Public');
+        $upcoming = Event::where('event_status', 'Upcoming')
+            ->where('status', 'Approved');
+
+        // if (!$request->session()->has('studID')) {
+        //     $events = $events->where('openFor', 'Public');
+        // }
+
+        if(!$request->session()->has('studID')) {
+            $upcoming = $upcoming->where('openFor', 'Public');
         }
 
         // Get the current date and time
@@ -50,24 +54,25 @@ class EventController extends Controller
 
 
         // Get the closest upcoming event
-        $closestEvent = $events
-            ->where('event_status', 'Upcoming')
+        $closestEvent = Event::where('event_status', 'Upcoming')
             ->where('date', '>=', $currentDateTime)
             ->orderBy('date')
             ->first();
 
         // Convert the 'date' field to a Carbon instance
-        if ($closestEvent) {
+        if($closestEvent) {
             $closestEvent->date = Carbon::parse($closestEvent->date);
         }
 
 
         // Convert the 'date' field to a Carbon instance for each upcoming event
-        foreach ($upcoming as $event) {
+        foreach($upcoming as $event) {
             $event->date = Carbon::parse($event->date);
         }
 
-        $highestParticipationEvent = Event::orderBy('participated_count', 'desc')->first();
+        $highestParticipationEvent = Event::where('status', 'Approved')
+            ->orderBy('participated_count', 'desc')
+            ->first();
 
 
 
@@ -78,11 +83,10 @@ class EventController extends Controller
     }
 
 
-    public function Category(Request $request)
-    {
+    public function Category(Request $request) {
         $events = Event::where('category', $request->category)->where('status', 'Approved');
 
-        if (!$request->session()->has('studID')) {
+        if(!$request->session()->has('studID')) {
             $events = $events->where('openFor', 'Public');
         }
 
@@ -91,8 +95,7 @@ class EventController extends Controller
 
     }
 
-    public function viewById(Request $request)
-    {
+    public function viewById(Request $request) {
 
         // if ($request->session()->has('user_id')) {
         //     $cust_id = $request->session()->get('user_id');
@@ -105,8 +108,7 @@ class EventController extends Controller
     }
 
 
-    public function eventHistory(Request $request)
-    {
+    public function eventHistory(Request $request) {
         $stud_id = $request->session()->get('studID');
 
         // Get the stud_id from the session
@@ -114,7 +116,7 @@ class EventController extends Controller
         //dd($stud_id);
 
         // Check if stud_id exists in the session
-        if ($stud_id) {
+        if($stud_id) {
             // Retrieve the registrations for the current student
             $registrations = Registration::where('stud_id', $stud_id)->get();
 
@@ -129,27 +131,24 @@ class EventController extends Controller
     }
 
 
-    public function searchEvents(Request $request)
-    {
-        if ($request->has('search')) {
-            $events = Event::where('name', 'LIKE', '%' . $request->search . '%')->orWhere('description', 'LIKE', '%' . $request->search . '%')->orWhere('category', 'LIKE', '%' . $request->search . '%')->get();
+    public function searchEvents(Request $request) {
+        if($request->has('search')) {
+            $events = Event::where('name', 'LIKE', '%'.$request->search.'%')->orWhere('description', 'LIKE', '%'.$request->search.'%')->orWhere('category', 'LIKE', '%'.$request->search.'%')->get();
             return view('category', ['events' => $events]);
         } else {
             return view('homepage');
         }
     }
 
-    public function registerEvent(Request $request)
-    {
+    public function registerEvent(Request $request) {
         $event = Event::where('event_id', $request->id)->first();
 
         return view('registerEvent', ['event' => $event]);
     }
 
 
-    private function getPicture($event_id)
-    {
-        if (file_exists(public_path("/img/eventPicture/eventPicture_$event_id.png"))) {
+    private function getPicture($event_id) {
+        if(file_exists(public_path("/img/eventPicture/eventPicture_$event_id.png"))) {
             $url = "/img/eventPicture/eventPicture_$event_id.png";
         } else {
             $url = '/img/default_eventpic.png';
@@ -158,23 +157,19 @@ class EventController extends Controller
         return $url;
     }
 
-    private function savePicture($file, $event_id)
-    {
+    private function savePicture($file, $event_id) {
         Image::make($file)->fit(300)->save(public_path("/img/eventPicture/eventPicture_$event_id.png"));
     }
 
-    private function saveVenue($file, $event_id)
-    {
+    private function saveVenue($file, $event_id) {
         Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
     }
 
-    private function saveReceipt($file, $reg_id)
-    {
+    private function saveReceipt($file, $reg_id) {
         Image::make($file)->fit(300)->save(public_path("/img/receipt/receipt_$reg_id.png"));
     }
 
-    private function saveQR($file, $event_id)
-    {
+    private function saveQR($file, $event_id) {
         Image::make($file)->fit(300)->save(public_path("/img/paymentQR/paymentQR_$event_id.png"));
     }
 
@@ -185,14 +180,12 @@ class EventController extends Controller
     // }
 
 
-    private function deletePhoto($name)
-    {
+    private function deletePhoto($name) {
         File::delete(public_path("/photos/$name"));
     }
 
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $events = new Event();
         $events->person_inCharge = $request->event_personInCharge;
         $events->contact_number = $request->event_picContactNo;
@@ -202,7 +195,7 @@ class EventController extends Controller
         $events->openFor = $request->open_For_dropdown;
         $events->description = "";
 
-        if ($request->event_price == 0.00) {
+        if($request->event_price == 0.00) {
             $events->acc_number = "";
             $events->bank_Name = "";
             $events->payment_qr = "";
@@ -229,7 +222,7 @@ class EventController extends Controller
 
         $this->savePicture($request->event_pic, $events->event_id);
         $this->saveVenue($request->event_venueArr, $events->event_id);
-        if ($request->event_price != 0.00) {
+        if($request->event_price != 0.00) {
             $this->saveQR($request->payment_qr, $events->event_id);
         }
         $events->event_picture = "/img/eventPicture/eventPicture_$events->event_id.png";
@@ -237,16 +230,15 @@ class EventController extends Controller
         $events->payment_qr = "/img/paymentQR/paymentQR_$events->event_id.png";
 
         $events->save();
-        return redirect('/textGenerator?success=' . $events->event_id);
+        return redirect('/textGenerator?success='.$events->event_id);
 
     }
 
-    public function updateDescription(Request $request, $eventId)
-    {
+    public function updateDescription(Request $request, $eventId) {
         // Find the event by its ID
         $event = Event::find($eventId);
 
-        if ($event) {
+        if($event) {
             // Update the 'remark' column
             $event->update(['description' => $request->description]);
         }
@@ -298,13 +290,12 @@ class EventController extends Controller
     // }
 
 
-    public function registration(Request $request)
-    {
+    public function registration(Request $request) {
 
 
         $add = $request->part_add;
 
-        if ($add != null) {
+        if($add != null) {
             $result = OpenAI::completions()->create([
                 "model" => "text-davinci-003",
                 "temperature" => 0.7,
@@ -312,7 +303,7 @@ class EventController extends Controller
                 "frequency_penalty" => 0,
                 "presence_penalty" => 0,
                 'max_tokens' => 600,
-                'prompt' => sprintf('Generate longitude and latitude for this address with the most accurate answer from google maps: %s', $add),
+                'prompt' => sprintf('Generate longitude and latitude for this address with the most accurate answer from google maps: %s, the answer should be latitude first and follwed by longitude', $add),
             ]);
 
             $content1 = $result['choices'][0]['text'] ?? null;
@@ -333,9 +324,9 @@ class EventController extends Controller
             ->where('part_email', $request->part_email)
             ->exists();
 
-        if ($existingRegistration == "true") {
+        if($existingRegistration == "true") {
 
-            Alert::html('Seems like you have been resgister for this event!', 'Email: (<b>' . e($request->part_email) . '</b>) is found in database.');
+            Alert::html('Seems like you have been resgister for this event!', 'Email: (<b>'.e($request->part_email).'</b>) is found in database.');
 
             return redirect()->back();
         }
@@ -354,20 +345,20 @@ class EventController extends Controller
         $registrations->longitude = $longitude;
         $registrations->latitude = $latitude;
 
-        if ($request->session()->has('studID')) {
+        if($request->session()->has('studID')) {
             $registrations->stud_id = $request->session()->get('studID');
         } else {
             $registrations->stud_id = 1;
         }
 
-        if ($request->suggest == null) {
+        if($request->suggest == null) {
             $registrations->suggest = 'No';
         } else {
             $registrations->suggest = 'Yes';
         }
         $registrations->save();
 
-        if ($request->event_price != 0.00) {
+        if($request->event_price != 0.00) {
             $this->saveReceipt($request->part_receipt, $registrations->reg_id);
         }
 
@@ -378,39 +369,36 @@ class EventController extends Controller
 
         $event = Event::find($request->event_id);
 
-        if ($event) {
+        if($event) {
             $event->participated_count += 1;
             $event->save();
         }
 
-        if ($event->participated_count == $event->capacity) {
+        if($event->participated_count == $event->capacity) {
             $event->registration_status = "Closed";
             $event->save();
         }
 
 
         //return redirect('/registerEvent?success=' . $registrations->reg_id);
-        return redirect('/success?success=' . $registrations->reg_id);
+        return redirect('/success?success='.$registrations->reg_id);
 
 
     }
 
-    public function viewAllEvent()
-    {
+    public function viewAllEvent() {
         $events = Event::paginate(9);
         $eventsCount = $events->total();
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
 
-    public function viewParticipantList()
-    {
+    public function viewParticipantList() {
         $events = Event::paginate(9);
         $eventsCount = $events->total();
         return view('staffs.events.viewParticipantList', compact('events', 'eventsCount'));
     }
 
-    public function participantList($id)
-    {
+    public function participantList($id) {
         // Get all participants for the given event_id
         $participantList = Registration::where('event_id', $id)->paginate(9);
 
@@ -421,11 +409,10 @@ class EventController extends Controller
         return view('staffs.events.participantList')->with(['participantList' => $participantList, 'totalParticipants' => $totalParticipants, 'event' => $event]);
     }
 
-    public function suggestNearParticipants($referenceParticipant, $participants)
-    {
+    public function suggestNearParticipants($referenceParticipant, $participants) {
         $suggestedParticipants = $participants->filter(function ($participant) use ($referenceParticipant) {
             // Check if the participant agreed to display info
-            if ($participant->suggest !== 'Yes') {
+            if($participant->suggest !== 'Yes') {
                 return false;
             }
 
@@ -444,8 +431,7 @@ class EventController extends Controller
         return $suggestedParticipants;
     }
 
-    public function calculateDistance($lat1, $lon1, $lat2, $lon2)
-    {
+    public function calculateDistance($lat1, $lon1, $lat2, $lon2) {
         $earthRadius = 6371; // Earth radius in kilometers
 
         $dLat = deg2rad($lat2 - $lat1);
@@ -459,14 +445,13 @@ class EventController extends Controller
         return $distance;
     }
 
-    public function suggestNearBy($id)
-    {
+    public function suggestNearBy($id) {
         // Find the participant by its ID
         $participant = Registration::find($id);
 
         $stud_id = session('studID');
         $student = Student::find($stud_id);
-       
+
 
         // Get the event for the participant
         $event = Event::find($participant->event_id);
@@ -490,34 +475,33 @@ class EventController extends Controller
         ]);
     }
 
-    public function staffSearchEvents(Request $request)
-    {
+    public function staffSearchEvents(Request $request) {
         $query = $request->input('query');
 
-        if ($query) {
+        if($query) {
             $events = Event::where(function ($q) use ($query) {
-                $q->where('event_id', 'like', '%' . $query . '%')
-                    ->orWhere('person_inCharge', 'like', '%' . $query . '%')
-                    ->orWhere('contact_number', 'like', '%' . $query . '%')
-                    ->orWhere('name', 'like', '%' . $query . '%')
-                    ->orWhere('description', 'like', '%' . $query . '%')
-                    ->orWhere('ticket_price', 'like', '%' . $query . '%')
-                    ->orWhere('capacity', 'like', '%' . $query . '%')
-                    ->orWhere('participated_count', 'like', '%' . $query . '%')
-                    ->orWhere('start_time', 'like', '%' . $query . '%')
-                    ->orWhere('end_time', 'like', '%' . $query . '%')
-                    ->orWhere('duration', 'like', '%' . $query . '%')
-                    ->orWhere('status', 'like', '%' . $query . '%')
-                    ->orWhere('remark', 'like', '%' . $query . '%')
-                    ->orWhere('created_at', 'like', '%' . $query . '%')
-                    ->orWhere('updated_at', 'like', '%' . $query . '%')
-                    ->orWhere('category', 'like', '%' . $query . '%')
-                    ->orWhere('registration_status', 'like', '%' . $query . '%')
-                    ->orWhere('email', 'like', '%' . $query . '%')
-                    ->orWhere('acc_number', 'like', '%' . $query . '%')
-                    ->orWhere('openFor', 'like', '%' . $query . '%')
-                    ->orWhere('event_status', 'like', '%' . $query . '%')
-                    ->orWhere('bank_Name', 'like', '%' . $query . '%');
+                $q->where('event_id', 'like', '%'.$query.'%')
+                    ->orWhere('person_inCharge', 'like', '%'.$query.'%')
+                    ->orWhere('contact_number', 'like', '%'.$query.'%')
+                    ->orWhere('name', 'like', '%'.$query.'%')
+                    ->orWhere('description', 'like', '%'.$query.'%')
+                    ->orWhere('ticket_price', 'like', '%'.$query.'%')
+                    ->orWhere('capacity', 'like', '%'.$query.'%')
+                    ->orWhere('participated_count', 'like', '%'.$query.'%')
+                    ->orWhere('start_time', 'like', '%'.$query.'%')
+                    ->orWhere('end_time', 'like', '%'.$query.'%')
+                    ->orWhere('duration', 'like', '%'.$query.'%')
+                    ->orWhere('status', 'like', '%'.$query.'%')
+                    ->orWhere('remark', 'like', '%'.$query.'%')
+                    ->orWhere('created_at', 'like', '%'.$query.'%')
+                    ->orWhere('updated_at', 'like', '%'.$query.'%')
+                    ->orWhere('category', 'like', '%'.$query.'%')
+                    ->orWhere('registration_status', 'like', '%'.$query.'%')
+                    ->orWhere('email', 'like', '%'.$query.'%')
+                    ->orWhere('acc_number', 'like', '%'.$query.'%')
+                    ->orWhere('openFor', 'like', '%'.$query.'%')
+                    ->orWhere('event_status', 'like', '%'.$query.'%')
+                    ->orWhere('bank_Name', 'like', '%'.$query.'%');
             })
                 ->paginate(9);
         } else {
@@ -528,16 +512,15 @@ class EventController extends Controller
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
 
-    public function staffSearchParticipants(Request $request)
-    {
+    public function staffSearchParticipants(Request $request) {
         $query = $request->input('query');
 
-        if ($query) {
+        if($query) {
             $participantList = Registration::where(function ($q) use ($query) {
-                $q->where('event_id', 'like', '%' . $query . '%')
-                    ->orWhere('part_name', 'like', '%' . $query . '%')
-                    ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
-                    ->orWhere('part_email', 'like', '%' . $query . '%');
+                $q->where('event_id', 'like', '%'.$query.'%')
+                    ->orWhere('part_name', 'like', '%'.$query.'%')
+                    ->orWhere('part_ContactNo', 'like', '%'.$query.'%')
+                    ->orWhere('part_email', 'like', '%'.$query.'%');
             })
                 ->paginate(9);
 
@@ -552,8 +535,7 @@ class EventController extends Controller
     }
 
 
-    public function viewEventDetail($id)
-    {
+    public function viewEventDetail($id) {
         $event = Event::where('event_id', $id)->first();
         return view('staffs.events.viewEventDetail')->with(['event' => $event]);
     }
@@ -561,16 +543,14 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deleteEvent($id)
-    {
+    public function deleteEvent($id) {
         $event = Event::findOrFail($id);
         $event->delete();
 
         return redirect()->back();
     }
 
-    public function contactByEmail(Request $request)
-    {
+    public function contactByEmail(Request $request) {
         $validators = [
             'name' => 'required|max:100',
             'email' => 'required|max:50|regex:/^[A-Za-z0-9._%+-]+@gmail\.com$/',
@@ -603,24 +583,21 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
-    {
+    public function show(Event $event) {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Event $event)
-    {
+    public function edit(Event $event) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
-    {
+    public function update(Request $request, Event $event) {
 
 
         $event->person_inCharge = $request->event_personInCharge;
@@ -644,16 +621,16 @@ class EventController extends Controller
         $event->registration_status = $request->registration_status_dropdown;
         $event->event_status = $request->event_status_dropdown;
 
-        if ($request->hasFile('event_pic')) {
+        if($request->hasFile('event_pic')) {
             $this->savePicture($request->event_pic, $event->event_id);
         }
 
 
-        if ($request->hasFile('event_venueArr')) {
+        if($request->hasFile('event_venueArr')) {
             $this->saveVenue($request->event_venueArr, $event->event_id);
         }
 
-        if ($request->hasFile('payment_qr')) {
+        if($request->hasFile('payment_qr')) {
             $this->saveQR($request->payment_qr, $event->event_id);
         }
 
@@ -668,8 +645,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
-    {
+    public function destroy(Event $event) {
         //
     }
 }

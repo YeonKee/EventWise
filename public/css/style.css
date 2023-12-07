@@ -181,6 +181,11 @@ ol {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
+	margin-left: 80px;
+    margin-right: 80px;
+    height: 500px;
+	border-radius: 30px;
+	opacity: 0.5;
 }
 
 .spad {
