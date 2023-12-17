@@ -51,9 +51,9 @@
             }
 
             /*
-                    input[type=text] {
-                        margin-top: -30px;
-                    } */
+                        input[type=text] {
+                            margin-top: -30px;
+                        } */
 
             .event_venuearr {
                 margin-top: -80px;
@@ -145,13 +145,19 @@
         <div class="content_box">
 
             @if ($content)
-                <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
+                <div class="desc_label">
+                    <label for="description" style="margin-top:30px;">Here's the generated event description for you. You
+                        may make changes accordingly.
+                        <span class="text-danger"><b>*</b> <br>
+                            @error('description')
+                                {{ $message }}
+                            @enderror
+                            <span id="description-error" style="display:none; color:red;"></span>
+                        </span>
+                    </label>
+                </div>
 
-                <span class="text-danger"><b>*</b>
-                    @error('description')
-                        {{ $message }}
-                    @enderror
-                </span>
+                <textarea name="description" id="description" cols="110" rows="10">{{ $content }}</textarea>
             @endif
         </div>
 
@@ -163,6 +169,42 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.getElementById('form3').addEventListener('submit', function(event) {
+            // Get the value of the description textarea
+            var descriptionValue = document.getElementById('description').value.trim();
+
+            // Check if the description is null or empty
+            if (!descriptionValue) {
+                displayError('Description cannot be null or empty.');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            // Check if the description exceeds 600 characters
+            if (descriptionValue.length > 600) {
+                displayError('Description cannot be more than 600 characters.');
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            // If validation passes, clear the previous error message
+            clearError();
+        });
+
+        function displayError(message) {
+            var errorSpan = document.getElementById('description-error');
+            errorSpan.innerHTML = message;
+            errorSpan.style.display = 'block';
+        }
+
+        function clearError() {
+            var errorSpan = document.getElementById('description-error');
+            errorSpan.innerHTML = '';
+            errorSpan.style.display = 'none';
+        }
+    </script>
     {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    <script src="/js/textGenerator.js"></script>
+    {{-- <script src="/js/textGenerator.js"></script> --}}
 @endsection

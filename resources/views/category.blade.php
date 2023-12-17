@@ -92,15 +92,12 @@
                         <div class="card mb-4 shadow-sm"
                             style=" display: flex;padding: 5px 30px 10px 30px; border-radius:10px;margin-left:50px;">
 
-                            <img src="{{ $event->event_picture }}" class="bd-placeholder-img card-img-top" width="100%"
-                                height="225" style="object-fit:scale-down;padding-top: 15px"
-                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <img src="{{ $event->event_picture }}" style="width: 300px;height:300px;margin-left:100px;margin-top: 20px;" focusable="false">
                             <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef"
                                 dy=".3em"></text>
 
                             <div class="card-body">
-                                <p class="eventName" style=" font-family: 'Poppins'; color: black;">
+                                <p class="eventName" style=" font-family: 'Poppins'; color: black;text-align:center">
                                     <b>{{ $event->name }}</b></p>
                                 <p class="card-text" style="font-family:'Poppins'; color: black; white-space: nowrap;overflow: hidden;   text-overflow: ellipsis;">
                                     {{ $event->description }}</p>

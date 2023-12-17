@@ -99,8 +99,7 @@
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
                     <div class="white-box text-center">
-                        <img src="{{ $event->event_picture }}" class="img-responsive" width="400" height="300"
-                            style="object-fit:scale-down;margin-top: 100px">
+                        <img src="{{ $event->event_picture }}" style="width: 400px;height: 400px;margin-left: 25px;margin-top: 170px;">
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
@@ -134,12 +133,14 @@
                     <br><br>
                     {{-- Check if remaining capacity is greater than 0 --}}
                     <div class="btn-group">
+                        @if($event->event_status != 'Past')
                         <button type="button" class="submit-event-form btn btn-submit-event"
                             style="padding: 5px; width: 200px; font-size: 20px; color: {{ $event->capacity - $event->participated_count <= 0 ? 'white' : 'white' }}"
                             onclick="{{ $event->capacity - $event->participated_count <= 0 ? 'alert(\'Sorry, the capacity for the event is full.\')' : 'joinEvent()' }}"
                             {{ $event->capacity - $event->participated_count <= 0 ? 'disabled' : '' }}>
                             Join the event!
                         </button>
+                        @endif
                     </div>
 
                     <script>

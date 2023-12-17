@@ -628,6 +628,8 @@
             </div>
         </tr>
 
+        
+
         <script>
             var eventPriceInput = document.getElementById('event_price');
             var bankDropdown = document.getElementById('bank_Name_dropdown');
