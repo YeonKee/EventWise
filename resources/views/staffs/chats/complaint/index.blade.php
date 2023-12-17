@@ -43,6 +43,7 @@
                                     <th scope="col">Status</th>
                                     <th scope="col">Updated By</th>
                                     <th scope="col">Updated At</th>
+                                    <th scope="col">Remarks</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -56,21 +57,27 @@
                                         <td>{{ $complaint->status }}</td>
                                         <td>{{ $complaint->updated_by }}</td>
                                         <td>{{ $complaint->updated_at }}</td>
+                                        <td style="text-align: center;"><span class="fa fa-eye" style="cursor: pointer;"
+                                                onclick="showDetails('{{ $complaint->remarks }}')"></span></td>
                                         <td>
-                                            <form method="post" action="/staffs/chats/complaint/solved"
-                                                class="d-inline">
+                                            <form method="post" action="/staffs/chats/complaint/solved" class="d-inline"
+                                                id="solvedForm">
                                                 @csrf
-                                                <input type="hidden" name="comp_id" value="{{ $complaint->comp_id }}">
-                                                <button id="approvedBtn" class="action" title="Solved">
+                                                <input type="hidden" name="comp_id" id="solvedCompId" value="{{ $complaint->comp_id }}">
+                                                <input type="hidden" name="remarks" id="solvedRemarksInput">
+                                                <button type="button" id="approvedBtn" class="action" title="Solved"
+                                                    onclick="showSolvedPrompt('{{ $complaint->comp_id }}')">
                                                     <i class="fa-solid fa-check"></i>
                                                 </button>
                                             </form>
 
-                                            <form method="post" action="/staffs/chats/complaint/invalid"
-                                                class="d-inline">
+                                            <form method="post" action="/staffs/chats/complaint/invalid" class="d-inline"
+                                                id="invalidForm">
                                                 @csrf
-                                                <input type="hidden" name="comp_id" value="{{ $complaint->comp_id }}">
-                                                <button id="delBtn" class="action" title="Invalid">
+                                                <input type="hidden" name="comp_id" id="invalidCompId" value="{{ $complaint->comp_id }}">
+                                                <input type="hidden" name="remarks" id="invalidRemarksInput">
+                                                <button type="button" id="delBtn" class="action" title="Invalid"
+                                                    onclick="showInvalidPrompt('{{ $complaint->comp_id }}')">
                                                     <i class="fa-solid fa-ban"></i>
                                                 </button>
                                             </form>
@@ -115,6 +122,65 @@
         function redirectToPage(button) {
             const url = button.getAttribute('data-get');
             window.location.href = url;
+        }
+
+        function showSolvedPrompt(compId) {
+            Swal.fire({
+                title: 'Mark Complaint as Solved',
+                html: '<input id="solvedRemarks" class="swal2-input" placeholder="Enter remarks" type="textarea">',
+                confirmButtonText: 'Mark as Solved',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const remarks = document.getElementById('solvedRemarks').value;
+                    if (!remarks) {
+                        Swal.showValidationMessage('Remarks are required.');
+                    }
+                    return {
+                        remarks: remarks,
+                        compId: compId
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('solvedCompId').value = compId;
+                    document.getElementById('solvedRemarksInput').value = result.value.remarks;
+                    document.getElementById('solvedForm').submit();
+                }
+            });
+        }
+
+        function showInvalidPrompt(compId) {
+            Swal.fire({
+                title: 'Mark Complaint as Invalid',
+                html: '<input id="invalidRemarks" class="swal2-input complaintRemark" placeholder="Enter remarks" type="textarea">',
+                confirmButtonText: 'Mark as Invalid',
+                showCancelButton: true,
+                preConfirm: () => {
+                    const remarks = document.getElementById('invalidRemarks').value;
+                    if (!remarks) {
+                        Swal.showValidationMessage('Remarks are required.');
+                    }
+                    return {
+                        remarks: remarks,
+                        compId: compId
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('invalidCompId').value = compId;
+                    document.getElementById('invalidRemarksInput').value = result.value.remarks;
+                    document.getElementById('invalidForm').submit();
+                }
+            });
+        }
+
+        function showDetails(remarks) {
+            Swal.fire({
+                title: 'Remarks',
+                text: remarks,
+                icon: 'info',
+                confirmButtonText: 'Close'
+            });
         }
     </script>
 @endsection

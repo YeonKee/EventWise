@@ -19,7 +19,7 @@
                     action="/staffs/chats/rating/viewRatingSearch">
                     @csrf
                     <div class="ml-3">
-                        <a href="/staffs/chats/rating/ratingScoreMonthly?year=<?php echo date('Y'); ?>" class="btn-rating">View Average Score</a>
+                        <a href="/staffs/chats/rating/ratingScoreMonthly?year=<?php echo date('Y'); ?>&type=monthly" class="btn-rating">View Average Score</a>
                     </div>
 
                     <input type="text" name="query" placeholder="Search" title="Enter search keyword"

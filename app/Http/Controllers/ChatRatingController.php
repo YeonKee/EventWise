@@ -13,7 +13,7 @@ class ChatRatingController extends Controller
      */
     public function index()
     {
-        $chatRatings = Chat_Rating::paginate(9);
+        $chatRatings = Chat_Rating::orderBy('created_at', 'desc')->paginate(9);
         $chaRatingsCounts = $chatRatings->total();
 
         $totalRatings = Chat_Rating::sum('ratings');
@@ -83,9 +83,9 @@ class ChatRatingController extends Controller
                     ->orWhere('remarks', 'like', '%' . $query . '%')
                     ->orWhere('created_at', 'like', '%' . $query . '%');
             })
-                ->paginate(9);
+                ::orderBy('created_at', 'desc')->paginate(9);
         } else {
-            $chatRatings = Chat_Rating::paginate(9);
+            $chatRatings = Chat_Rating::orderBy('created_at', 'desc')->paginate(9);
         }
 
         // Calculate average score

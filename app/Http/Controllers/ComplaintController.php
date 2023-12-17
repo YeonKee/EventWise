@@ -74,9 +74,11 @@ class ComplaintController extends Controller
     {
         $complaint = Complaint::find($request->comp_id);
         $currentStaff = $request->session()->get("staffName");
+        $inv_remark = $request->remarks;
 
         $complaint->status = "Invalid";
         $complaint->updated_by = $currentStaff;
+        $complaint->remarks = $inv_remark;
 
         $complaint->save();
 
@@ -92,6 +94,7 @@ class ComplaintController extends Controller
 
         $complaint->status = "Solved";
         $complaint->updated_by = $currentStaff;
+        $complaint->remarks = $request->remarks;
 
         $complaint->save();
 
@@ -108,6 +111,8 @@ class ComplaintController extends Controller
             $complaints = Complaint::where(function ($q) use ($query) {
                 $q->where('title', 'like', '%' . $query . '%')
                     ->orWhere('description', 'like', '%' . $query . '%')
+                    ->orWhere('status', 'like', '%' . $query . '%')
+                    ->orWhere('updated_by', 'like', '%' . $query . '%')
                     ->orWhere('created_at', 'like', '%' . $query . '%');
             })
                 ->paginate(9);
