@@ -82,8 +82,7 @@ class ChatRatingController extends Controller
                 $q->where('ratings', 'like', '%' . $query . '%')
                     ->orWhere('remarks', 'like', '%' . $query . '%')
                     ->orWhere('created_at', 'like', '%' . $query . '%');
-            })
-                ::orderBy('created_at', 'desc')->paginate(9);
+            })->orderBy('created_at', 'desc')->paginate(9);
         } else {
             $chatRatings = Chat_Rating::orderBy('created_at', 'desc')->paginate(9);
         }

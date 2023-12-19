@@ -22,6 +22,12 @@
         padding: 10px;
         margin-bottom: 15px;
     }
+
+    .container{
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    }
 </style>
 
 @section('body')
@@ -82,4 +88,6 @@
             </form>
         </div>
     </section>
+
+    <script src="/js/account.js"></script>
 @endsection

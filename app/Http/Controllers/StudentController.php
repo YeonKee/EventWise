@@ -318,7 +318,9 @@ class StudentController extends Controller
         $student = Student::where('stud_id', $request->id)->first();
 
         // Check if ID exist in system
-        if ($student->is_email_verified == "0") {   // Not yet verify
+        if ($student == null){
+            return redirect()->back()->withErrors(['id' => 'Student ID not found inside system.'])->withInput();
+        }else if ($student->is_email_verified == "0") {   // Not yet verify
             return view('students.pendingEmailVerify')->with([
                 'email' => $student->email,
                 'studID' => $request->id

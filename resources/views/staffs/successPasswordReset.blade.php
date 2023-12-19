@@ -11,6 +11,9 @@
     .container {
         text-align: center;
         padding: 20px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
     }
 
     /* Success icon animation */
