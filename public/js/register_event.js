@@ -1,33 +1,33 @@
 $(document).ready(function () {
 
-    let have_picture = false;
+
 
     function validatePicture(input) {
-
-        var picture = $("input[name='event_pic']");
-        var event_pic_span = picture.siblings("label").find("span");
+        var have_picture = false;
+        var preview = $(input).siblings(".picturePreview");
+        var span = $(input).parents("label").find("span");
         var inputLen = input.value.length;
         var file = input.files[0];
         var URL = window.URL || window.webkitURL;
-        var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+        var picture_regex = new RegExp("image\/(jpe?g|png)");
 
-        // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+        // valid file (not more than 1MB, correct format: JPG, JPEG, PNG)
         if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-            picture.removeClass("is-invalid");
             have_picture = true;
 
-            $('#picture_preview').attr('src', URL.createObjectURL(file));
+            preview.attr('src', URL.createObjectURL(file));
+            span.html("<b>*</b>");
 
         } // invalid file
         else if (inputLen) {
-            picture.addClass("is-invalid");
+
             have_picture = false;
 
             // file format problem
             if (!picture_regex.test(file.type)) {
-                if (!$('#picture_1').length) {
-                    picture_1_span.html("<div class='invalid-feedback text-center' id='profile_1'>\n\
-                        Please select image in GIF, JPG, JPEG, and PNG format only.\n\
+                if (!$(span).find('#picture_1').length) {
+                    span.html("<div id='picture_1'>\n\
+                        Please select image in JPG, JPEG, and PNG format only.\n\
                     </div>");
                 }
             } else {
@@ -36,8 +36,8 @@ $(document).ready(function () {
 
             // file size problem
             if (file.size > (1 * 1024 * 1024)) {
-                if (!$('#picture_2').length) {
-                    event_pic_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
+                if (!$(span).find('#picture_2').length) {
+                    span.html("<div id='picture_2'>\n\
                         Please make sure the image size is not more than 1MB.\n\
                     </div>");
                 }
@@ -47,131 +47,19 @@ $(document).ready(function () {
 
         } // no file selected
         else {
-            picture.removeClass("is-invalid");
+
             have_picture = false;
         }
 
         // restore the profile input
         if (!have_picture) {
-            $("#profile_preview").attr("src", "/img/default_eventpic.png");
-            picture.val('');
+            preview.attr("src", "/img/default_eventpic.png");
+            input.val(" ");
         }
 
     }
 
-    function validateVenue(input) {
 
-        var picture = $("input[name='event_venueArr']");
-        var event_venue_span = picture.siblings("label").find("span");
-        var inputLen = input.value.length;
-        var file = input.files[0];
-        var URL = window.URL || window.webkitURL;
-        var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
-
-        // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
-        if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-            picture.removeClass("is-invalid");
-            have_picture = true;
-
-            $('#picture_preview2').attr('src', URL.createObjectURL(file));
-
-        } // invalid file
-        else if (inputLen) {
-            picture.addClass("is-invalid");
-            have_picture = false;
-
-            // file format problem
-            if (!picture_regex.test(file.type)) {
-                if (!$('#picture_1').length) {
-                    picture_1_span.html("<div class='invalid-feedback text-center' id='profile_1'>\n\
-                        Please select image in GIF, JPG, JPEG, and PNG format only.\n\
-                    </div>");
-                }
-            } else {
-                $("#picture_1").remove();
-            }
-
-            // file size problem
-            if (file.size > (1 * 1024 * 1024)) {
-                if (!$('#picture_2').length) {
-                    event_venue_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
-                        Please make sure the image size is not more than 1MB.\n\
-                    </div>");
-                }
-            } else {
-                $("#picture_2").remove();
-            }
-
-        } // no file selected
-        else {
-            picture.removeClass("is-invalid");
-            have_picture = false;
-        }
-
-        // restore the profile input
-        if (!have_picture) {
-            $("#profile_preview2").attr("src", "/img/default_eventpic.png");
-            picture.val('');
-        }
-
-    }
-
-    function validatePayment(input) {
-
-        var picture = $("input[name='payment_qr']");
-        var payment_span = picture.siblings("label").find("span");
-        var inputLen = input.value.length;
-        var file = input.files[0];
-        var URL = window.URL || window.webkitURL;
-        var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
-
-        // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
-        if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-            picture.removeClass("is-invalid");
-            have_picture = true;
-
-            $('#picture_preview3').attr('src', URL.createObjectURL(file));
-
-        } // invalid file
-        else if (inputLen) {
-            picture.addClass("is-invalid");
-            have_picture = false;
-
-            // file format problem
-            if (!picture_regex.test(file.type)) {
-                if (!$('#picture_1').length) {
-                    payment_span.html("<div class='invalid-feedback text-center' id='profile_1'>\n\
-                        Please select image in GIF, JPG, JPEG, and PNG format only.\n\
-                    </div>");
-                }
-            } else {
-                $("#picture_1").remove();
-            }
-
-            // file size problem
-            if (file.size > (1 * 1024 * 1024)) {
-                if (!$('#picture_3').length) {
-                    payment_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
-                        Please make sure the image size is not more than 1MB.\n\
-                    </div>");
-                }
-            } else {
-                $("#picture_3").remove();
-            }
-
-        } // no file selected
-        else {
-            picture.removeClass("is-invalid");
-            have_picture = false;
-        }
-
-        // restore the profile input
-        if (!have_picture) {
-            $("#profile_preview3").attr("src", "/img/default_eventpic.png");
-            picture.val('');
-        }
-
-    }
 
 
     // trigger file input
@@ -183,9 +71,11 @@ $(document).ready(function () {
     $("input[name='event_pic']").change(function () {
         var input = this
         validatePicture(input);
+
+
     });
 
-    
+
     // trigger file input
     $("#picture_preview2").click(function () {
         $("input[name='event_venueArr']").click();
@@ -194,18 +84,19 @@ $(document).ready(function () {
     // detect file input changes
     $("input[name='event_venueArr']").change(function () {
         var input = this
-        validateVenue(input);
+        validatePicture(input);
     });
 
-      // trigger file input
-      $("#picture_preview3").click(function () {
+    // trigger file input
+    $("#picture_preview3").click(function () {
         $("input[name='payment_qr']").click();
     });
 
     // detect file input changes
     $("input[name='payment_qr']").change(function () {
         var input = this
-        validatePayment(input);
+        validatePicture(input);
+
     });
 
     //validate form input
@@ -234,6 +125,9 @@ $(document).ready(function () {
         var form = $("#form1");
         // var event_remark_field = $("#event_remark");
 
+
+
+
         //PIC name validation
         var event_picName_maxLength = 100;
         var picName_length = document.getElementById("event_personInCharge").value.length;
@@ -248,7 +142,7 @@ $(document).ready(function () {
         } else {
             picName_span.html("<b>*</b>");
         }
-      
+
 
         //PIC contact number validation
         var event_picContact_maxLength = 12;
@@ -269,7 +163,7 @@ $(document).ready(function () {
         } else {
             picName_span.html("<b>*</b>");
         }
-      
+
 
         //PIC email validation
         var picEmail_regex = new RegExp('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
@@ -288,7 +182,7 @@ $(document).ready(function () {
         } else {
             picEmail_span.html("<b>*</b>");
         }
-   
+
 
         //event name validation
         var event_name_maxLength = 100;
@@ -303,7 +197,7 @@ $(document).ready(function () {
         } else {
             event_name_span.html("<b>*</b>");
         }
-     
+
 
         //event category validation
         // var event_cat_maxLength = 20;
@@ -350,11 +244,11 @@ $(document).ready(function () {
         var event_remark_length = document.getElementById("event_remark").value.length;
         var event_remark_span = event_remark_field.siblings("label").find("span");
 
-       if (event_remark_length > event_remark_maxLength) {
+        if (event_remark_length > event_remark_maxLength) {
             submit = false;
             event_remark_span.html("<b>*</b> The maximum character length is 300 only.");
         }
-   
+
         //event price validation
         var event_price_regex = /^(0(?:\.\d{1,2})?|[1-9]\d{0,2}(?:\.\d{1,2})?)$/;
         var event_price_span = event_price_field.siblings("label").find("span");
@@ -374,7 +268,7 @@ $(document).ready(function () {
         var pic_accNo = document.getElementById("pic_accNo").value.length;
         var pic_accNo_regex = new RegExp(/^[0-9]*$/);
         var pic_accNo_span = event_picAccNo_field.siblings("label").find("span");
-        if(event_remark_field.val()!=0.00){
+        if (event_remark_field.val() != 0.00) {
             if (!$.trim(event_picAccNo_field.val())) {
                 submit = false;
                 pic_accNo_span.html("<b>*</b> Empty field");
@@ -388,7 +282,7 @@ $(document).ready(function () {
                 pic_accNo_span.html("<b>*</b>");
             }
         }
-      
+
 
 
         //event capacity validation
@@ -479,12 +373,36 @@ $(document).ready(function () {
             event_time_span.html("<b>*</b>");
         }
 
+        var picture1 = $("input[name='event_pic']");
+        var picture1_span = picture1.parents("label").find("span");
+        if (picture1[0].files.length === 0) {
+            picture1_span.html("<b>*</b> Please upload event poster.");
+            submit = false;
+        }
+
+        var picture2 = $("input[name='payment_qr']");
+        var picture2_span = picture2.parents("label").find("span");
+        
+        if ($.trim(event_price_field.val())!=0.00 && picture2[0].files.length === 0) {
+            picture2_span.html("<b>*</b> Please upload QR code.");
+            submit = false;
+        }
+
+        var picture3 = $("input[name='event_venueArr']");
+        var picture3_span = picture3.parents("label").find("span");
+        if (picture3[0].files.length === 0) {
+            picture3_span.html("<b>*</b> Please upload event venue arrangement floor plan.");
+            submit = false;
+        }
+
+
 
         if (submit) {
+
 
             $("#form1").submit();
 
         }
-        
+
     });
 });
