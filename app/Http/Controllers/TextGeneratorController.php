@@ -52,7 +52,8 @@ class TextGeneratorController extends Controller
                 "presence_penalty" => 0,
                 'max_tokens' => 600,
                 'prompt' => sprintf('Describe the event details and elaborate the details provided for: %s, which is based on the event 
-                 information:Event Name:%s,Ticket Price:%s,Event Duration(days):%s,Capacity:%s,Event Date%s, Event Category:%s,Event start time:%s, Event end time:%s, and not more than 600 characters',
+                 information:Event Name:%s,Ticket Price:%s,Event Duration(days):%s,Capacity:%s,Event Date%s, Event Category:%s,Event start time:%s, 
+                 Event end time:%s, and not more than 600 characters',
                     $title, $eventName, $ticketPrice, $duration, $capacity, $date, $category, $startTime, $endTime),
                 //'prompt' => sprintf('Generate longitude and latitude for this address with most accurate answer: %s', $title),
             ]);

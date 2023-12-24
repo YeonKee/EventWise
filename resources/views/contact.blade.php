@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="cc-text set-bg" data-setbg="img/contact-content-bg.jpg">
+                    <div class="cc-text set-bg" style="opacity: 1" data-setbg="img/contact-content-bg.jpg">
                         <div class="row">
                             <div class="col-lg-8 offset-lg-4">
                                 <div class="section-title">
@@ -105,8 +105,9 @@
                                 <textarea name="messages" id="messages" placeholder="Messages" style="resize:none;width: 600px;height: 300px;margin-left: 45px;margin-top: 20px;margin-bottom: 20px;">{{ old('messages') }}</textarea>
                                 @error('messages')
                                     <small class="text-danger" role="alert">
-                                        <strong>{{ $messages }}</strong>
+                                        <strong>{{ $message }}</strong>
                                     </small>
+                                    <br>
                                 @enderror
                                 <button type="submit" class="site-btn">Send Message</button>
                             </div>

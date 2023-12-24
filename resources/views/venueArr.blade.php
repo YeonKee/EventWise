@@ -298,7 +298,7 @@
 @section('body')
     <div class="form-row mb-4">
         <div class="col-5 mx-auto">
-            <label for="event_venuearr" class="event_venuearr draw-label">Venue Arrangement
+            <label for="event_venuearr" class="event_venuearr draw-label"><b>Venue Arrangement</b>
                 <span class="text-danger"><b>*</b>
                     @error('event_venuearr')
                         {{ $message }}

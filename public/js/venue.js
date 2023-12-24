@@ -138,7 +138,6 @@ saveImg.addEventListener("click", () => {
     hiddenInput.value = canvas.toDataURL(); 
     console.log(hiddenInput.value);
     
-   // console.log(canvas.toDataURL());
 });
 
 

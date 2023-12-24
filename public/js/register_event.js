@@ -380,10 +380,10 @@ $(document).ready(function () {
             submit = false;
         }
 
-        var picture2 = $("input[name='payment_qr']");
-        var picture2_span = picture2.parents("label").find("span");
-        
+       
         if ($.trim(event_price_field.val())!=0.00 && picture2[0].files.length === 0) {
+            var picture2 = $("input[name='payment_qr']");
+            var picture2_span = picture2.parents("label").find("span");    
             picture2_span.html("<b>*</b> Please upload QR code.");
             submit = false;
         }
@@ -398,10 +398,7 @@ $(document).ready(function () {
 
 
         if (submit) {
-
-
             $("#form1").submit();
-
         }
 
     });
