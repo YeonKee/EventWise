@@ -1,33 +1,31 @@
 $(document).ready(function () {
 
-    let have_picture = false;
-
-    function validateReceipt(input) {
-
-        var picture = $("input[name='part_receipt']");
-        var receipt_span = picture.siblings("label").find("span");
+    function validatePicture(input) {
+        var have_picture = false;
+        var preview = $(input).siblings(".picturePreview");
+        var span = $(input).parents("label").find("span");
         var inputLen = input.value.length;
         var file = input.files[0];
         var URL = window.URL || window.webkitURL;
-        var picture_regex = new RegExp("image\/(gif|jpe?g|png)");
+        var picture_regex = new RegExp("image\/(jpe?g|png)");
 
-        // valid file (not more than 1MB, correct format: GIF, JPG, JPEG, PNG)
+        // valid file (not more than 1MB, correct format: JPG, JPEG, PNG)
         if (inputLen && file.size <= (1 * 1024 * 1024) && picture_regex.test(file.type)) {
-            picture.removeClass("is-invalid");
             have_picture = true;
 
-            $('#picture_preview').attr('src', URL.createObjectURL(file));
+            preview.attr('src', URL.createObjectURL(file));
+            span.html("<b>*</b>");
 
         } // invalid file
         else if (inputLen) {
-            picture.addClass("is-invalid");
+
             have_picture = false;
 
             // file format problem
             if (!picture_regex.test(file.type)) {
-                if (!$('#picture_1').length) {
-                    picture_1_span.html("<div class='invalid-feedback text-center' id='profile_1'>\n\
-                        Please select image in GIF, JPG, JPEG, and PNG format only.\n\
+                if (!$(span).find('#picture_1').length) {
+                    span.html("<div id='picture_1'>\n\
+                        Please select image in JPG, JPEG, and PNG format only.\n\
                     </div>");
                 }
             } else {
@@ -36,8 +34,8 @@ $(document).ready(function () {
 
             // file size problem
             if (file.size > (1 * 1024 * 1024)) {
-                if (!$('#picture_2').length) {
-                    receipt_span.html("<div class='invalid-feedback text-center' id='profile_2'>\n\
+                if (!$(span).find('#picture_2').length) {
+                    span.html("<div id='picture_2'>\n\
                         Please make sure the image size is not more than 1MB.\n\
                     </div>");
                 }
@@ -47,17 +45,19 @@ $(document).ready(function () {
 
         } // no file selected
         else {
-            picture.removeClass("is-invalid");
+
             have_picture = false;
         }
 
         // restore the profile input
         if (!have_picture) {
-            $("#profile_preview").attr("src", "/img/default_eventpic.png");
-            picture.val('');
+            preview.attr("src", "/img/default_eventpic.png");
+            input.val(" ");
         }
 
     }
+
+
 
 
     // trigger file input
@@ -68,7 +68,9 @@ $(document).ready(function () {
     // detect file input changes
     $("input[name='part_receipt']").change(function () {
         var input = this
-        validateReceipt(input);
+        validatePicture(input);
+
+
     });
 
 
@@ -84,7 +86,8 @@ $(document).ready(function () {
         var contactNo_field = $("#part_ContactNo");
         var email_field = $("#part_email");
         var address_field = $("#part_add");
-        // var city_field = $("#part_city");
+        var event_price_field = $("#event_price");
+  
  
 
         //participant name validation
@@ -101,7 +104,7 @@ $(document).ready(function () {
         } else {
             name_span.html("<b>*</b>");
         }
-        console.log(submit);
+ 
 
         //participant contact number validation
         var contactNo_maxLength = 12;
@@ -122,7 +125,7 @@ $(document).ready(function () {
         } else {
             contact_span.html("<b>*</b>");
         }
-        console.log(submit);
+    
 
         //participant email validation
         var email_regex = new RegExp('^[A-Z0-9._%+-]+@([A-Z0-9-]+.){2,4}$', 'i');
@@ -138,7 +141,7 @@ $(document).ready(function () {
         } else {
             email_span.html("<b>*</b>");
         }
-        console.log(submit);
+       
 
         //participant address validation
         var add_maxLength = 200;
@@ -153,7 +156,7 @@ $(document).ready(function () {
         } else {
             add_span.html("<b>*</b>");
         }
-        console.log(submit);
+
 
             //participant city validation
             // var city_maxLength = 50;
@@ -169,6 +172,13 @@ $(document).ready(function () {
             //     city_span.html("<b>*</b>");
             // }
             // console.log(submit);
+
+            var picture2 = $("input[name='part_receipt']");
+            if ($.trim(event_price_field.val())!=0.00 && picture2[0].files.length === 0) {
+                var picture2_span = picture2.parents("label").find("span");    
+                picture2_span.html("<b>*</b> Please upload receipt.");
+                submit = false;
+            }
 
 
         if (submit) {

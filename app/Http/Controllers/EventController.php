@@ -554,29 +554,56 @@ class EventController extends Controller
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
 
+    // public function staffViewParticipantSearch(Request $request)
+    // {
+    //     $query = $request->input('query');
+
+    //     if ($query) {
+    //         $events = Registration::where(function ($q) use ($query) {
+    //             $q->where('event_id', 'like', '%' . $query . '%')
+    //                 ->orWhere('stud_id', 'like', '%' . $query . '%')
+    //                 ->orWhere('part_name', 'like', '%' . $query . '%')
+    //                 ->orWhere('part_contactNo', 'like', '%' . $query . '%')
+    //                 ->orWhere('part_email', 'like', '%' . $query . '%')
+    //                 ->orWhere('address', 'like', '%' . $query . '%');
+        
+    //         })
+    //             ->paginate(9);
+    //     } else {
+    //         $events = Registration::paginate(9);
+    //     }
+
+    //     $eventsCount = $events->total();
+    //     return view('staffs.events.viewParticipantList', compact('events', 'eventsCount'));
+    // }
+
     public function staffSearchParticipants(Request $request)
     {
         $query = $request->input('query');
-
+    
         if ($query) {
             $participantList = Registration::where(function ($q) use ($query) {
-                $q->where('event_id', 'like', '%' . $query . '%')
+                $q->where('registrations.event_id', 'like', '%' . $query . '%')
                     ->orWhere('part_name', 'like', '%' . $query . '%')
                     ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
                     ->orWhere('part_email', 'like', '%' . $query . '%');
             })
-                ->paginate(9);
-
+            ->join('events', 'registrations.event_id', '=', 'events.event_id')
+            ->select('registrations.*', 'events.name')
+            ->paginate(9);
+    
             // Get the total number of participants for the given query
             $totalParticipants = $participantList->total();
         } else {
-            // If no search query, fetch all participants
-            $participants = Registration::paginate(9);
+            // If no search query, fetch all participants with event names
+            $participants = Registration::join('events', 'registrations.event_id', '=', 'events.id')
+                ->select('registrations.*', 'events.name')
+                ->paginate(9);
         }
-
-        return view('staffs.events.participantList', compact('participantList', 'totalParticipants'));
+    
+        return view('staffs.events.searchResult', compact('participantList', 'totalParticipants'));
     }
-
+    
 
     public function viewEventDetail($id)
     {

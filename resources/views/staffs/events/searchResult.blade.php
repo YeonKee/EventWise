@@ -8,7 +8,6 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/staffs/dashboard">Home</a></li>
                     <li class="breadcrumb-item"><a href="/staffs/events/viewParticipantList">Event</a></li>
-                    <li class="breadcrumb-item">{{$event->name}}</a></li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -37,6 +36,7 @@
                                     <th scope="col">Participant Name</th>
                                     <th scope="col">Contact Number</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Event Joined</th>
                                     <th scope="col">Receipt</th>
                                    
                                 </tr>
@@ -48,6 +48,7 @@
                                         <td>{{ $reg->part_name }}</td>
                                         <td>{{ $reg->part_contactNo }}</td>
                                         <td>{{ $reg->part_email }}</td>
+                                        <td>{{ $reg->name }}</td>
                                       <td>  <a href="{{ asset($reg->receipt) }}" download>Download Receipt</a></td>
                                         {{-- <td>
                                             <button data-get="/staffs/events/participantList/{{ $event->event_id }}"

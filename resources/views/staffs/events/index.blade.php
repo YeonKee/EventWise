@@ -57,7 +57,7 @@
                                             </button>
 
                                             <form method="post"
-                                                action="/staffs/students/deleteEvent/{{ $event->event_id }}"
+                                                action="/staffs/events/deleteEvent/{{ $event->event_id }}"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('delete')
@@ -129,7 +129,7 @@
                     if (respond.isConfirmed) {
                         SwalStyledButtons.fire({
                             icon: 'success',
-                            html: "Student <b>" + name + "</b> is deleted.",
+                            html: "Event <b>" + name + "</b> is deleted.",
                         }).then(function() {
                             form.submit();
                         });

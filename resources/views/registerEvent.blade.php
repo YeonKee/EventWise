@@ -288,7 +288,16 @@
             </div>
         </div> --}}
 
-            @if ($event->ticket_price > 0.0)
+            @if ($event->ticket_price > 0.00)
+
+            <div class="form-row mb-4">
+                <div class="col-5 mx-auto">
+                    <label for="event_price" class="o-label">Ticket Price (RM):</label>
+                    <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
+                        value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
+                </div>
+            </div>
+
                 <div class="form-row mb-4">
                     <div class="col-5 mx-auto">
                         <label for="acc_No" class="o-label">Beneficiary Account</label>
@@ -304,16 +313,6 @@
                             <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1"
                                 style="width: 400px;height:400px" />
                         </div>
-                    </div>
-                </div>
-
-
-
-                <div class="form-row mb-4">
-                    <div class="col-5 mx-auto">
-                        <label for="event_price" class="o-label">Ticket Price (RM):</label>
-                        <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
-                            value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
                     </div>
                 </div>
 

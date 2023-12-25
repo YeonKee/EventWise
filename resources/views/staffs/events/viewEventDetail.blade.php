@@ -883,7 +883,7 @@
         <tr>
             <th></th>
             <td>
-                <button type="submit" id="submit_form" class="btn btn-primary">Save</button>
+                <button type="submit" id="submit_form2" class="btn btn-primary">Save</button>
             </td>
         </tr>
 
@@ -896,8 +896,7 @@
         </div>
     </main>
 
-
-
+    <script src="/js/update_event.js"></script>
 
     <script>
         $("[data-get]").on("click", function(e) {
@@ -905,4 +904,6 @@
             location = url || location;
         });
     </script>
+
+    
 @endsection
