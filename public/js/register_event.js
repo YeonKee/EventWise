@@ -199,45 +199,6 @@ $(document).ready(function () {
         }
 
 
-        //event category validation
-        // var event_cat_maxLength = 20;
-        // var event_cat_dropdown = document.getElementById("event_cat_dropdown");
-        //var event_otherCat = document.getElementById("other_category");
-        // var event_otherCat_length = document.getElementById("other_category").value.length;
-        // var event_cat_span = event_category_field.siblings("label").find("span");
-        //submit = true;
-
-        // console.log(!$.trim(event_otherCat_field.val()));
-
-        // if (!$.trim(event_otherCat_field.val())) {
-        //     submit = false;
-        //     event_cat_span.html("<b>*</b> Empty field");
-        // } else if (event_otherCat_length > event_cat_maxLength) {
-        //     submit = false;
-        //     event_cat_span.html("<b>*</b> The maximum character length is 20 only.");
-        // } else {
-        //     event_cat_span.html("<b>*</b>");
-        // }
-
-        // event_cat_dropdown.addEventListener("change", function () {
-        //     if (event_cat_dropdown.value === "Others") {
-        //         console.log(event_otherCat_field.value);
-        //         if (!$.trim(event_otherCat_field.val())) {
-        //             console.log("bello");
-        //             submit = false;
-        //             event_cat_span.html = "<b>*</b> Empty field";
-        //         } else if (event_otherCat_length > event_cat_maxLength) {
-        //             submit = false;
-        //             event_cat_span.html = "<b>*</b> The maximum character length is 20 only.";
-        //         } else {
-        //             event_cat_span.html = "<b>*</b>";
-        //         }
-        //     } else {
-        //         event_cat_span.html = ""; // Clear any existing error message when "Other" is not selected
-        //     }
-        // });
-
-
 
         //event description validation
         var event_remark_maxLength = 300;
@@ -380,9 +341,8 @@ $(document).ready(function () {
             submit = false;
         }
 
-       
+        var picture2 = $("input[name='payment_qr']");
         if ($.trim(event_price_field.val())!=0.00 && picture2[0].files.length === 0) {
-            var picture2 = $("input[name='payment_qr']");
             var picture2_span = picture2.parents("label").find("span");    
             picture2_span.html("<b>*</b> Please upload QR code.");
             submit = false;

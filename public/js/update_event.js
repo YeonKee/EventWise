@@ -99,46 +99,6 @@ $(document).ready(function () {
         }
 
 
-        //event category validation
-        // var event_cat_maxLength = 20;
-        // var event_cat_dropdown = document.getElementById("event_cat_dropdown");
-        //var event_otherCat = document.getElementById("other_category");
-        // var event_otherCat_length = document.getElementById("other_category").value.length;
-        // var event_cat_span = event_category_field.siblings("label").find("span");
-        //submit = true;
-
-        // console.log(!$.trim(event_otherCat_field.val()));
-
-        // if (!$.trim(event_otherCat_field.val())) {
-        //     submit = false;
-        //     event_cat_span.html("<b>*</b> Empty field");
-        // } else if (event_otherCat_length > event_cat_maxLength) {
-        //     submit = false;
-        //     event_cat_span.html("<b>*</b> The maximum character length is 20 only.");
-        // } else {
-        //     event_cat_span.html("<b>*</b>");
-        // }
-
-        // event_cat_dropdown.addEventListener("change", function () {
-        //     if (event_cat_dropdown.value === "Others") {
-        //         console.log(event_otherCat_field.value);
-        //         if (!$.trim(event_otherCat_field.val())) {
-        //             console.log("bello");
-        //             submit = false;
-        //             event_cat_span.html = "<b>*</b> Empty field";
-        //         } else if (event_otherCat_length > event_cat_maxLength) {
-        //             submit = false;
-        //             event_cat_span.html = "<b>*</b> The maximum character length is 20 only.";
-        //         } else {
-        //             event_cat_span.html = "<b>*</b>";
-        //         }
-        //     } else {
-        //         event_cat_span.html = ""; // Clear any existing error message when "Other" is not selected
-        //     }
-        // });
-
-
-
 
         //event description validation
         var event_desc_maxLength = 600;
@@ -170,7 +130,8 @@ $(document).ready(function () {
         var pic_accNo = document.getElementById("pic_accNo").value.length;
         var pic_accNo_regex = new RegExp(/^[0-9]*$/);
         var pic_accNo_span = event_picAccNo_field.siblings("span");
-        if (event_remark_field.val() != 0.00) {
+
+        if (event_price_field.val() != 0.00) {
             if (!$.trim(event_picAccNo_field.val())) {
                 submit = false;
                 pic_accNo_span.html("<b>*</b> Empty field");
@@ -287,27 +248,6 @@ $(document).ready(function () {
             event_time_span.html("");
         }
 
-
-        // var picture1 = $("input[name='event_pic']");
-        // var picture1_span = picture1.parents("label").find("span");
-        // if (picture1[0].files.length === 0) {
-        //     picture1_span.html("<b>*</b> Please upload event poster.");
-        //     submit = false;
-        // }
-
-        // var picture2 = $("input[name='payment_qr']");
-        // if ($.trim(event_price_field.val()) != 0.00 && picture2[0].files.length === 0) {
-        //     var picture2_span = picture2.parents("label").find("span");
-        //     picture2_span.html("<b>*</b> Please upload QR code.");
-        //     submit = false;
-        // }
-
-        // var picture3 = $("input[name='event_venueArr']");
-        // var picture3_span = picture3.parents("label").find("span");
-        // if (picture3[0].files.length === 0) {
-        //     picture3_span.html("<b>*</b> Please upload event venue arrangement floor plan.");
-        //     submit = false;
-        // }
 
         console.log(submit);
 

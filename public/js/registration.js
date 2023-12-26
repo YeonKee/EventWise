@@ -158,20 +158,6 @@ $(document).ready(function () {
         }
 
 
-            //participant city validation
-            // var city_maxLength = 50;
-            // var city_length = document.getElementById("part_city").value.length;
-            // var city_span = city_field.siblings("label").find("span");
-            // if (!$.trim(city_field.val())) {
-            //     submit = false;
-            //     city_span.html("<b>*</b> Empty field");
-            // } else if (city_length > city_maxLength) {
-            //     submit = false;
-            //     city_span.html("<b>*</b> The maximum character length is 50 only.");
-            // } else {
-            //     city_span.html("<b>*</b>");
-            // }
-            // console.log(submit);
 
             var picture2 = $("input[name='part_receipt']");
             if ($.trim(event_price_field.val())!=0.00 && picture2[0].files.length === 0) {

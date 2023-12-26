@@ -45,9 +45,6 @@ class EventController extends Controller
         $upcoming = Event::where('event_status', 'Upcoming')
             ->where('status', 'Approved');
 
-        // if (!$request->session()->has('studID')) {
-        //     $events = $events->where('openFor', 'Public');
-        // }
 
         if (!$request->session()->has('studID')) {
             $upcoming = $upcoming->where('openFor', 'Public');
@@ -103,10 +100,6 @@ class EventController extends Controller
     public function viewById(Request $request)
     {
 
-        // if ($request->session()->has('user_id')) {
-        //     $cust_id = $request->session()->get('user_id');
-        //     $memberRank = Customer::where('cust_id', $cust_id)->first(['member_rank'])->member_rank;
-        // }
 
         $event = Event::where('event_id', $request->id)->first();
 
@@ -118,9 +111,6 @@ class EventController extends Controller
     {
         $stud_id = $request->session()->get('studID');
 
-        // Get the stud_id from the session
-        //  $stud_id = Session::get('stud_id');
-        //dd($stud_id);
 
         // Check if stud_id exists in the session
         if ($stud_id) {
@@ -203,12 +193,6 @@ class EventController extends Controller
     }
 
 
-    // private function saveVenue($file, $event_id)
-    // {
-    //     Image::make($file)->fit(300)->save(public_path("/img/venueArr/venueArr_$event_id.png"));
-    // }
-
-
     private function deletePhoto($name)
     {
         File::delete(public_path("/photos/$name"));
@@ -283,45 +267,6 @@ class EventController extends Controller
         // You can return a response or redirect to another page
     }
 
-    // public function generateLocation(Request $request)
-    // {
-    //     $address = $request->part_add;
-
-    //     if ($address) {
-    //         $result = OpenAI::completions()->create([
-    //             "model" => "text-davinci-003",
-    //             "temperature" => 0.7,
-    //             "top_p" => 1,
-    //             "frequency_penalty" => 0,
-    //             "presence_penalty" => 0,
-    //             'max_tokens' => 600,
-    //             'prompt' => sprintf('Generate longitude and latitude for this address with the most accurate answer: %s', $address),
-    //         ]);
-
-    //         // Check if the response contains the expected data
-    //         if (isset($result['choices'][0]['text']) && isset($result['choices'][1]['text'])) {
-    //             $content1 = trim($result['choices'][0]['text']);
-    //             $content2 = trim($result['choices'][1]['text']);
-
-    //             // Debugging: dd to see which one is longitude and which one is latitude
-    //             dd("This is longitude: %s", $content1, "This is latitude: %s", $content2);
-
-    //             // Use a View::share to make variables available to all views
-    //             View::share('generatedLocation', [
-    //                 'longitude' => $content1,
-    //                 'latitude' => $content2,
-    //             ]);
-
-    //             return redirect('/event/registerEvent');
-    //         } else {
-    //             // Handle the case when the response does not contain the expected data
-    //             return redirect()->route('your.route.name')->withErrors(['address' => 'Unable to generate location.']);
-    //         }
-    //     } else {
-    //         // If address is null, redirect back with an error
-    //         return redirect()->route('your.route.name')->withErrors(['address' => 'Address is required.']);
-    //     }
-    // }
 
 
     public function registration(Request $request)
@@ -345,13 +290,7 @@ class EventController extends Controller
 
             list($latitude, $longitude) = explode(',', $content1);
 
-            //dd($latitude);
-            //dd($longitude);
-            // Use a View::share to make variables available to all views
-            // View::share('generatedLocation', [
-            //     'latitude' => $latitude,
-            //     'longitude' => $longitude,
-            // ]);
+
         }
 
         // Check if the email is already registered for the event
@@ -368,14 +307,11 @@ class EventController extends Controller
 
         $registrations = new Registration();
         $registrations->event_id = $request->event_id;
-        $registrations->payment_method = 1;
         $registrations->receipt = "";
         $registrations->amount = $request->ticket_price;
         $registrations->part_name = $request->part_name;
         $registrations->part_contactNo = $request->part_ContactNo;
         $registrations->part_email = $request->part_email;
-        // $registrations->states = $request->part_States_dropdown;
-        // $registrations->city = $request->part_city;
         $registrations->address = $request->part_add;
         $registrations->longitude = $longitude;
         $registrations->latitude = $latitude;
@@ -554,28 +490,6 @@ class EventController extends Controller
         return view('staffs.events.index', compact('events', 'eventsCount'));
     }
 
-    // public function staffViewParticipantSearch(Request $request)
-    // {
-    //     $query = $request->input('query');
-
-    //     if ($query) {
-    //         $events = Registration::where(function ($q) use ($query) {
-    //             $q->where('event_id', 'like', '%' . $query . '%')
-    //                 ->orWhere('stud_id', 'like', '%' . $query . '%')
-    //                 ->orWhere('part_name', 'like', '%' . $query . '%')
-    //                 ->orWhere('part_contactNo', 'like', '%' . $query . '%')
-    //                 ->orWhere('part_email', 'like', '%' . $query . '%')
-    //                 ->orWhere('address', 'like', '%' . $query . '%');
-        
-    //         })
-    //             ->paginate(9);
-    //     } else {
-    //         $events = Registration::paginate(9);
-    //     }
-
-    //     $eventsCount = $events->total();
-    //     return view('staffs.events.viewParticipantList', compact('events', 'eventsCount'));
-    // }
 
     public function staffSearchParticipants(Request $request)
     {
