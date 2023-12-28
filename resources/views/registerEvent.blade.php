@@ -349,7 +349,7 @@
                     <button type="button" class=" clear-event-form btn btn-secondary mr-2"
                         onClick="window.location.reload()">Clear</button>
                     <button type="submit" id="submit_regForm"
-                        class="submit-event-form btn btn-submit-event">Submit</button>
+                        class="submit-event-form btn btn-submit-event">Register</button>
 
                 </div>
             </div>

@@ -465,7 +465,7 @@
                         <button type="button" class="clear-event-form btn btn-secondary mr-2"
                             onclick="location.href = '/becomeorganizer'">Clear</button>
                         <button type="submit" id="submit_form"
-                            class="submit-event-form btn btn-submit-event">Submit</button>
+                            class="submit-event-form btn btn-submit-event">Next</button>
                     </div>
                 </div>
             </div>
