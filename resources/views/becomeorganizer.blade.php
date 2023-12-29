@@ -374,7 +374,7 @@
                                     {{ $message }}
                                 @enderror
                             </span>
-                        </label><br><i>Maximum capacity is 5000 only.</i>
+                        </label><br><i>Maximum capacity is 3000 only.</i>
                         <input type="text" class="form-control" id="event_capacity" name="event_capacity"
                             value="{{ old('event_capacity') }}">
                     </div>

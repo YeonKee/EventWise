@@ -149,7 +149,7 @@ $(document).ready(function () {
 
 
         //event capacity validation
-        var event_capacity_regex = new RegExp(/[1-3000]/ );
+        var event_capacity_regex = /^([1-9]|[1-9]\d{1,2}|[12]\d{3}|3000)$/;
         var event_capacity_span = event_capacity_field.parent().next("td").find("span");
         if (!$.trim(event_capacity_field.val())) {
             submit = false;
