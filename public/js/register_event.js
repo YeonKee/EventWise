@@ -247,7 +247,7 @@ $(document).ready(function () {
 
 
         //event capacity validation
-        var event_capacity_regex = new RegExp(/^(?:[1-9]\d{0,2}|3000)$/);
+        var event_capacity_regex =  new RegExp(/[1-3000]/ );
         var event_capacity_span = event_capacity_field.siblings("label").find("span");
         if (!$.trim(event_capacity_field.val())) {
             submit = false;
