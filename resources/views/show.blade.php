@@ -133,7 +133,7 @@
                     <br><br>
                     {{-- Check if remaining capacity is greater than 0 --}}
                     <div class="btn-group">
-                        @if($event->event_status != 'Past')
+                        @if($event->event_status != 'Past' && $event->registration_status != 'Closed' )
                         <button type="button" class="submit-event-form btn btn-submit-event"
                             style="padding: 5px; width: 200px; font-size: 20px; color: {{ $event->capacity - $event->participated_count <= 0 ? 'white' : 'white' }}"
                             onclick="{{ $event->capacity - $event->participated_count <= 0 ? 'alert(\'Sorry, the capacity for the event is full.\')' : 'joinEvent()' }}"

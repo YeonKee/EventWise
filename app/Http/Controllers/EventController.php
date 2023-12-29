@@ -214,12 +214,12 @@ class EventController extends Controller
             $events->acc_number = "";
             $events->bank_Name = "no_bank_selected";
             $events->payment_qr = "";
-        }else{
+        } else {
             $events->acc_number = $request->pic_accNo;
             $events->bank_Name = $request->bank_Name_dropdown;
         }
 
-      
+
         $events->ticket_price = $request->event_price;
         $events->capacity = $request->event_capacity;
         $events->date = $request->event_date;
@@ -494,7 +494,7 @@ class EventController extends Controller
     public function staffSearchParticipants(Request $request)
     {
         $query = $request->input('query');
-    
+
         if ($query) {
             $participantList = Registration::where(function ($q) use ($query) {
                 $q->where('registrations.event_id', 'like', '%' . $query . '%')
@@ -502,10 +502,10 @@ class EventController extends Controller
                     ->orWhere('part_ContactNo', 'like', '%' . $query . '%')
                     ->orWhere('part_email', 'like', '%' . $query . '%');
             })
-            ->join('events', 'registrations.event_id', '=', 'events.event_id')
-            ->select('registrations.*', 'events.name')
-            ->paginate(9);
-    
+                ->join('events', 'registrations.event_id', '=', 'events.event_id')
+                ->select('registrations.*', 'events.name')
+                ->paginate(9);
+
             // Get the total number of participants for the given query
             $totalParticipants = $participantList->total();
         } else {
@@ -514,10 +514,10 @@ class EventController extends Controller
                 ->select('registrations.*', 'events.name')
                 ->paginate(9);
         }
-    
+
         return view('staffs.events.searchResult', compact('participantList', 'totalParticipants'));
     }
-    
+
 
     public function viewEventDetail($id)
     {
@@ -608,7 +608,11 @@ class EventController extends Controller
         $event->participated_count = 0;
         $event->remark = $request->remark;
         $event->status = $request->approval_status_dropdown;
-        $event->registration_status = $request->registration_status_dropdown;
+        if ($request->event_status_dropdown == "Past") {
+            $event->registration_status = "Closed";
+        } else {
+            $event->registration_status = $request->registration_status_dropdown;
+        }
         $event->event_status = $request->event_status_dropdown;
 
         if ($request->hasFile('event_pic')) {

@@ -176,7 +176,7 @@
                         <!-- Display an image related to the highest participation event if available -->
                         @if (isset($highestParticipationEvent))
                             <img src="{{ $highestParticipationEvent->event_picture }}"
-                                alt="Highest Participation Event Image">
+                                alt="Highest Participation Event Image" style="width: 100px;height:300px;margin-left: 25px;margin-top: 20px;" focusable="false">
                         @else
                             <!-- Provide a default image or handle the case where no highest participation event is found -->
                             <img src="/img/default-image.jpg" alt="Default Image">
