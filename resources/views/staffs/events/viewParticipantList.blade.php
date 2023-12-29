@@ -14,7 +14,7 @@
 
         <div class="search-bar col-lg-2 mb-3 d-flex">
             <div class="ml-auto">
-                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/events/staffEventSearch">
+                <form class="search-form d-flex align-items-center" method="GET" action="/staffs/events/staffSearchParticipants">
                     <input type="text" name="query" placeholder="Search" title="Enter search keyword">
                     <button type="submit" title="Search"><i class="bi bi-search"></i></button>
                 </form>

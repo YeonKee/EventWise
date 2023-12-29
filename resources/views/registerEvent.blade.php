@@ -288,7 +288,16 @@
             </div>
         </div> --}}
 
-            @if ($event->ticket_price > 0.0)
+            @if ($event->ticket_price > 0.00)
+
+            <div class="form-row mb-4">
+                <div class="col-5 mx-auto">
+                    <label for="event_price" class="o-label">Ticket Price (RM):</label>
+                    <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
+                        value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
+                </div>
+            </div>
+
                 <div class="form-row mb-4">
                     <div class="col-5 mx-auto">
                         <label for="acc_No" class="o-label">Beneficiary Account</label>
@@ -304,16 +313,6 @@
                             <img src="{{ $event->payment_qr }}" class="picture-src" id="wizardPicturePreview1"
                                 style="width: 400px;height:400px" />
                         </div>
-                    </div>
-                </div>
-
-
-
-                <div class="form-row mb-4">
-                    <div class="col-5 mx-auto">
-                        <label for="event_price" class="o-label">Ticket Price (RM):</label>
-                        <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
-                            value="{{ number_format($event->ticket_price, 2) }}" style="border: none" readonly>
                     </div>
                 </div>
 
@@ -350,7 +349,7 @@
                     <button type="button" class=" clear-event-form btn btn-secondary mr-2"
                         onClick="window.location.reload()">Clear</button>
                     <button type="submit" id="submit_regForm"
-                        class="submit-event-form btn btn-submit-event">Submit</button>
+                        class="submit-event-form btn btn-submit-event">Register</button>
 
                 </div>
             </div>

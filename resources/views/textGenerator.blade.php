@@ -117,10 +117,10 @@
 
 
         <div class="desc_label">
-            <label for="event_description" style="margin-top:30px;">Event Description
+            <label for="event_description" style="margin-top:30px;"><b>Event Description</b>
                 <span class="text-danger"><b>*</b>
                     @error('event_description')
-                        {{ $message }}
+                        <b>{{ $message }}</b>
                     @enderror
                 </span>
                 <br><i>Dear organizer, we would like to know more about your event.</i>
@@ -150,7 +150,7 @@
                         may make changes accordingly.
                         <span class="text-danger"><b>*</b> <br>
                             @error('description')
-                                {{ $message }}
+                              <b> {{ $message }}</b> 
                             @enderror
                             <span id="description-error" style="display:none; color:red;"></span>
                         </span>

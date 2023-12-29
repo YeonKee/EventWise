@@ -81,8 +81,8 @@
 
         label {
             /* position: relative;
-                                            margin-bottom: 40px;
-                                            top: 20%; */
+                                                                    margin-bottom: 40px;
+                                                                    top: 20%; */
             display: inline-block;
             width: 300px;
         }
@@ -295,7 +295,7 @@
                         <h2 class="form-title">Event Details</h2>
 
 
-                        <form method="post" action="/events/{{ $event->event_id }}" enctype="multipart/form-data">
+                        <form method="post" action="/events/{{ $event->event_id }}" enctype="multipart/form-data" id="form1">
                             @csrf
                             @method('put')
 
@@ -308,16 +308,17 @@
                                             <div class="col-5 mx-auto">
                                                 <label for="event_personInCharge" style="width: 450px">Person In-charge
                                                     <span class="text-danger"><b>*</b>
-                                                        @error('event_personInCharge')
-                                                            {{ $message }}
-                                                        @enderror
                                                     </span></label>
                                         </td>
                                         <td style="width: 75%">
                                             <input type="text" class="form-control" id="event_personInCharge"
-                                                name="event_personInCharge" autocomplete="off" style="width: 500px"
+                                                name="event_personInCharge" autocomplete="off" style="width: 550px"
                                                 value="{{ old('event_personInCharge', $event->person_inCharge) }}">
-
+                                            <span class="text-danger">
+                                                @error('event_personInCharge')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
                                     </div>
                                     </td>
                     </div>
@@ -329,15 +330,17 @@
                                 <div class="col-5 mx-auto">
                                     <label for="event_picContactNo">PIC Contact Number
                                         <span class="text-danger"><b>*</b>
-                                            @error('event_picContactNo')
-                                                {{ $message }}
-                                            @enderror
+
                                         </span></label>
                             </td>
                             <td style="width: 75%">
                                 <input type="text" class="form-control" id="event_picContactNo" name="event_picContactNo"
                                     autocomplete="off" value="{{ old('event_picContactNo', $event->contact_number) }}">
-
+                                <span class="text-danger">
+                                    @error('event_picContactNo')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
                         </div>
                         </td>
                 </div>
@@ -347,18 +350,19 @@
                         <td style="width: 70%">
                             <div class="col-5 mx-auto">
                                 <label for="pic_email">PIC Email
-                                    <span class="text-danger"><b>*</b>
-                                        @error('pic_email')
-                                            {{ $message }}
-                                        @enderror
-                                    </span></label>
+                                    <span class="text-danger"><b>*</b></span>
+                                </label>
                         </td>
                         <td style="width: 75%">
                             <input type="text" class="form-control" id="pic_email" name="pic_email" autocomplete="off"
                                 value="{{ old('pic_email', $event->email) }}">
-
+                            <span class="text-danger">
+                                @error('pic_email')
+                                    {{ $message }}
+                                @enderror
+                            </span>
+                        </td>
                     </div>
-                    </td>
             </div>
             </tr>
 
@@ -368,14 +372,17 @@
                         <div class="col-5 mx-auto">
                             <label for="event_name">Event Name
                                 <span class="text-danger"><b>*</b>
-                                    @error('event_name')
-                                        {{ $message }}
-                                    @enderror
+
                                 </span></label>
                     </td>
                     <td style="width: 75%">
                         <input type="text" class="form-control" id="event_name" name="event_name" autocomplete="off"
                             value="{{ old('event_name', $event->name) }}">
+                        <span class="text-danger">
+                            @error('event_name')
+                                {{ $message }}
+                            @enderror
+                        </span>
 
                 </div>
                 </td>
@@ -419,6 +426,7 @@
                             {{ old('event_cat_dropdown', $event->category) == 'Others' ? 'selected' : '' }}>Others</option>
                     </select>
             </div>
+
             </td>
             </div>
         </tr>
@@ -453,14 +461,17 @@
                     <div class="col-5 mx-auto">
                         <label for="event_desc">Event Description
                             <span class="text-danger"><b>*</b>
-                                @error('event_desc')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
                 <td style="width: 75%">
                     <textarea rows="8" cols="50" class="form-control" id="event_desc" name="event_desc"
                         style="resize: none">{{ old('event_desc', $event->description) }}</textarea>
+                    <span class="text-danger">
+                        @error('event_desc')
+                            {{ $message }}
+                        @enderror
+                    </span>
 
             </div>
             </td>
@@ -504,49 +515,50 @@
                     <div class="col-5 mx-auto">
                         <label for="event_price">Ticket Price (RM)
                             <span class="text-danger"><b>*</b>
-                                @error('event_price')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
                 <td style="width: 75%">
                     <input type="text" class="form-control" id="event_price" name="event_price" autocomplete="off"
                         value="{{ number_format($event->ticket_price, 2) }}">
+                    <span class="text-danger">
+                        @error('event_price')
+                            {{ $message }}
+                        @enderror
+                    </span>
 
             </div>
             </td>
             </div>
         </tr>
 
-  
+
         <tr>
             <div class="form-row mb-4">
                 <td style="width: 70%">
                     <div class="col-5 mx-auto">
                         <label for="pic_accNo">Beneficiary Account Number
                             <span class="text-danger"><b>*</b>
-                                @error('pic_accNo')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
 
                 <td style="width: 75%">
                     @if ($event->ticket_price == 0.0)
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            var bankDropdown = document.getElementById('bank_Name_dropdown');
-                            var accNumberInput = document.getElementById('pic_accNo');
-                            var qrImage = document.getElementById('wizardPicturePreview3');
-        
-                            if (bankDropdown && accNumberInput) {
-                                bankDropdown.value = 'no_bank_selected';
-                                accNumberInput.value = '-';
-                                qrImage.src = '/img/default_eventpic.png';
-                            }
-                        });
-                    </script>
-                @endif
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var bankDropdown = document.getElementById('bank_Name_dropdown');
+                                var accNumberInput = document.getElementById('pic_accNo');
+                                var qrImage = document.getElementById('wizardPicturePreview3');
+
+                                if (bankDropdown && accNumberInput) {
+                                    bankDropdown.value = 'no_bank_selected';
+                                    accNumberInput.value = '-';
+                                    qrImage.src = '/img/default_eventpic.png';
+                                }
+                            });
+                        </script>
+                    @endif
                     <select class="form-control" id="bank_Name_dropdown" name="bank_Name_dropdown">
                         <option value="no_bank_selected">No Bank Selected</option>
                         <option value="Maybank"
@@ -596,6 +608,11 @@
             </div>
             <input type="text" class="form-control" id="pic_accNo" name="pic_accNo" autocomplete="off"
                 value="{{ old('pic_accNo', $event->acc_number) }}">
+            <span class="text-danger">
+                @error('pic_accNo')
+                    {{ $message }}
+                @enderror
+            </span>
             </div>
         </tr>
 
@@ -628,7 +645,7 @@
             </div>
         </tr>
 
-        
+
 
         <script>
             var eventPriceInput = document.getElementById('event_price');
@@ -656,27 +673,35 @@
 
         <tr>
             <div class="form-row mb-4">
-                <td style="width: 70%">
+                <td style="width: 70%; padding-bottom:50px;">
                     <div class="col-5 mx-auto">
                         <label for="event_capacity">Capacity
                             <span class="text-danger"><b>*</b>
-                                @error('event_capacity')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
-                <td style="width: 75%">
+                <td style="width: 75%; padding-bottom:50px;">
                     <input type="text" class="form-control" style="width: 100px"
                         value="{{ $event->participated_count }}" readonly>
                 </td>
-                <td style="width: 75%"><span style="margin-left: -400px">/</span></td>
-                <td style="width: 75%">
+                <td style="width: 75%; padding-bottom:50px;"><span style="margin-left: -400px">/</span></td>
+                <td style="width: 75%; padding-bottom:50px;">
                     <input type="text" class="form-control" id="event_capacity" name="event_capacity"
                         style="width: 150px;margin-left:-390px" autocomplete="off"
                         value="{{ old('event_capacity', $event->capacity) }}">
+                       
+                </td>
+                <td style="width: 100%;position:absolute;left:350px;top:1930px;">
+                        <span class="text-danger">
 
+                            @error('event_capacity')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                </td>
             </div>
-            </td>
+          
+
             </div>
         </tr>
 
@@ -686,14 +711,17 @@
                     <div class="col-5 mx-auto">
                         <label for="event_date">Event Actual Date
                             <span class="text-danger"><b>*</b>
-                                @error('event_date')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
                 <td style="width: 75%">
                     <input type="date" class="form-control" id="event_date" name="event_date" autocomplete="off"
                         value="{{ old('event_date', $event->date) }}">
+                    <span class="text-danger">
+                        @error('event_date')
+                            {{ $message }}
+                        @enderror
+                    </span>
 
             </div>
             </td>
@@ -706,14 +734,17 @@
                     <div class="col-5 mx-auto">
                         <label for="event_duration">Event Duration (in days)
                             <span class="text-danger"><b>*</b>
-                                @error('event_duration')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
                 <td style="width: 75%">
                     <input type="text" class="form-control" id="event_duration" name="event_duration"
                         value="{{ old('event_duration', $event->duration) }}">
+                    <span class="text-danger">
+                        @error('event_duration')
+                            {{ $message }}
+                        @enderror
+                    </span>
 
             </div>
             </td>
@@ -726,9 +757,6 @@
                     <div class="col-5 mx-auto">
                         <label for="event_time">Event Time
                             <span class="text-danger"><b>*</b>
-                                @error('event_time')
-                                    {{ $message }}
-                                @enderror
                             </span></label>
                 </td>
                 <td style="width: 75%">
@@ -740,6 +768,11 @@
                         <input type="time" class="form-control" id="event_endTime" name="event_endTime"
                             value="{{ old('event_endTime', $event->end_time) }}">
                     </div>
+                    <span class="text-danger">
+                        @error('event_time')
+                            {{ $message }}
+                        @enderror
+                    </span>
 
             </div>
             </td>
@@ -781,9 +814,7 @@
                     <div class="col-5 mx-auto">
                         <label for="remark">Remark
                             <span class="text-danger"><b>*</b>
-                                @error('remark')
-                                    {{ $message }}
-                                @enderror
+
                             </span></label>
                 </td>
                 <td style="width: 75%">
@@ -792,7 +823,13 @@
                     @else
                         <textarea rows="4" cols="50" class="form-control" id="remark" name="remark" style="resize: none">No remarks from organizer.</textarea>
                     @endif
+                    <span class="text-danger">
+                        @error('remark')
+                            {{ $message }}
+                        @enderror
+                    </span>
                 </td>
+
 
             </div>
             </td>
@@ -883,7 +920,7 @@
         <tr>
             <th></th>
             <td>
-                <button type="submit" id="submit_form" class="btn btn-primary">Save</button>
+                <button type="submit" id="submit_form2" class="btn btn-primary">Save</button>
             </td>
         </tr>
 
@@ -896,8 +933,7 @@
         </div>
     </main>
 
-
-
+    <script src="/js/update_event.js"></script>
 
     <script>
         $("[data-get]").on("click", function(e) {
